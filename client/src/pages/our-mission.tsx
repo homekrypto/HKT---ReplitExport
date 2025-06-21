@@ -46,29 +46,10 @@ export default function OurMission() {
     }
   ];
 
-  const teamMembers = [
-    {
-      name: 'Alex Rodriguez',
-      role: t.mission.team.ceo,
-      image: '/api/placeholder/150/150',
-      description: t.mission.team.ceoDesc
-    },
-    {
-      name: 'Sarah Chen',
-      role: t.mission.team.cto,
-      image: '/api/placeholder/150/150',
-      description: t.mission.team.ctoDesc
-    },
-    {
-      name: 'Michael Thompson',
-      role: t.mission.team.cfo,
-      image: '/api/placeholder/150/150',
-      description: t.mission.team.cfoDesc
-    }
-  ];
+
 
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-900 py-20">
+    <div className="min-h-screen bg-white dark:bg-black py-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Hero Section */}
         <div className="text-center mb-16">
@@ -171,30 +152,7 @@ export default function OurMission() {
           </div>
         </div>
 
-        {/* Leadership Team */}
-        <div className="mb-16">
-          <h2 className="text-4xl font-bold text-center text-gray-900 dark:text-white mb-12">
-            {t.mission.team.title}
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {teamMembers.map((member, index) => (
-              <Card key={index} className="shadow-lg hover:shadow-xl transition-shadow">
-                <CardContent className="p-8 text-center">
-                  <div className="w-32 h-32 bg-gray-200 dark:bg-gray-700 rounded-full mx-auto mb-6 flex items-center justify-center">
-                    <Users className="h-16 w-16 text-gray-400" />
-                  </div>
-                  <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
-                    {member.name}
-                  </h3>
-                  <p className="text-primary font-semibold mb-4">{member.role}</p>
-                  <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed">
-                    {member.description}
-                  </p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
+
 
         {/* Call to Action */}
         <Card className="bg-gradient-to-r from-primary to-secondary text-white">

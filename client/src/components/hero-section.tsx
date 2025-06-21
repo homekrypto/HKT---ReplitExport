@@ -71,9 +71,7 @@ export default function HeroSection() {
             </div>
           </div>
           
-          <div>
-            <InvestmentCalculator />
-          </div>
+
         </div>
       </div>
     </section>

@@ -117,6 +117,7 @@ This is a full-stack web application for HKT (Home Krypto Token), a blockchain-b
 - June 21, 2025. Fixed all database schema issues and completed user registration system with email verification
 - June 21, 2025. Email system fully operational - SMTP working correctly with Hostinger, professional verification emails being sent
 - June 21, 2025. Registration flow complete - username field fully removed, clean form with email/password + optional fields, email verification working
+- June 21, 2025. Homepage optimized - leadership team removed from Our Mission page, duplicate investment calculator removed from hero section, dark theme set as default with pure black background and high contrast text
 
 ## User Preferences
 
