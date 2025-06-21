@@ -84,9 +84,13 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="space-y-4">
-            <h3 className="text-2xl font-bold">HKT</h3>
+            <img 
+              src="@assets/Home Krypto Logo_1750516529891.png" 
+              alt="Home Krypto Token" 
+              className="h-16 w-auto"
+            />
             <p className="text-gray-300 dark:text-gray-400">
-              {t.footer.companyDesc}
+              Democratizing real estate investment through blockchain technology
             </p>
             
             {/* Newsletter Subscription */}
