@@ -54,13 +54,13 @@ export async function createSession(userId: number, userAgent?: string, ipAddres
   const token = generateToken();
   const expiresAt = new Date(Date.now() + SESSION_EXPIRY);
 
-  await db.insert(sessions).values({
+  const [session] = await db.insert(sessions).values({
     userId,
     token,
     expiresAt,
     userAgent,
     ipAddress,
-  });
+  }).returning();
 
   return token;
 }
