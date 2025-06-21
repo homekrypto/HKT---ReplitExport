@@ -50,7 +50,7 @@ export default function Footer() {
         { label: t.footer.howItWorks, href: '/how-it-works' },
         { label: t.footer.investmentPlans, href: '/buy-hkt' },
         { label: 'Properties', href: '/properties' },
-        { label: 'Growth Calculator', href: '/investment-growth-projection' }
+        { label: 'Secondary Market', href: '/secondary-market' }
       ]
     },
     {

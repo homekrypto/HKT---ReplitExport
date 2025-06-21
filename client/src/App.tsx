@@ -30,6 +30,8 @@ import Contact from "@/pages/contact";
 import ForDevelopers from "@/pages/for-developers";
 import PilotPropertyShowcase from "@/pages/pilot-property-showcase";
 import Properties from "@/pages/properties";
+import PropertyDetails from "@/pages/property-details";
+import SecondaryMarket from "@/pages/secondary-market";
 import RegisterAsAgent from "@/pages/register-as-agent";
 import InvestmentGrowthProjection from "@/pages/investment-growth-projection";
 import NotFound from "@/pages/not-found";
@@ -53,6 +55,8 @@ function Router() {
       <Route path="/for-developers" component={ForDevelopers} />
       <Route path="/pilot-property-showcase" component={PilotPropertyShowcase} />
       <Route path="/properties" component={Properties} />
+      <Route path="/property-details/:id" component={PropertyDetails} />
+      <Route path="/secondary-market" component={SecondaryMarket} />
       <Route path="/register-as-agent" component={RegisterAsAgent} />
       <Route path="/investment-growth-projection" component={InvestmentGrowthProjection} />
       <Route path="/login" component={Login} />
