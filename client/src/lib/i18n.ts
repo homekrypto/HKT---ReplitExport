@@ -54,6 +54,69 @@ export interface Translation {
     roi: string;
     hktTokens: string;
   };
+  mission: {
+    title: string;
+    subtitle: string;
+    statement: {
+      title: string;
+      content: string;
+    };
+    values: {
+      title: string;
+    };
+    accessibility: {
+      title: string;
+      description: string;
+    };
+    transparency: {
+      title: string;
+      description: string;
+    };
+    innovation: {
+      title: string;
+      description: string;
+    };
+    returns: {
+      title: string;
+      description: string;
+    };
+    community: {
+      title: string;
+      description: string;
+    };
+    quality: {
+      title: string;
+      description: string;
+    };
+    vision: {
+      title: string;
+      content: string;
+      point1: string;
+      point2: string;
+      point3: string;
+    };
+    stats: {
+      properties: string;
+      investors: string;
+      countries: string;
+      returns: string;
+    };
+    team: {
+      title: string;
+      ceo: string;
+      cto: string;
+      cfo: string;
+      ceoDesc: string;
+      ctoDesc: string;
+      cfoDesc: string;
+    };
+    cta: {
+      title: string;
+      subtitle: string;
+      invest: string;
+      learn: string;
+    };
+  };
   toast: {
     subscribeSuccess: string;
     subscribeSuccessDesc: string;

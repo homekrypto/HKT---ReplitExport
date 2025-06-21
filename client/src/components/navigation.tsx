@@ -32,6 +32,7 @@ export default function Navigation() {
 
   const navLinks = [
     { href: '/', label: t.nav.home, active: location === '/' },
+    { href: '/our-mission', label: 'Our Mission', active: location === '/our-mission' },
     { href: '/how-it-works', label: t.nav.howItWorks, active: location === '/how-it-works' },
     { href: '/buy-hkt', label: t.nav.buyHkt, active: location === '/buy-hkt' },
     { href: '/dashboard', label: t.nav.dashboard, active: location === '/dashboard' },
