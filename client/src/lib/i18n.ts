@@ -27,6 +27,20 @@ export interface Translation {
     resources: string;
     legal: string;
     copyright: string;
+    howItWorks: string;
+    investmentPlans: string;
+    propertyPortfolio: string;
+    tokenomics: string;
+    whitepaper: string;
+    smartContract: string;
+    auditReports: string;
+    faq: string;
+    terms: string;
+    privacy: string;
+    riskDisclosure: string;
+    contact: string;
+    companyDesc: string;
+    contractAddress: string;
   };
   calculator: {
     title: string;
@@ -76,6 +90,20 @@ export const translations: Record<Language, Translation> = {
       resources: 'Resources',
       legal: 'Legal',
       copyright: 'Home Krypto Token (HKT). All rights reserved.',
+      howItWorks: 'How It Works',
+      investmentPlans: 'Investment Plans',
+      propertyPortfolio: 'Property Portfolio',
+      tokenomics: 'Tokenomics',
+      whitepaper: 'Whitepaper',
+      smartContract: 'Smart Contract',
+      auditReports: 'Audit Reports',
+      faq: 'FAQ',
+      terms: 'Terms of Service',
+      privacy: 'Privacy Policy',
+      riskDisclosure: 'Risk Disclosure',
+      contact: 'Contact Us',
+      companyDesc: 'Revolutionizing real estate investment through blockchain technology.',
+      contractAddress: 'Smart Contract Address: 0x1234...abcd (Ethereum Network)',
     },
     calculator: {
       title: 'Investment Calculator',
@@ -123,6 +151,20 @@ export const translations: Record<Language, Translation> = {
       resources: 'Recursos',
       legal: 'Legal',
       copyright: 'Home Krypto Token (HKT). Todos los derechos reservados.',
+      howItWorks: 'Cómo Funciona',
+      investmentPlans: 'Planes de Inversión',
+      propertyPortfolio: 'Portafolio de Propiedades',
+      tokenomics: 'Tokenomics',
+      whitepaper: 'Libro Blanco',
+      smartContract: 'Contrato Inteligente',
+      auditReports: 'Reportes de Auditoría',
+      faq: 'Preguntas Frecuentes',
+      terms: 'Términos de Servicio',
+      privacy: 'Política de Privacidad',
+      riskDisclosure: 'Divulgación de Riesgos',
+      contact: 'Contáctanos',
+      companyDesc: 'Revolucionando la inversión inmobiliaria a través de la tecnología blockchain.',
+      contractAddress: 'Dirección del Contrato Inteligente: 0x1234...abcd (Red Ethereum)',
     },
     calculator: {
       title: 'Calculadora de Inversión',
@@ -170,6 +212,20 @@ export const translations: Record<Language, Translation> = {
       resources: 'الموارد',
       legal: 'قانوني',
       copyright: 'رمز هوم كريبتو (HKT). جميع الحقوق محفوظة.',
+      howItWorks: 'كيف يعمل',
+      investmentPlans: 'خطط الاستثمار',
+      propertyPortfolio: 'محفظة العقارات',
+      tokenomics: 'اقتصاد الرمز',
+      whitepaper: 'الورقة البيضاء',
+      smartContract: 'العقد الذكي',
+      auditReports: 'تقارير التدقيق',
+      faq: 'الأسئلة الشائعة',
+      terms: 'شروط الخدمة',
+      privacy: 'سياسة الخصوصية',
+      riskDisclosure: 'الكشف عن المخاطر',
+      contact: 'اتصل بنا',
+      companyDesc: 'نثوّر استثمار العقارات من خلال تقنية البلوك تشين.',
+      contractAddress: 'عنوان العقد الذكي: 0x1234...abcd (شبكة إيثريوم)',
     },
     calculator: {
       title: 'حاسبة الاستثمار',
@@ -217,6 +273,20 @@ export const translations: Record<Language, Translation> = {
       resources: 'Ressourcen',
       legal: 'Rechtliches',
       copyright: 'Home Krypto Token (HKT). Alle Rechte vorbehalten.',
+      howItWorks: 'Wie es funktioniert',
+      investmentPlans: 'Investitionspläne',
+      propertyPortfolio: 'Immobilienportfolio',
+      tokenomics: 'Tokenomics',
+      whitepaper: 'Whitepaper',
+      smartContract: 'Smart Contract',
+      auditReports: 'Audit-Berichte',
+      faq: 'FAQ',
+      terms: 'Nutzungsbedingungen',
+      privacy: 'Datenschutzrichtlinie',
+      riskDisclosure: 'Risikoangaben',
+      contact: 'Kontakt',
+      companyDesc: 'Revolutionierung von Immobilieninvestitionen durch Blockchain-Technologie.',
+      contractAddress: 'Smart Contract Adresse: 0x1234...abcd (Ethereum Netzwerk)',
     },
     calculator: {
       title: 'Investitionsrechner',
@@ -264,6 +334,20 @@ export const translations: Record<Language, Translation> = {
       resources: 'Ressources',
       legal: 'Légal',
       copyright: 'Home Krypto Token (HKT). Tous droits réservés.',
+      howItWorks: 'Comment ça marche',
+      investmentPlans: 'Plans d\'investissement',
+      propertyPortfolio: 'Portefeuille immobilier',
+      tokenomics: 'Tokenomics',
+      whitepaper: 'Livre blanc',
+      smartContract: 'Contrat intelligent',
+      auditReports: 'Rapports d\'audit',
+      faq: 'FAQ',
+      terms: 'Conditions d\'utilisation',
+      privacy: 'Politique de confidentialité',
+      riskDisclosure: 'Divulgation des risques',
+      contact: 'Nous contacter',
+      companyDesc: 'Révolutionner l\'investissement immobilier grâce à la technologie blockchain.',
+      contractAddress: 'Adresse du contrat intelligent: 0x1234...abcd (Réseau Ethereum)',
     },
     calculator: {
       title: 'Calculateur d\'investissement',
@@ -311,6 +395,20 @@ export const translations: Record<Language, Translation> = {
       resources: '资源',
       legal: '法律',
       copyright: '家庭加密代币(HKT)。保留所有权利。',
+      howItWorks: '工作原理',
+      investmentPlans: '投资计划',
+      propertyPortfolio: '房地产投资组合',
+      tokenomics: '代币经济学',
+      whitepaper: '白皮书',
+      smartContract: '智能合约',
+      auditReports: '审计报告',
+      faq: '常见问题',
+      terms: '服务条款',
+      privacy: '隐私政策',
+      riskDisclosure: '风险披露',
+      contact: '联系我们',
+      companyDesc: '通过区块链技术革命化房地产投资。',
+      contractAddress: '智能合约地址: 0x1234...abcd (以太坊网络)',
     },
     calculator: {
       title: '投资计算器',

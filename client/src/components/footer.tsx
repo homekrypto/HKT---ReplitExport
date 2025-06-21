@@ -47,28 +47,28 @@ export default function Footer() {
     {
       title: t.footer.product,
       links: [
-        { label: t.nav.howItWorks, href: '/how-it-works' },
-        { label: 'Investment Plans', href: '/buy-hkt' },
-        { label: 'Property Portfolio', href: '/dashboard' },
-        { label: 'Tokenomics', href: '#' }
+        { label: t.footer.howItWorks, href: '/how-it-works' },
+        { label: t.footer.investmentPlans, href: '/buy-hkt' },
+        { label: t.footer.propertyPortfolio, href: '/dashboard' },
+        { label: t.footer.tokenomics, href: '#' }
       ]
     },
     {
       title: t.footer.resources,
       links: [
-        { label: 'Whitepaper', href: '#' },
-        { label: 'Smart Contract', href: '#' },
-        { label: 'Audit Reports', href: '#' },
-        { label: 'FAQ', href: '#' }
+        { label: t.footer.whitepaper, href: '#' },
+        { label: t.footer.smartContract, href: '#' },
+        { label: t.footer.auditReports, href: '#' },
+        { label: t.footer.faq, href: '#' }
       ]
     },
     {
       title: t.footer.legal,
       links: [
-        { label: 'Terms of Service', href: '#' },
-        { label: 'Privacy Policy', href: '#' },
-        { label: 'Risk Disclosure', href: '#' },
-        { label: 'Contact Us', href: '#' }
+        { label: t.footer.terms, href: '#' },
+        { label: t.footer.privacy, href: '#' },
+        { label: t.footer.riskDisclosure, href: '#' },
+        { label: t.footer.contact, href: '#' }
       ]
     }
   ];
@@ -86,7 +86,7 @@ export default function Footer() {
           <div className="space-y-4">
             <h3 className="text-2xl font-bold">HKT</h3>
             <p className="text-gray-300 dark:text-gray-400">
-              Revolutionizing real estate investment through blockchain technology.
+              {t.footer.companyDesc}
             </p>
             
             {/* Newsletter Subscription */}
@@ -161,7 +161,7 @@ export default function Footer() {
         <div className="border-t border-gray-700 dark:border-gray-800 mt-12 pt-8 text-center text-gray-400 dark:text-gray-500">
           <p>&copy; 2024 {t.footer.copyright}</p>
           <p className="mt-2 text-sm">
-            Smart Contract Address: 0x1234...abcd (Ethereum Network)
+            {t.footer.contractAddress}
           </p>
         </div>
       </div>
