@@ -378,16 +378,16 @@ router.get('/me', requireAuth, async (req: AuthenticatedRequest, res) => {
   try {
     const userId = req.user!.id;
     
-    // Use raw SQL to avoid Drizzle ORM issues
-    const result = await pool.query(`
+    // Direct database query using existing connection
+    const userQuery = await db.execute(`
       SELECT id, email, username, first_name, last_name, 
              is_email_verified, created_at, last_login_at, 
              primary_wallet_address
       FROM users 
-      WHERE id = $1
-    `, [userId]);
+      WHERE id = ${userId}
+    `);
 
-    const user = result.rows[0];
+    const user = userQuery.rows[0];
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
