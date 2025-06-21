@@ -133,6 +133,7 @@ This is a full-stack web application for HKT (Home Krypto Token), a blockchain-b
 - June 21, 2025. Created Pilot Property Showcase page with 4 Dominican Republic properties, added footer link, and updated hero section text to focus on short-term rentals in tourist destinations
 - June 21, 2025. Fixed pilot property showcase data - corrected property value to $195,000 USD and share pricing to $3,750 USD (37,500 HKT @ $0.10/token) for 1-week ownership, added real social media links
 - June 21, 2025. Created Properties page at /properties/ with global portfolio overview, regional breakdown, investment process, and prominent link to pilot property showcase
+- June 21, 2025. Enhanced Investment Growth Projection page with comprehensive calculator, scenario comparisons, portfolio composition charts, and detailed growth visualizations
 
 ## User Preferences
 
