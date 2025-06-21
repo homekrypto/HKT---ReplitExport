@@ -1,0 +1,63 @@
+This is the mail system at host relay.mailchannels.net.
+
+I'm sorry to have to inform you that your message could not
+be delivered to one or more recipients. It's attached below.
+
+For further assistance, please send mail to postmaster.
+
+If you do so, please include this problem report. You can
+delete your own text from the attached returned message.
+
+                  The mail system
+
+<mehowbabula@icloud.com>: host mx02.mail.icloud.com[17.57.152.5] said: 554
+   5.7.1 [HM07] Message rejected due to local policy. Please visit
+   https://support.apple.com/en-us/HT204137 (in reply to end of DATA command)
+Reporting-MTA: dns; relay.mailchannels.net
+X-Postfix-Queue-ID: 201238A5136
+X-Postfix-Sender: rfc822; support@homekrypto.com
+Arrival-Date: Sat, 21 Jun 2025 20:13:12 +0000 (UTC)
+
+Final-Recipient: rfc822; mehowbabula@icloud.com
+Original-Recipient: rfc822;mehowbabula@icloud.com
+Action: failed
+Status: 5.7.1
+Remote-MTA: dns; mx02.mail.icloud.com
+Diagnostic-Code: smtp; 554 5.7.1 [HM07] Message rejected due to local policy.
+   Please visit https://support.apple.com/en-us/HT204137
+
+De: Home Krypto Token Support <support@homekrypto.com>
+Asunto: Verify Your Email - Home Krypto Token
+Fecha: 21 de junio de 2025, 10:13:09 p. m. CEST
+Para: mehowbabula@icloud.com
+
+
+Welcome to Home Krypto Token!
+
+Real Estate Investment Made Simple
+
+Verify Your Email Address
+
+Hello,
+
+Thank you for registering with Home Krypto Token. To complete your registration and start investing in real estate through blockchain technology, please verify your email address.
+
+Verify Email Address
+Or copy and paste this link into your browser:
+
+https://78605597-e555-49f7-840b-96f2f9a8ae52-00-3sg0ecjzc14w9.riker.replit.dev/verify-email?token=f2137fd1a9b067854c0d965304f9dc72fffaba62b693b1dcb57784a5d0705668
+
+What's Next?
+
+Complete your profile setup
+Explore our investment plans starting at $106.83/month
+Connect your MetaMask wallet (optional)
+Start building your real estate portfolio
+If you didn't create an account with us, please ignore this email.
+
+Best regards,
+The Home Krypto Token Team
+
+This email was sent to mehowbabula@icloud.com
+
+Home Krypto Token - Democratizing Real Estate Investment
