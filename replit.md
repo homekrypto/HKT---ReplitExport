@@ -127,6 +127,7 @@ This is a full-stack web application for HKT (Home Krypto Token), a blockchain-b
 - June 21, 2025. Fixed all page routing to be publicly accessible, updated footer with comprehensive working links to all 9 pages, enhanced navigation with FAQ/Contact/Whitepaper links, and ensured wallet dropdown integration in both desktop and mobile navigation
 - June 21, 2025. Added smooth scroll-to-top functionality for all page navigation to improve user experience when clicking between pages
 - June 21, 2025. Removed logo elements and reverted to clean text-based HKT branding across navigation, footer, and homepage
+- June 21, 2025. Moved HKT logo above the main navigation menu for better visual hierarchy in both desktop and mobile versions
 
 ## User Preferences
 
