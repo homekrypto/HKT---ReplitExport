@@ -55,13 +55,13 @@ router.get('/verify-email', async (req, res) => {
   }
 });
 
-// Email verification endpoint with URL parameter (alternative)  
-router.get('/verify-email/:token', async (req, res) => {
+// Direct API verification endpoint (for testing)
+router.get('/api/verify-email/:token', async (req, res) => {
   try {
     const { token } = req.params;
 
     console.log('=== EMAIL VERIFICATION DEBUG ===');
-    console.log('Verification attempt for URL token:', token);
+    console.log('API verification attempt for token:', token);
     console.log('Token length:', token?.length);
     console.log('Token type:', typeof token);
 
@@ -135,9 +135,8 @@ router.get('/verify-email/:token', async (req, res) => {
 
     console.log('Email verification completed successfully for user:', verification.userId);
 
-    res.json({ 
-      message: 'Email verified successfully! You can now log in.' 
-    });
+    // Redirect to success page instead of JSON response
+    res.redirect('/email-verification-success');
 
   } catch (error) {
     console.error('Email verification error:', error);

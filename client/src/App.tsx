@@ -35,6 +35,7 @@ import SecondaryMarket from "@/pages/secondary-market";
 import Sitemap from "@/pages/sitemap";
 import JobApplication from "@/pages/job-application";
 import VerifyEmail from "@/pages/verify-email";
+import EmailVerificationSuccess from "@/pages/email-verification-success";
 import CrossChainWallets from "@/pages/cross-chain-wallets";
 import RegisterAsAgent from "@/pages/register-as-agent";
 import InvestmentGrowthProjection from "@/pages/investment-growth-projection";
@@ -72,6 +73,7 @@ function Router() {
       <Route path="/forgot-password" component={ForgotPassword} />
       <Route path="/reset-password/:token" component={ResetPassword} />
       <Route path="/verify-email" component={EmailVerified} />
+      <Route path="/email-verification-success" component={EmailVerificationSuccess} />
       <Route path="/buy-hkt" component={BuyHKT} />
       <Route path="/dashboard" component={Dashboard} />
       <Route path="/profile" component={Profile} />

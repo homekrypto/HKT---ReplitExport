@@ -78,7 +78,7 @@ export function generateVerificationEmailHtml(token: string, email: string): str
   const baseUrl = process.env.REPLIT_DOMAINS ? 
     `https://${process.env.REPLIT_DOMAINS.split(',')[0]}` : 
     'http://localhost:5000';
-  const verificationUrl = `${baseUrl}/verify-email?token=${token}`;
+  const verificationUrl = `${baseUrl}/api/verify-email/${token}`;
   
   return `
     <!DOCTYPE html>
