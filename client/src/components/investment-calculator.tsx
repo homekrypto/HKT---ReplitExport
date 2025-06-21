@@ -6,6 +6,7 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useMutation } from '@tanstack/react-query';
 import { apiRequest } from '@/lib/queryClient';
+import { useApp } from '@/contexts/AppContext';
 
 interface CalculationResult {
   totalInvested: number;
@@ -22,6 +23,7 @@ export default function InvestmentCalculator() {
   const [monthlyAmount, setMonthlyAmount] = useState(106.83);
   const [months, setMonths] = useState(36);
   const [result, setResult] = useState<CalculationResult | null>(null);
+  const { t } = useApp();
 
   const calculateMutation = useMutation({
     mutationFn: async (data: { monthlyAmount: number; months: number }) => {
@@ -40,11 +42,11 @@ export default function InvestmentCalculator() {
   return (
     <Card className="bg-white bg-opacity-10 backdrop-blur-sm border-white border-opacity-30">
       <CardHeader>
-        <CardTitle className="text-2xl font-bold text-white">Investment Calculator</CardTitle>
+        <CardTitle className="text-2xl font-bold text-white">{t.calculator.title}</CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
         <div>
-          <Label className="block text-sm font-medium mb-2 text-white">Monthly Investment</Label>
+          <Label className="block text-sm font-medium mb-2 text-white">{t.calculator.monthlyInvestment}</Label>
           <Input
             type="number"
             value={monthlyAmount}
@@ -55,7 +57,7 @@ export default function InvestmentCalculator() {
         </div>
         
         <div>
-          <Label className="block text-sm font-medium mb-2 text-white">Investment Period</Label>
+          <Label className="block text-sm font-medium mb-2 text-white">{t.calculator.investmentPeriod}</Label>
           <Select value={months.toString()} onValueChange={(value) => setMonths(Number(value))}>
             <SelectTrigger className="bg-white bg-opacity-20 border-white border-opacity-30 text-white">
               <SelectValue placeholder="Select period" />
@@ -73,29 +75,29 @@ export default function InvestmentCalculator() {
           disabled={calculateMutation.isPending}
           className="w-full bg-secondary hover:bg-green-600 text-white font-semibold"
         >
-          {calculateMutation.isPending ? 'Calculating...' : 'Calculate Returns'}
+          {calculateMutation.isPending ? t.calculator.calculating : t.calculator.calculateReturns}
         </Button>
 
         {result && (
           <div className="mt-6 space-y-3 p-4 bg-white bg-opacity-10 rounded-lg">
             <div className="flex justify-between text-white">
-              <span>Total Investment:</span>
+              <span>{t.calculator.totalInvestment}</span>
               <span className="font-bold">${result.totalInvested.toLocaleString()}</span>
             </div>
             <div className="flex justify-between text-white">
-              <span>Final Value:</span>
+              <span>{t.calculator.finalValue}</span>
               <span className="font-bold text-secondary">${result.finalValue.toLocaleString()}</span>
             </div>
             <div className="flex justify-between text-white">
-              <span>Total Profit:</span>
+              <span>{t.calculator.totalProfit}</span>
               <span className="font-bold text-accent">${result.profit.toLocaleString()}</span>
             </div>
             <div className="flex justify-between text-white">
-              <span>ROI:</span>
+              <span>{t.calculator.roi}</span>
               <span className="font-bold text-green-400">{result.roi.toFixed(1)}%</span>
             </div>
             <div className="flex justify-between text-white">
-              <span>HKT Tokens:</span>
+              <span>{t.calculator.hktTokens}</span>
               <span className="font-bold">{result.totalTokens.toLocaleString()}</span>
             </div>
           </div>

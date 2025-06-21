@@ -5,11 +5,15 @@ import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
 import { useMutation } from '@tanstack/react-query';
 import { apiRequest } from '@/lib/queryClient';
+import { useApp } from '@/contexts/AppContext';
 import { Mail } from 'lucide-react';
+import ThemeToggle from './theme-toggle';
+import LanguageSelector from './language-selector';
 
 export default function Footer() {
   const [email, setEmail] = useState('');
   const { toast } = useToast();
+  const { t } = useApp();
 
   const subscribeMutation = useMutation({
     mutationFn: async (email: string) => {
@@ -18,15 +22,15 @@ export default function Footer() {
     },
     onSuccess: () => {
       toast({
-        title: "Successfully subscribed!",
-        description: "You'll receive updates about HKT and investment opportunities.",
+        title: t.toast.subscribeSuccess,
+        description: t.toast.subscribeSuccessDesc,
       });
       setEmail('');
     },
     onError: (error: any) => {
       toast({
-        title: "Subscription failed",
-        description: error.message || "Please try again later.",
+        title: t.toast.subscribeFailed,
+        description: error.message || t.toast.subscribeFailedDesc,
         variant: "destructive",
       });
     },
@@ -41,16 +45,16 @@ export default function Footer() {
 
   const footerSections = [
     {
-      title: 'Product',
+      title: t.footer.product,
       links: [
-        { label: 'How It Works', href: '/how-it-works' },
+        { label: t.nav.howItWorks, href: '/how-it-works' },
         { label: 'Investment Plans', href: '/buy-hkt' },
         { label: 'Property Portfolio', href: '/dashboard' },
         { label: 'Tokenomics', href: '#' }
       ]
     },
     {
-      title: 'Resources',
+      title: t.footer.resources,
       links: [
         { label: 'Whitepaper', href: '#' },
         { label: 'Smart Contract', href: '#' },
@@ -59,7 +63,7 @@ export default function Footer() {
       ]
     },
     {
-      title: 'Legal',
+      title: t.footer.legal,
       links: [
         { label: 'Terms of Service', href: '#' },
         { label: 'Privacy Policy', href: '#' },
@@ -76,29 +80,29 @@ export default function Footer() {
   ];
 
   return (
-    <footer className="bg-gray-900 text-white py-16">
+    <footer className="bg-gray-900 dark:bg-gray-950 text-white py-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="space-y-4">
             <h3 className="text-2xl font-bold">HKT</h3>
-            <p className="text-gray-300">
+            <p className="text-gray-300 dark:text-gray-400">
               Revolutionizing real estate investment through blockchain technology.
             </p>
             
             {/* Newsletter Subscription */}
             <div className="space-y-3">
-              <h4 className="text-lg font-semibold">Stay Updated</h4>
-              <p className="text-sm text-gray-400">
-                Get the latest HKT news and investment opportunities.
+              <h4 className="text-lg font-semibold">{t.footer.subscribe}</h4>
+              <p className="text-sm text-gray-400 dark:text-gray-500">
+                {t.footer.subscribeDesc}
               </p>
               <form onSubmit={handleSubscribe} className="space-y-2">
                 <div className="flex space-x-2">
                   <Input
                     type="email"
-                    placeholder="Enter your email"
+                    placeholder={t.footer.enterEmail}
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="bg-gray-800 border-gray-600 text-white placeholder-gray-400 flex-1"
+                    className="bg-gray-800 dark:bg-gray-900 border-gray-600 dark:border-gray-700 text-white placeholder-gray-400 flex-1"
                     required
                   />
                   <Button 
@@ -110,6 +114,12 @@ export default function Footer() {
                   </Button>
                 </div>
               </form>
+            </div>
+            
+            {/* Theme and Language Controls */}
+            <div className="flex flex-col space-y-3 pt-4">
+              <ThemeToggle />
+              <LanguageSelector />
             </div>
             
             <div className="flex space-x-4">
@@ -148,8 +158,8 @@ export default function Footer() {
           ))}
         </div>
         
-        <div className="border-t border-gray-700 mt-12 pt-8 text-center text-gray-400">
-          <p>&copy; 2024 Home Krypto Token (HKT). All rights reserved.</p>
+        <div className="border-t border-gray-700 dark:border-gray-800 mt-12 pt-8 text-center text-gray-400 dark:text-gray-500">
+          <p>&copy; 2024 {t.footer.copyright}</p>
           <p className="mt-2 text-sm">
             Smart Contract Address: 0x1234...abcd (Ethereum Network)
           </p>

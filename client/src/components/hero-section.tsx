@@ -1,8 +1,11 @@
 import { Button } from '@/components/ui/button';
 import { INVESTMENT_PLAN_DATA } from '@/lib/constants';
+import { useApp } from '@/contexts/AppContext';
 import InvestmentCalculator from './investment-calculator';
 
 export default function HeroSection() {
+  const { t } = useApp();
+  
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
     if (element) {
@@ -24,25 +27,25 @@ export default function HeroSection() {
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           <div className="space-y-8">
             <h1 className="text-5xl lg:text-6xl font-bold leading-tight">
-              Own Real Estate Through{' '}
+              {t.hero.title.split('Blockchain')[0]}
               <span className="text-accent">Blockchain</span>
             </h1>
             <p className="text-xl text-blue-100 leading-relaxed">
-              Invest in premium property with Home Krypto Token (HKT). Start with just $106.83/month and own shares in high-value real estate assets.
+              {t.hero.subtitle}
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Button
                 onClick={() => scrollToSection('buy-hkt')}
                 className="bg-accent hover:bg-yellow-500 text-gray-900 px-8 py-4 text-lg font-semibold"
               >
-                Start Investing Now
+                {t.hero.startInvesting}
               </Button>
               <Button
                 onClick={() => scrollToSection('how-it-works')}
                 variant="outline"
                 className="border-2 border-white text-white hover:bg-white hover:text-primary px-8 py-4 text-lg font-semibold"
               >
-                Learn More
+                {t.hero.learnMore}
               </Button>
             </div>
             
@@ -51,19 +54,19 @@ export default function HeroSection() {
                 <div className="text-3xl font-bold text-accent">
                   ${INVESTMENT_PLAN_DATA.totalInvested.toLocaleString()}
                 </div>
-                <div className="text-sm text-blue-200">Total Investment</div>
+                <div className="text-sm text-blue-200">{t.hero.totalInvestment}</div>
               </div>
               <div className="text-center">
                 <div className="text-3xl font-bold text-secondary">
                   ${INVESTMENT_PLAN_DATA.finalPortfolioValue.toLocaleString()}
                 </div>
-                <div className="text-sm text-blue-200">Final Value</div>
+                <div className="text-sm text-blue-200">{t.hero.finalValue}</div>
               </div>
               <div className="text-center">
                 <div className="text-3xl font-bold text-green-400">
                   {INVESTMENT_PLAN_DATA.roi}%
                 </div>
-                <div className="text-sm text-blue-200">ROI in 3 Years</div>
+                <div className="text-sm text-blue-200">{t.hero.roiIn3Years}</div>
               </div>
             </div>
           </div>

@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'wouter';
 import { Button } from '@/components/ui/button';
 import { web3Service, type Web3State } from '@/lib/web3';
+import { useApp } from '@/contexts/AppContext';
 import { Wallet, Menu, X } from 'lucide-react';
 
 export default function Navigation() {
@@ -9,6 +10,7 @@ export default function Navigation() {
   const [web3State, setWeb3State] = useState<Web3State>(web3Service.getState());
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isConnecting, setIsConnecting] = useState(false);
+  const { t } = useApp();
 
   useEffect(() => {
     const unsubscribe = web3Service.subscribe(setWeb3State);
@@ -29,14 +31,14 @@ export default function Navigation() {
   };
 
   const navLinks = [
-    { href: '/', label: 'Home', active: location === '/' },
-    { href: '/how-it-works', label: 'How It Works', active: location === '/how-it-works' },
-    { href: '/buy-hkt', label: 'Buy HKT', active: location === '/buy-hkt' },
-    { href: '/dashboard', label: 'Dashboard', active: location === '/dashboard' },
+    { href: '/', label: t.nav.home, active: location === '/' },
+    { href: '/how-it-works', label: t.nav.howItWorks, active: location === '/how-it-works' },
+    { href: '/buy-hkt', label: t.nav.buyHkt, active: location === '/buy-hkt' },
+    { href: '/dashboard', label: t.nav.dashboard, active: location === '/dashboard' },
   ];
 
   return (
-    <nav className="bg-white shadow-lg sticky top-0 z-50">
+    <nav className="bg-white dark:bg-gray-900 shadow-lg sticky top-0 z-50 border-b border-gray-200 dark:border-gray-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center">
@@ -52,7 +54,7 @@ export default function Navigation() {
                     className={`px-3 py-2 font-medium transition-colors ${
                       link.active
                         ? 'text-primary'
-                        : 'text-gray-700 hover:text-primary'
+                        : 'text-gray-700 dark:text-gray-300 hover:text-primary'
                     }`}
                   >
                     {link.label}
@@ -77,11 +79,11 @@ export default function Navigation() {
                 ? 'Connecting...'
                 : web3State.isConnected && web3State.address
                 ? web3Service.formatAddress(web3State.address)
-                : 'Connect Wallet'}
+                : t.nav.connectWallet}
             </Button>
 
             <button
-              className="md:hidden text-gray-700"
+              className="md:hidden text-gray-700 dark:text-gray-300"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
             >
               {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -92,15 +94,15 @@ export default function Navigation() {
         {/* Mobile menu */}
         {isMenuOpen && (
           <div className="md:hidden">
-            <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white border-t">
+            <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800">
               {navLinks.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
                   className={`block px-3 py-2 font-medium transition-colors ${
                     link.active
-                      ? 'text-primary bg-blue-50'
-                      : 'text-gray-700 hover:text-primary hover:bg-gray-50'
+                      ? 'text-primary bg-blue-50 dark:bg-blue-900/20'
+                      : 'text-gray-700 dark:text-gray-300 hover:text-primary hover:bg-gray-50 dark:hover:bg-gray-800'
                   }`}
                   onClick={() => setIsMenuOpen(false)}
                 >
