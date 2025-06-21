@@ -59,9 +59,13 @@ export default function Navigation() {
               </div>
             </div>
             <div className="absolute right-0 flex items-center space-x-4">
-              <ThemeToggle />
-              <LanguageSelector />
               <WalletConnectDropdown />
+              <Link href="/login">
+                <Button variant="outline" size="sm">Log In</Button>
+              </Link>
+              <Link href="/register">
+                <Button size="sm">Register</Button>
+              </Link>
             </div>
           </div>
         </div>
