@@ -15,7 +15,7 @@ router.get('/verify-email', async (req, res) => {
     }
 
     // Find the verification record
-    const [verification] = await db
+    const verificationResult = await db
       .select()
       .from(emailVerifications)
       .where(
@@ -25,6 +25,8 @@ router.get('/verify-email', async (req, res) => {
           gt(emailVerifications.expiresAt, new Date())
         )
       );
+    
+    const verification = verificationResult[0];
 
     if (!verification) {
       return res.status(400).json({ 
@@ -43,8 +45,8 @@ router.get('/verify-email', async (req, res) => {
       .set({ used: true })
       .where(eq(emailVerifications.id, verification.id));
 
-    // Redirect to success page or login
-    res.redirect('/?verified=true');
+    // Redirect to success page
+    res.redirect('/verify-email?status=success');
   } catch (error) {
     console.error('Email verification error:', error);
     res.status(500).json({ message: 'Verification failed' });

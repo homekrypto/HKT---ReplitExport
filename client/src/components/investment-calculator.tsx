@@ -42,28 +42,28 @@ export default function InvestmentCalculator() {
   return (
     <section className="py-16 bg-gray-50 dark:bg-gray-800">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <Card className="shadow-xl bg-white dark:bg-gray-900">
+        <Card className="shadow-xl bg-white dark:bg-black border-gray-200 dark:border-gray-700">
           <CardHeader>
             <CardTitle className="text-2xl font-bold text-gray-900 dark:text-white text-center">{t.calculator.title}</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div>
               <Label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">{t.calculator.monthlyInvestment}</Label>
-          <Input
-            type="number"
-            value={monthlyAmount}
-            onChange={(e) => setMonthlyAmount(Number(e.target.value))}
-            className="bg-white bg-opacity-20 border-white border-opacity-30 text-white placeholder-gray-300"
-            placeholder="Enter amount"
-          />
-        </div>
-        
-        <div>
-          <Label className="block text-sm font-medium mb-2 text-white">{t.calculator.investmentPeriod}</Label>
-          <Select value={months.toString()} onValueChange={(value) => setMonths(Number(value))}>
-            <SelectTrigger className="bg-white bg-opacity-20 border-white border-opacity-30 text-white">
-              <SelectValue placeholder="Select period" />
-            </SelectTrigger>
+              <Input
+                type="number"
+                value={monthlyAmount}
+                onChange={(e) => setMonthlyAmount(Number(e.target.value))}
+                className="bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white"
+                placeholder="Enter amount"
+              />
+            </div>
+            
+            <div>
+              <Label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">{t.calculator.investmentPeriod}</Label>
+              <Select value={months.toString()} onValueChange={(value) => setMonths(Number(value))}>
+                <SelectTrigger className="bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white">
+                  <SelectValue placeholder="Select period" />
+                </SelectTrigger>
             <SelectContent>
               <SelectItem value="24">24 months</SelectItem>
               <SelectItem value="36">36 months</SelectItem>
@@ -72,38 +72,45 @@ export default function InvestmentCalculator() {
           </Select>
         </div>
 
-        <Button
-          onClick={handleCalculate}
-          disabled={calculateMutation.isPending}
-          className="w-full bg-secondary hover:bg-green-600 text-white font-semibold"
-        >
-          {calculateMutation.isPending ? t.calculator.calculating : t.calculator.calculateReturns}
-        </Button>
+            <Button
+              onClick={handleCalculate}
+              disabled={calculateMutation.isPending}
+              className="w-full bg-primary hover:bg-primary/90 text-white font-bold py-3"
+            >
+              {calculateMutation.isPending ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  {t.calculator.calculating}
+                </>
+              ) : (
+                t.calculator.calculate
+              )}
+            </Button>
 
-        {result && (
-          <div className="mt-6 space-y-3 p-4 bg-white bg-opacity-10 rounded-lg">
-            <div className="flex justify-between text-white">
-              <span>{t.calculator.totalInvestment}</span>
-              <span className="font-bold">${result.totalInvested.toLocaleString()}</span>
-            </div>
-            <div className="flex justify-between text-white">
-              <span>{t.calculator.finalValue}</span>
-              <span className="font-bold text-secondary">${result.finalValue.toLocaleString()}</span>
-            </div>
-            <div className="flex justify-between text-white">
-              <span>{t.calculator.totalProfit}</span>
-              <span className="font-bold text-accent">${result.profit.toLocaleString()}</span>
-            </div>
-            <div className="flex justify-between text-white">
-              <span>{t.calculator.roi}</span>
-              <span className="font-bold text-green-400">{result.roi.toFixed(1)}%</span>
-            </div>
-            <div className="flex justify-between text-white">
-              <span>{t.calculator.hktTokens}</span>
-              <span className="font-bold">{result.totalTokens.toLocaleString()}</span>
-            </div>
-          </div>
-        )}
+            {result && (
+              <div className="mt-6 space-y-3 p-4 bg-gray-100 dark:bg-gray-800 rounded-lg">
+                <div className="flex justify-between text-gray-900 dark:text-white">
+                  <span>{t.calculator.totalInvestment}</span>
+                  <span className="font-bold">${result.totalInvested.toLocaleString()}</span>
+                </div>
+                <div className="flex justify-between text-gray-900 dark:text-white">
+                  <span>{t.calculator.finalValue}</span>
+                  <span className="font-bold text-secondary">${result.finalValue.toLocaleString()}</span>
+                </div>
+                <div className="flex justify-between text-gray-900 dark:text-white">
+                  <span>{t.calculator.totalProfit}</span>
+                  <span className="font-bold text-accent">${result.profit.toLocaleString()}</span>
+                </div>
+                <div className="flex justify-between text-gray-900 dark:text-white">
+                  <span>{t.calculator.roi}</span>
+                  <span className="font-bold text-green-600 dark:text-green-400">{result.roi.toFixed(1)}%</span>
+                </div>
+                <div className="flex justify-between text-gray-900 dark:text-white">
+                  <span>{t.calculator.hktTokens}</span>
+                  <span className="font-bold">{result.totalTokens.toLocaleString()}</span>
+                </div>
+              </div>
+            )}
           </CardContent>
         </Card>
       </div>
