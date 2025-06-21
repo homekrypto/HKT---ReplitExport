@@ -54,15 +54,31 @@ export async function createSession(userId: number, userAgent?: string, ipAddres
   const token = generateToken();
   const expiresAt = new Date(Date.now() + SESSION_EXPIRY);
 
-  const [session] = await db.insert(sessions).values({
-    userId,
-    token,
-    expiresAt,
-    userAgent,
-    ipAddress,
-  }).returning();
+  try {
+    const [session] = await db.insert(sessions).values({
+      userId,
+      token,
+      expiresAt,
+      userAgent,
+      ipAddress,
+    }).returning();
 
-  return token;
+    console.log('Session created successfully:', session?.id);
+    return token;
+  } catch (error) {
+    console.error('Session creation error:', error);
+    
+    // Fallback: try without returning to avoid constraint issues
+    await db.insert(sessions).values({
+      userId,
+      token,
+      expiresAt,
+      userAgent,
+      ipAddress,
+    });
+    
+    return token;
+  }
 }
 
 export async function validateSession(token: string): Promise<number | null> {
