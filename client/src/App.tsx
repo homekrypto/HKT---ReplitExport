@@ -29,6 +29,7 @@ import WorkWithUs from "@/pages/work-with-us";
 import Contact from "@/pages/contact";
 import ForDevelopers from "@/pages/for-developers";
 import PilotPropertyShowcase from "@/pages/pilot-property-showcase";
+import Properties from "@/pages/properties";
 import RegisterAsAgent from "@/pages/register-as-agent";
 import InvestmentGrowthProjection from "@/pages/investment-growth-projection";
 import NotFound from "@/pages/not-found";
@@ -51,6 +52,7 @@ function Router() {
       <Route path="/contact" component={Contact} />
       <Route path="/for-developers" component={ForDevelopers} />
       <Route path="/pilot-property-showcase" component={PilotPropertyShowcase} />
+      <Route path="/properties" component={Properties} />
       <Route path="/register-as-agent" component={RegisterAsAgent} />
       <Route path="/investment-growth-projection" component={InvestmentGrowthProjection} />
       <Route path="/login" component={Login} />

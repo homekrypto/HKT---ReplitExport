@@ -49,7 +49,7 @@ export default function Footer() {
       links: [
         { label: t.footer.howItWorks, href: '/how-it-works' },
         { label: t.footer.investmentPlans, href: '/buy-hkt' },
-        { label: t.footer.propertyPortfolio, href: '/dashboard' },
+        { label: 'Properties', href: '/properties' },
         { label: 'Pilot Properties', href: '/pilot-property-showcase' }
       ]
     },
