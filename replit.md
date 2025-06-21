@@ -129,6 +129,7 @@ This is a full-stack web application for HKT (Home Krypto Token), a blockchain-b
 - June 21, 2025. Removed logo elements and reverted to clean text-based HKT branding across navigation, footer, and homepage
 - June 21, 2025. Moved HKT logo above the main navigation menu for better visual hierarchy in both desktop and mobile versions
 - June 21, 2025. Redesigned mobile navigation with logo and hamburger on top line, wallet/auth buttons on separate line below for better usability
+- June 21, 2025. Fixed contact form functionality - now actually sends emails to support@homekrypto.com instead of showing fake confirmation
 
 ## User Preferences
 

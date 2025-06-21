@@ -242,6 +242,57 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Contact form endpoint
+  app.post("/api/contact", async (req, res) => {
+    try {
+      const { name, email, subject, category, message } = req.body;
+      
+      if (!name || !email || !subject || !message) {
+        return res.status(400).json({ message: "All fields are required" });
+      }
+
+      // Validate email format
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        return res.status(400).json({ message: "Invalid email format" });
+      }
+
+      // Import sendEmail function
+      const { sendEmail } = await import('./email');
+      
+      // Send email to support
+      await sendEmail({
+        to: 'support@homekrypto.com',
+        subject: `Contact Form: ${subject} [${category || 'General'}]`,
+        html: `
+          <h2>New Contact Form Submission</h2>
+          <p><strong>Name:</strong> ${name}</p>
+          <p><strong>Email:</strong> ${email}</p>
+          <p><strong>Category:</strong> ${category || 'General'}</p>
+          <p><strong>Subject:</strong> ${subject}</p>
+          <p><strong>Message:</strong></p>
+          <p>${message.replace(/\n/g, '<br>')}</p>
+        `,
+        text: `
+          New Contact Form Submission
+          
+          Name: ${name}
+          Email: ${email}
+          Category: ${category || 'General'}
+          Subject: ${subject}
+          
+          Message:
+          ${message}
+        `
+      });
+
+      res.status(200).json({ message: "Message sent successfully" });
+    } catch (error) {
+      console.error('Contact form error:', error);
+      res.status(500).json({ message: "Failed to send message. Please try again." });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }
