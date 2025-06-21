@@ -48,7 +48,7 @@ export default function WorkWithUs() {
     },
     {
       title: 'Real Estate Investment Analyst',
-      location: 'Remote / Hybrid',
+      location: 'Remote',
       type: 'Full-time',
       department: 'Investment',
       description: 'Analyze and evaluate investment opportunities, conduct due diligence on potential properties.',

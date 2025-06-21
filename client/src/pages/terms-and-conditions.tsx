@@ -123,8 +123,7 @@ export default function TermsAndConditions() {
                 For questions about these Terms and Conditions, please contact us at:
               </p>
               <p>
-                Email: legal@homekrypto.com<br />
-                Address: [Company Address]
+                Email: legal@homekrypto.com
               </p>
             </div>
           </CardContent>

@@ -146,9 +146,7 @@ export default function PrivacyPolicy() {
                 If you have any questions about this Privacy Policy or our data practices, please contact us at:
               </p>
               <p>
-                Email: privacy@homekrypto.com<br />
-                Address: [Company Address]<br />
-                Phone: [Phone Number]
+                Email: privacy@homekrypto.com
               </p>
 
               <h2>14. Data Protection Officer</h2>

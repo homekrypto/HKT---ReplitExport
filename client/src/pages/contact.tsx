@@ -87,18 +87,6 @@ export default function Contact() {
       title: 'Business Inquiries',
       content: 'business@homekrypto.com',
       description: 'Partnerships and business development'
-    },
-    {
-      icon: Phone,
-      title: 'Phone Support',
-      content: '+1 (555) 123-4567',
-      description: 'Monday - Friday, 9AM - 6PM EST'
-    },
-    {
-      icon: MapPin,
-      title: 'Office Address',
-      content: '123 Innovation Drive\nSan Francisco, CA 94107',
-      description: 'By appointment only'
     }
   ];
 
@@ -244,37 +232,7 @@ export default function Contact() {
               </CardContent>
             </Card>
 
-            {/* Office Hours */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center">
-                  <Clock className="h-5 w-5 mr-2" />
-                  Support Hours
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-3">
-                  <div className="flex justify-between">
-                    <span className="text-gray-600 dark:text-gray-300">Monday - Friday</span>
-                    <span className="font-medium">9:00 AM - 6:00 PM EST</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-600 dark:text-gray-300">Saturday</span>
-                    <span className="font-medium">10:00 AM - 4:00 PM EST</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-600 dark:text-gray-300">Sunday</span>
-                    <span className="font-medium">Closed</span>
-                  </div>
-                </div>
-                <div className="mt-4 p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
-                  <p className="text-sm text-blue-800 dark:text-blue-200">
-                    For urgent technical issues outside business hours, please email support@homekrypto.com 
-                    with "URGENT" in the subject line.
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
+
 
             {/* Quick Links */}
             <Card>
