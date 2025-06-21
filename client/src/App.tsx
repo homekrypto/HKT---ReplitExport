@@ -28,6 +28,7 @@ import FAQ from "@/pages/faq";
 import WorkWithUs from "@/pages/work-with-us";
 import Contact from "@/pages/contact";
 import ForDevelopers from "@/pages/for-developers";
+import PilotPropertyShowcase from "@/pages/pilot-property-showcase";
 import RegisterAsAgent from "@/pages/register-as-agent";
 import InvestmentGrowthProjection from "@/pages/investment-growth-projection";
 import NotFound from "@/pages/not-found";
