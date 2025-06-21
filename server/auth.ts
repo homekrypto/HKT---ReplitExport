@@ -3,7 +3,7 @@ import crypto from 'crypto';
 import jwt from 'jsonwebtoken';
 import { Request, Response, NextFunction } from 'express';
 import { users, sessions, passwordResets, emailVerifications } from '@shared/schema';
-import { db } from './db';
+import { db, pool } from './db';
 import { eq, and, gt } from 'drizzle-orm';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-production';
@@ -268,22 +268,26 @@ export async function requireAuth(req: AuthenticatedRequest, res: Response, next
       return;
     }
 
-    const [user] = await db
-      .select({
-        id: users.id,
-        email: users.email,
-        username: users.username,
-        primaryWalletAddress: users.primaryWalletAddress,
-      })
-      .from(users)
-      .where(eq(users.id, userId));
+    // Use raw SQL to avoid Drizzle issues
+    const result = await pool.query(`
+      SELECT id, email, username, primary_wallet_address
+      FROM users 
+      WHERE id = $1
+    `, [userId]);
 
+    const user = result.rows[0];
     if (!user) {
       res.status(401).json({ message: 'User not found' });
       return;
     }
 
-    req.user = user;
+    req.user = {
+      id: user.id,
+      email: user.email,
+      username: user.username,
+      primaryWalletAddress: user.primary_wallet_address,
+    };
+
     next();
   } catch (error) {
     console.error('Auth middleware error:', error);

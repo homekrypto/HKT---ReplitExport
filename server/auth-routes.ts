@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { z } from 'zod';
 import { authLimiter, generalLimiter, csrfProtection, xssProtection } from './auth-utils';
-import { db } from './db';
+import { db, pool } from './db';
 import { users, type InsertUser } from '@shared/schema';
 import { eq, or, sql } from 'drizzle-orm';
 import {
@@ -376,25 +376,36 @@ router.get('/verify-email/:token', async (req, res) => {
 // Get current user
 router.get('/me', requireAuth, async (req: AuthenticatedRequest, res) => {
   try {
-    const [user] = await db
-      .select({
-        id: users.id,
-        email: users.email,
-        username: users.username,
-        firstName: users.firstName,
-        lastName: users.lastName,
-        walletAddress: users.walletAddress,
-        isEmailVerified: users.isEmailVerified,
-        twoFactorEnabled: users.twoFactorEnabled,
-        profileImageUrl: users.profileImageUrl,
-        referralCode: users.referralCode,
-        createdAt: users.createdAt,
-        lastLoginAt: users.lastLoginAt,
-      })
-      .from(users)
-      .where(eq(users.id, req.user!.id));
+    const userId = req.user!.id;
+    
+    // Use raw SQL to avoid Drizzle ORM issues
+    const result = await pool.query(`
+      SELECT id, email, username, first_name, last_name, 
+             is_email_verified, created_at, last_login_at, 
+             primary_wallet_address
+      FROM users 
+      WHERE id = $1
+    `, [userId]);
 
-    res.json(user);
+    const user = result.rows[0];
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    // Format response
+    const userData = {
+      id: user.id,
+      email: user.email,
+      username: user.username,
+      firstName: user.first_name,
+      lastName: user.last_name,
+      isEmailVerified: user.is_email_verified,
+      createdAt: user.created_at,
+      lastLoginAt: user.last_login_at,
+      primaryWalletAddress: user.primary_wallet_address
+    };
+
+    res.json(userData);
   } catch (error) {
     console.error('Get user error:', error);
     res.status(500).json({ message: 'Failed to fetch user data' });
