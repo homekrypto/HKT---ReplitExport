@@ -91,15 +91,15 @@ export default function Footer() {
             
             {/* Newsletter Subscription */}
             <div className="space-y-3">
-              <h4 className="text-lg font-semibold">{t.footer.subscribe}</h4>
+              <h4 className="text-lg font-semibold">Stay Updated</h4>
               <p className="text-sm text-gray-400 dark:text-gray-500">
-                {t.footer.subscribeDesc}
+                Get the latest HKT news and investment opportunities.
               </p>
               <form onSubmit={handleSubscribe} className="space-y-2">
                 <div className="flex space-x-2">
                   <Input
                     type="email"
-                    placeholder={t.footer.enterEmail}
+                    placeholder="Enter your email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     className="bg-gray-800 dark:bg-gray-900 border-gray-600 dark:border-gray-700 text-white placeholder-gray-400 flex-1"
