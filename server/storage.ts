@@ -94,6 +94,7 @@ export class MemStorage implements IStorage {
     const user: User = { 
       ...insertUser, 
       id, 
+      walletAddress: insertUser.walletAddress || null,
       createdAt: new Date()
     };
     this.users.set(id, user);
@@ -144,7 +145,11 @@ export class MemStorage implements IStorage {
 
   async createQuarterlyData(insertData: InsertQuarterlyData): Promise<QuarterlyData> {
     const id = this.currentQuarterlyId++;
-    const data: QuarterlyData = { ...insertData, id };
+    const data: QuarterlyData = { 
+      ...insertData, 
+      id,
+      investmentId: insertData.investmentId || null
+    };
     this.quarterlyData.set(id, data);
     return data;
   }
