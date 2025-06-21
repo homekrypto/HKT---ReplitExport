@@ -37,14 +37,6 @@ function Router() {
       <Route path="/" component={Home} />
       <Route path="/our-mission" component={OurMission} />
       <Route path="/how-it-works" component={HowItWorks} />
-      <Route path="/login" component={Login} />
-      <Route path="/register" component={Register} />
-      <Route path="/forgot-password" component={ForgotPassword} />
-      <Route path="/reset-password/:token" component={ResetPassword} />
-      <Route path="/verify-email" component={EmailVerified} />
-      <Route path="/buy-hkt" component={BuyHKT} />
-      <Route path="/dashboard" component={Dashboard} />
-      <Route path="/profile" component={Profile} />
       <Route path="/terms-and-conditions" component={TermsAndConditions} />
       <Route path="/privacy-policy" component={PrivacyPolicy} />
       <Route path="/homekrypto-whitepaper" component={Whitepaper} />
@@ -56,6 +48,14 @@ function Router() {
       <Route path="/for-developers" component={ForDevelopers} />
       <Route path="/register-as-agent" component={RegisterAsAgent} />
       <Route path="/investment-growth-projection" component={InvestmentGrowthProjection} />
+      <Route path="/login" component={Login} />
+      <Route path="/register" component={Register} />
+      <Route path="/forgot-password" component={ForgotPassword} />
+      <Route path="/reset-password/:token" component={ResetPassword} />
+      <Route path="/verify-email" component={EmailVerified} />
+      <Route path="/buy-hkt" component={BuyHKT} />
+      <Route path="/dashboard" component={Dashboard} />
+      <Route path="/profile" component={Profile} />
       <Route component={NotFound} />
     </Switch>
   );

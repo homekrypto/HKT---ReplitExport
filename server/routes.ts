@@ -45,7 +45,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         message,
         context: {
           currentPage: context?.currentPage,
-          userId: req.user?.id,
+          userId: (req as any).user?.id,
           userInvestments: context?.userInvestments
         }
       });

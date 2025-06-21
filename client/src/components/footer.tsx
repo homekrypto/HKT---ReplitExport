@@ -65,10 +65,10 @@ export default function Footer() {
     {
       title: t.footer.legal,
       links: [
-        { label: t.footer.terms, href: '#' },
-        { label: t.footer.privacy, href: '#' },
-        { label: t.footer.riskDisclosure, href: '#' },
-        { label: t.footer.contact, href: '#' }
+        { label: 'Terms & Conditions', href: '/terms-and-conditions' },
+        { label: 'Privacy Policy', href: '/privacy-policy' },
+        { label: 'Whitepaper', href: '/whitepaper' },
+        { label: 'Contact', href: '/contact' }
       ]
     }
   ];
