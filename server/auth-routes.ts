@@ -75,22 +75,33 @@ const web3LoginSchema = z.object({
 // Register
 router.post('/register', authLimiter, async (req, res) => {
   try {
-    const { email, password, username, firstName, lastName, referralCode } = registerSchema.parse(req.body);
+    const parsed = registerSchema.parse(req.body);
+    const { email, password, firstName, lastName, referralCode } = parsed;
+    const username = parsed.username && parsed.username.trim().length >= 3 ? parsed.username.trim() : null;
 
-    // Check if user already exists
-    const existingUsers = await db
-      .select({ id: users.id, email: users.email, username: users.username })
+    // Check if user already exists by email
+    const existingByEmail = await db
+      .select({ id: users.id })
       .from(users)
-      .where(or(
-        eq(users.email, email),
-        username ? eq(users.username, username) : sql`false`
-      ));
-    
-    const existingUser = existingUsers[0];
+      .where(eq(users.email, email));
 
-    if (existingUser) {
-      return res.status(400).json({ message: 'User already exists with this email or username' });
+    if (existingByEmail.length > 0) {
+      return res.status(400).json({ message: 'User already exists with this email' });
     }
+
+    // Check username if provided
+    if (username && username.trim().length >= 3) {
+      const existingByUsername = await db
+        .select({ id: users.id })
+        .from(users)
+        .where(eq(users.username, username));
+
+      if (existingByUsername.length > 0) {
+        return res.status(400).json({ message: 'Username already taken' });
+      }
+    }
+
+
 
     // Check referral code if provided
     let referredBy: number | undefined;
