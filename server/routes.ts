@@ -31,6 +31,36 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Authentication routes
   app.use('/api/auth', authRoutes);
   
+  // AI Assistant endpoint
+  app.post('/api/ai-assistant', async (req, res) => {
+    try {
+      const { message, context } = req.body;
+      
+      if (!message || typeof message !== 'string') {
+        return res.status(400).json({ error: 'Message is required' });
+      }
+
+      const fallbackResponse = {
+        response: "I'm here to help with your HKT investment questions! I can assist with platform features, investment guidance, and real estate insights. Please provide your OpenAI API key to enable full AI assistance.",
+        suggestedActions: [
+          "How do I start investing in HKT?",
+          "Explain the property sharing model",
+          "Help with wallet connection",
+          "Show investment calculator"
+        ],
+        category: 'general'
+      };
+
+      res.json(fallbackResponse);
+    } catch (error) {
+      console.error('AI Assistant error:', error);
+      res.status(500).json({ 
+        error: 'AI assistance temporarily unavailable',
+        fallback: 'Please contact our support team for immediate help.'
+      });
+    }
+  });
+  
   // Email verification route (not under /api/auth)
   const emailVerifyRoutes = (await import('./email-verify')).default;
   app.use(emailVerifyRoutes);
