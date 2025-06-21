@@ -90,11 +90,12 @@ export default function Navigation() {
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center">
             <Link href="/" className="flex-shrink-0">
-              <img 
-                src="@assets/Home Krypto Logo_1750516529891.png" 
-                alt="Home Krypto Token" 
-                className="h-10 w-auto"
-              />
+              <div className="text-2xl font-bold text-primary flex items-center">
+                <div className="w-8 h-8 bg-gradient-to-br from-gray-400 to-gray-600 rounded-full mr-2 flex items-center justify-center">
+                  <span className="text-white font-bold text-sm">H</span>
+                </div>
+                HKT
+              </div>
             </Link>
             <div className="hidden md:block ml-10">
               <div className="flex items-baseline space-x-8">
