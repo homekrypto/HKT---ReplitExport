@@ -8,19 +8,27 @@ interface EmailConfig {
     user: string;
     pass: string;
   };
+  tls?: {
+    ciphers: string;
+    rejectUnauthorized: boolean;
+  };
 }
 
 const emailConfig: EmailConfig = {
   host: 'smtp.hostinger.com',
-  port: 465,
-  secure: true,
+  port: 587,
+  secure: false, // Use TLS instead of SSL
   auth: {
     user: 'support@homekrypto.com',
     pass: 'Masterdominikana32$',
   },
+  tls: {
+    ciphers: 'SSLv3',
+    rejectUnauthorized: false,
+  },
 };
 
-const transporter = nodemailer.createTransporter(emailConfig);
+const transporter = nodemailer.createTransport(emailConfig);
 
 // Verify SMTP connection on startup
 transporter.verify((error, success) => {
