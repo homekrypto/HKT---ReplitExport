@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { Language, translations, Translation } from '@/lib/i18n';
 
 export type Theme = 'light' | 'dark';
