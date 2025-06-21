@@ -22,6 +22,15 @@ const emailConfig: EmailConfig = {
 
 const transporter = nodemailer.createTransporter(emailConfig);
 
+// Verify SMTP connection on startup
+transporter.verify((error, success) => {
+  if (error) {
+    console.error('SMTP connection failed:', error);
+  } else {
+    console.log('SMTP server is ready to take our messages');
+  }
+});
+
 export interface EmailOptions {
   to: string;
   subject: string;
@@ -31,22 +40,37 @@ export interface EmailOptions {
 
 export async function sendEmail(options: EmailOptions): Promise<void> {
   try {
-    await transporter.sendMail({
-      from: 'support@homekrypto.com',
+    console.log(`Attempting to send email to ${options.to}`);
+    
+    const info = await transporter.sendMail({
+      from: '"Home Krypto Token Support" <support@homekrypto.com>',
       to: options.to,
       subject: options.subject,
       html: options.html,
       text: options.text,
     });
-    console.log(`Email sent successfully to ${options.to}`);
+    
+    console.log(`Email sent successfully to ${options.to}`, {
+      messageId: info.messageId,
+      response: info.response,
+    });
   } catch (error) {
     console.error('Failed to send email:', error);
-    throw new Error('Email delivery failed');
+    console.error('Email config:', {
+      host: emailConfig.host,
+      port: emailConfig.port,
+      secure: emailConfig.secure,
+      user: emailConfig.auth.user,
+    });
+    throw new Error(`Email delivery failed: ${error.message}`);
   }
 }
 
 export function generateVerificationEmailHtml(token: string, email: string): string {
-  const verificationUrl = `${process.env.APP_URL || 'http://localhost:5000'}/verify-email?token=${token}`;
+  const baseUrl = process.env.REPLIT_DOMAINS ? 
+    `https://${process.env.REPLIT_DOMAINS.split(',')[0]}` : 
+    'http://localhost:5000';
+  const verificationUrl = `${baseUrl}/verify-email?token=${token}`;
   
   return `
     <!DOCTYPE html>
@@ -105,7 +129,10 @@ export function generateVerificationEmailHtml(token: string, email: string): str
 }
 
 export function generatePasswordResetEmailHtml(token: string, email: string): string {
-  const resetUrl = `${process.env.APP_URL || 'http://localhost:5000'}/reset-password?token=${token}`;
+  const baseUrl = process.env.REPLIT_DOMAINS ? 
+    `https://${process.env.REPLIT_DOMAINS.split(',')[0]}` : 
+    'http://localhost:5000';
+  const resetUrl = `${baseUrl}/reset-password?token=${token}`;
   
   return `
     <!DOCTYPE html>

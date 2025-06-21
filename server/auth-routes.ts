@@ -129,14 +129,22 @@ router.post('/register', authLimiter, async (req, res) => {
     // Send verification email
     try {
       const { sendEmail, generateVerificationEmailHtml } = await import('./email');
+      console.log(`Sending verification email to ${email} with token ${verificationToken}`);
+      
       await sendEmail({
         to: email,
         subject: 'Verify Your Email - Home Krypto Token',
         html: generateVerificationEmailHtml(verificationToken, email),
-        text: `Please verify your email by visiting: ${process.env.APP_URL || 'http://localhost:5000'}/verify-email?token=${verificationToken}`,
+        text: `Please verify your email by visiting: ${process.env.REPLIT_DOMAINS ? `https://${process.env.REPLIT_DOMAINS.split(',')[0]}` : 'http://localhost:5000'}/verify-email?token=${verificationToken}`,
       });
+      
+      console.log(`Verification email sent successfully to ${email}`);
     } catch (emailError) {
       console.error('Failed to send verification email:', emailError);
+      console.error('Email error details:', {
+        message: emailError.message,
+        stack: emailError.stack,
+      });
       // Continue with registration even if email fails
     }
 
