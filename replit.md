@@ -113,6 +113,7 @@ This is a full-stack web application for HKT (Home Krypto Token), a blockchain-b
 - June 21, 2025. Added comprehensive multilingual support (6 languages) with dark/light theme functionality
 - June 21, 2025. Created "Our Mission" page with complete content sections, team information, and call-to-action
 - June 21, 2025. Implemented complete user authentication system with registration, login, logout, password reset, profile management, and optional Web3 MetaMask integration
+- June 21, 2025. Added Uniswap widget integration for direct HKT token purchases with professional trading interface
 
 ## User Preferences
 
