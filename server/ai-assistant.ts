@@ -60,6 +60,8 @@ IMPORTANT GUIDELINES:
 
 Current HKT details:
 - Token price: $0.152
+- Token contract: 0x0de50324B6960B15A5ceD3D076aE314ac174Da2e (ERC-20)
+- Total supply: 1,000,000,000 HKT
 - Monthly investment plans starting at $106.83
 - 52-week property sharing model
 - Vacation rental focus for pilot properties
@@ -78,7 +80,7 @@ User context:
       messages: [
         {
           role: "system",
-          content: systemPrompt + userContext
+          content: systemPrompt + userContext + "\n\nPlease respond in JSON format with the following structure: { \"response\": \"your helpful response\", \"suggestedActions\": [\"action1\", \"action2\"], \"category\": \"investment|platform|general|technical\" }"
         },
         {
           role: "user",

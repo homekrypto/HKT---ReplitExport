@@ -123,6 +123,7 @@ This is a full-stack web application for HKT (Home Krypto Token), a blockchain-b
 - June 21, 2025. Enhanced How It Works page - added comprehensive step-by-step investment process, pilot benefits section, and call-to-action with detailed property sharing model explanation
 - June 21, 2025. Implemented AI-powered help system - integrated OpenAI GPT-4o for intelligent user assistance with investment questions, platform guidance, and real estate insights
 - June 21, 2025. Added comprehensive legal and informational pages - Terms & Conditions, Privacy Policy, Whitepaper, FAQ, and Work With Us pages with professional content
+- June 21, 2025. Updated HKT token contract address to real Ethereum address (0x0de50324B6960B15A5ceD3D076aE314ac174Da2e), fixed footer year to 2025, improved subscription functionality, and added multi-wallet connection dropdown with MetaMask, WalletConnect, Coinbase Wallet, and Trust Wallet options
 
 ## User Preferences
 

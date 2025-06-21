@@ -288,12 +288,12 @@ contract PropertyInvestment {
                   <Label className="text-sm font-semibold">HKT Token Contract</Label>
                   <div className="flex items-center gap-2 mt-1">
                     <code className="bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded text-xs flex-1">
-                      0x742d35Cc6561C858eB688FA032A73d5e7c2a4A7f
+                      0x0de50324B6960B15A5ceD3D076aE314ac174Da2e
                     </code>
                     <Button 
                       variant="outline" 
                       size="sm"
-                      onClick={() => copyToClipboard('0x742d35Cc6561C858eB688FA032A73d5e7c2a4A7f', 'mainnet-token')}
+                      onClick={() => copyToClipboard('0x0de50324B6960B15A5ceD3D076aE314ac174Da2e', 'mainnet-token')}
                     >
                       {copiedCode === 'mainnet-token' ? <CheckCircle className="h-3 w-3" /> : <Copy className="h-3 w-3" />}
                     </Button>
