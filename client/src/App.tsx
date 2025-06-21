@@ -50,6 +50,7 @@ function Router() {
       <Route path="/work-with-us" component={WorkWithUs} />
       <Route path="/contact" component={Contact} />
       <Route path="/for-developers" component={ForDevelopers} />
+      <Route path="/pilot-property-showcase" component={PilotPropertyShowcase} />
       <Route path="/register-as-agent" component={RegisterAsAgent} />
       <Route path="/investment-growth-projection" component={InvestmentGrowthProjection} />
       <Route path="/login" component={Login} />

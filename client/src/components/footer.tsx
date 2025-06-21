@@ -50,16 +50,16 @@ export default function Footer() {
         { label: t.footer.howItWorks, href: '/how-it-works' },
         { label: t.footer.investmentPlans, href: '/buy-hkt' },
         { label: t.footer.propertyPortfolio, href: '/dashboard' },
-        { label: t.footer.tokenomics, href: '#' }
+        { label: 'Pilot Properties', href: '/pilot-property-showcase' }
       ]
     },
     {
       title: t.footer.resources,
       links: [
-        { label: t.footer.whitepaper, href: '#' },
-        { label: t.footer.smartContract, href: '#' },
-        { label: t.footer.auditReports, href: '#' },
-        { label: t.footer.faq, href: '#' }
+        { label: t.footer.whitepaper, href: '/whitepaper' },
+        { label: t.footer.faq, href: '/faq' },
+        { label: 'Work With Us', href: '/work-with-us' },
+        { label: 'Contact', href: '/contact' }
       ]
     },
     {
@@ -67,16 +67,18 @@ export default function Footer() {
       links: [
         { label: 'Terms & Conditions', href: '/terms-and-conditions' },
         { label: 'Privacy Policy', href: '/privacy-policy' },
-        { label: 'Whitepaper', href: '/whitepaper' },
-        { label: 'Contact', href: '/contact' }
+        { label: 'Our Mission', href: '/our-mission' },
+        { label: 'For Developers', href: '/for-developers' }
       ]
     }
   ];
 
   const socialLinks = [
-    { icon: 'fab fa-twitter', href: '#', label: 'Twitter' },
-    { icon: 'fab fa-discord', href: '#', label: 'Discord' },
-    { icon: 'fab fa-telegram', href: '#', label: 'Telegram' }
+    { icon: 'fab fa-facebook', href: 'https://www.facebook.com/profile.php?id=61576090167804', label: 'Facebook' },
+    { icon: 'fab fa-twitter', href: 'https://x.com/HomeKryptoToken', label: 'Twitter' },
+    { icon: 'fab fa-instagram', href: 'https://www.instagram.com/homekryptotoken/', label: 'Instagram' },
+    { icon: 'fab fa-telegram', href: 'http://t.me/homekryptotoken', label: 'Telegram' },
+    { icon: 'fab fa-facebook', href: 'https://www.facebook.com/groups/1826127334876593', label: 'Facebook Group' }
   ];
 
   return (
