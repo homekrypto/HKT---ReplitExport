@@ -194,7 +194,7 @@ export default function WorkWithUs() {
         </section>
 
         {/* Open Positions */}
-        <section className="mb-16">
+        <section id="open-positions" className="mb-16">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
               Open Positions
@@ -220,10 +220,12 @@ export default function WorkWithUs() {
                         </div>
                       </div>
                     </div>
-                    <Button>
-                      Apply Now
-                      <ExternalLink className="h-4 w-4 ml-2" />
-                    </Button>
+                    <Link href={`/job-application/${encodeURIComponent(position.title)}`}>
+                      <Button>
+                        Apply Now
+                        <ExternalLink className="h-4 w-4 ml-2" />
+                      </Button>
+                    </Link>
                   </div>
                 </CardHeader>
                 <CardContent>
