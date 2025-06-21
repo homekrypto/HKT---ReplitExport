@@ -1,19 +1,75 @@
-import { pgTable, text, serial, integer, boolean, decimal, timestamp } from "drizzle-orm/pg-core";
+import {
+  pgTable,
+  text,
+  varchar,
+  timestamp,
+  jsonb,
+  index,
+  serial,
+  decimal,
+  integer,
+  boolean,
+  uuid,
+} from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
+// Authentication tables
 export const users = pgTable("users", {
   id: serial("id").primaryKey(),
-  username: text("username").notNull().unique(),
-  password: text("password").notNull(),
-  walletAddress: text("wallet_address"),
+  email: varchar("email", { length: 255 }).unique().notNull(),
+  username: varchar("username", { length: 50 }).unique(),
+  firstName: varchar("first_name", { length: 100 }),
+  lastName: varchar("last_name", { length: 100 }),
+  passwordHash: varchar("password_hash", { length: 255 }),
+  walletAddress: varchar("wallet_address", { length: 42 }).unique(),
+  isEmailVerified: boolean("is_email_verified").default(false),
+  twoFactorEnabled: boolean("two_factor_enabled").default(false),
+  twoFactorSecret: varchar("two_factor_secret", { length: 32 }),
+  profileImageUrl: varchar("profile_image_url", { length: 500 }),
+  referralCode: varchar("referral_code", { length: 20 }).unique(),
+  referredBy: integer("referred_by").references(() => users.id),
+  loginAttempts: integer("login_attempts").default(0),
+  lockoutUntil: timestamp("lockout_until"),
+  lastLoginAt: timestamp("last_login_at"),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+export const sessions = pgTable("sessions", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  userId: integer("user_id").notNull().references(() => users.id),
+  token: varchar("token", { length: 255 }).notNull().unique(),
+  expiresAt: timestamp("expires_at").notNull(),
+  createdAt: timestamp("created_at").defaultNow(),
+  lastUsedAt: timestamp("last_used_at").defaultNow(),
+  userAgent: text("user_agent"),
+  ipAddress: varchar("ip_address", { length: 45 }),
+});
+
+export const passwordResets = pgTable("password_resets", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  userId: integer("user_id").notNull().references(() => users.id),
+  token: varchar("token", { length: 255 }).notNull().unique(),
+  expiresAt: timestamp("expires_at").notNull(),
+  used: boolean("used").default(false),
   createdAt: timestamp("created_at").defaultNow(),
 });
 
+export const emailVerifications = pgTable("email_verifications", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  userId: integer("user_id").notNull().references(() => users.id),
+  token: varchar("token", { length: 255 }).notNull().unique(),
+  expiresAt: timestamp("expires_at").notNull(),
+  verified: boolean("verified").default(false),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+// Business tables
 export const investments = pgTable("investments", {
   id: serial("id").primaryKey(),
   userId: integer("user_id").references(() => users.id),
-  walletAddress: text("wallet_address").notNull(),
+  walletAddress: varchar("wallet_address", { length: 42 }).notNull(),
   monthlyAmount: decimal("monthly_amount", { precision: 10, scale: 2 }).notNull(),
   totalInvested: decimal("total_invested", { precision: 10, scale: 2 }).notNull(),
   hktTokens: decimal("hkt_tokens", { precision: 18, scale: 8 }).notNull(),
@@ -48,18 +104,46 @@ export const hktStats = pgTable("hkt_stats", {
 
 export const subscribers = pgTable("subscribers", {
   id: serial("id").primaryKey(),
-  email: text("email").notNull().unique(),
-  isActive: boolean("is_active").default(true),
-  subscribedAt: timestamp("subscribed_at").defaultNow(),
+  email: varchar("email", { length: 255 }).unique().notNull(),
+  createdAt: timestamp("created_at").defaultNow(),
 });
 
-export const insertUserSchema = createInsertSchema(users).pick({
-  username: true,
-  password: true,
-  walletAddress: true,
+// Validation schemas
+export const insertUserSchema = createInsertSchema(users).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+  isEmailVerified: true,
+  twoFactorEnabled: true,
+  twoFactorSecret: true,
+  profileImageUrl: true,
+  loginAttempts: true,
+  lockoutUntil: true,
+  lastLoginAt: true,
+});
+
+export const insertSessionSchema = createInsertSchema(sessions).pick({
+  userId: true,
+  token: true,
+  expiresAt: true,
+  userAgent: true,
+  ipAddress: true,
+});
+
+export const insertPasswordResetSchema = createInsertSchema(passwordResets).pick({
+  userId: true,
+  token: true,
+  expiresAt: true,
+});
+
+export const insertEmailVerificationSchema = createInsertSchema(emailVerifications).pick({
+  userId: true,
+  token: true,
+  expiresAt: true,
 });
 
 export const insertInvestmentSchema = createInsertSchema(investments).pick({
+  userId: true,
   walletAddress: true,
   monthlyAmount: true,
   totalInvested: true,
@@ -92,8 +176,16 @@ export const insertSubscriberSchema = createInsertSchema(subscribers).pick({
   email: true,
 });
 
+// Type exports
 export type User = typeof users.$inferSelect;
 export type InsertUser = z.infer<typeof insertUserSchema>;
+export type Session = typeof sessions.$inferSelect;
+export type InsertSession = z.infer<typeof insertSessionSchema>;
+export type PasswordReset = typeof passwordResets.$inferSelect;
+export type InsertPasswordReset = z.infer<typeof insertPasswordResetSchema>;
+export type EmailVerification = typeof emailVerifications.$inferSelect;
+export type InsertEmailVerification = z.infer<typeof insertEmailVerificationSchema>;
+
 export type Investment = typeof investments.$inferSelect;
 export type InsertInvestment = z.infer<typeof insertInvestmentSchema>;
 export type QuarterlyData = typeof quarterlyData.$inferSelect;

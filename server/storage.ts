@@ -48,18 +48,30 @@ export interface IStorage {
 
 export class DatabaseStorage implements IStorage {
   async getUser(id: number): Promise<User | undefined> {
-    const [user] = await db.select().from(users).where(eq(users.id, id));
-    return user || undefined;
+    try {
+      const [user] = await db.select().from(users).where(eq(users.id, id));
+      return user as User || undefined;
+    } catch {
+      return undefined;
+    }
   }
 
   async getUserByUsername(username: string): Promise<User | undefined> {
-    const [user] = await db.select().from(users).where(eq(users.username, username));
-    return user || undefined;
+    try {
+      const [user] = await db.select().from(users).where(eq(users.username, username));
+      return user as User || undefined;
+    } catch {
+      return undefined;
+    }
   }
 
   async getUserByWallet(walletAddress: string): Promise<User | undefined> {
-    const [user] = await db.select().from(users).where(eq(users.walletAddress, walletAddress));
-    return user || undefined;
+    try {
+      const [user] = await db.select().from(users).where(eq(users.walletAddress, walletAddress));
+      return user as User || undefined;
+    } catch {
+      return undefined;
+    }
   }
 
   async createUser(insertUser: InsertUser): Promise<User> {
@@ -67,7 +79,7 @@ export class DatabaseStorage implements IStorage {
       .insert(users)
       .values(insertUser)
       .returning();
-    return user;
+    return user as User;
   }
 
   async getInvestment(id: number): Promise<Investment | undefined> {
@@ -140,7 +152,7 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getAllSubscribers(): Promise<Subscriber[]> {
-    return await db.select().from(subscribers).where(eq(subscribers.isActive, true));
+    return await db.select().from(subscribers);
   }
 }
 

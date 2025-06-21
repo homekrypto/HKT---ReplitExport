@@ -5,6 +5,31 @@ import { insertInvestmentSchema, insertQuarterlyDataSchema, insertSubscriberSche
 import { z } from "zod";
 
 export async function registerRoutes(app: Express): Promise<Server> {
+  // Security middleware
+  const helmet = (await import('helmet')).default;
+  const cookieParser = (await import('cookie-parser')).default;
+  const authRoutes = (await import('./auth-routes')).default;
+  
+  app.use(helmet({
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
+        scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'"],
+        fontSrc: ["'self'", "https://fonts.gstatic.com"],
+        imgSrc: ["'self'", "data:", "https:", "blob:"],
+        connectSrc: ["'self'", "ws:", "wss:"],
+        manifestSrc: ["'self'"],
+        frameSrc: ["'none'"],
+      },
+    },
+    crossOriginEmbedderPolicy: false,
+  }));
+
+  app.use(cookieParser());
+
+  // Authentication routes
+  app.use('/api/auth', authRoutes);
   // HKT Stats endpoint
   app.get("/api/hkt-stats", async (req, res) => {
     try {

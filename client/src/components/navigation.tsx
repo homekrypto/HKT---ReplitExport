@@ -1,9 +1,12 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'wouter';
 import { Button } from '@/components/ui/button';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { web3Service, type Web3State } from '@/lib/web3';
 import { useApp } from '@/contexts/AppContext';
-import { Wallet, Menu, X } from 'lucide-react';
+import { useAuth } from '@/hooks/useAuth';
+import { Wallet, Menu, X, User, Settings, LogOut, ChevronDown } from 'lucide-react';
 
 export default function Navigation() {
   const [location] = useLocation();
@@ -11,6 +14,7 @@ export default function Navigation() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isConnecting, setIsConnecting] = useState(false);
   const { t } = useApp();
+  const { user, isAuthenticated, logout } = useAuth();
 
   useEffect(() => {
     const unsubscribe = web3Service.subscribe(setWeb3State);
@@ -30,13 +34,54 @@ export default function Navigation() {
     }
   };
 
-  const navLinks = [
+  const publicNavLinks = [
     { href: '/', label: t.nav.home, active: location === '/' },
     { href: '/our-mission', label: 'Our Mission', active: location === '/our-mission' },
     { href: '/how-it-works', label: t.nav.howItWorks, active: location === '/how-it-works' },
+  ];
+
+  const authenticatedNavLinks = [
+    ...publicNavLinks,
     { href: '/buy-hkt', label: t.nav.buyHkt, active: location === '/buy-hkt' },
     { href: '/dashboard', label: t.nav.dashboard, active: location === '/dashboard' },
   ];
+
+  const navLinks = isAuthenticated ? authenticatedNavLinks : publicNavLinks;
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+      setIsMenuOpen(false);
+    } catch (error) {
+      console.error('Logout failed:', error);
+    }
+  };
+
+  const getUserDisplayName = () => {
+    if (user?.firstName && user?.lastName) {
+      return `${user.firstName} ${user.lastName}`;
+    }
+    if (user?.username) {
+      return user.username;
+    }
+    if (user?.email) {
+      return user.email.split('@')[0];
+    }
+    return 'User';
+  };
+
+  const getUserInitials = () => {
+    if (user?.firstName && user?.lastName) {
+      return `${user.firstName[0]}${user.lastName[0]}`.toUpperCase();
+    }
+    if (user?.username) {
+      return user.username.slice(0, 2).toUpperCase();
+    }
+    if (user?.email) {
+      return user.email.slice(0, 2).toUpperCase();
+    }
+    return 'U';
+  };
 
   return (
     <nav className="bg-white dark:bg-gray-900 shadow-lg sticky top-0 z-50 border-b border-gray-200 dark:border-gray-800">
@@ -66,22 +111,79 @@ export default function Navigation() {
           </div>
 
           <div className="flex items-center space-x-4">
-            <Button
-              onClick={handleConnectWallet}
-              disabled={isConnecting}
-              className={`${
-                web3State.isConnected
-                  ? 'bg-secondary hover:bg-green-700'
-                  : 'bg-primary hover:bg-blue-700'
-              } text-white font-medium transition-colors`}
-            >
-              <Wallet className="w-4 h-4 mr-2" />
-              {isConnecting
-                ? 'Connecting...'
-                : web3State.isConnected && web3State.address
-                ? web3Service.formatAddress(web3State.address)
-                : t.nav.connectWallet}
-            </Button>
+            {!isAuthenticated ? (
+              <div className="flex items-center space-x-2">
+                <Button variant="outline" asChild>
+                  <Link href="/login">Sign In</Link>
+                </Button>
+                <Button asChild>
+                  <Link href="/register">Sign Up</Link>
+                </Button>
+              </div>
+            ) : (
+              <div className="flex items-center space-x-4">
+                {!user?.walletAddress && (
+                  <Button
+                    onClick={handleConnectWallet}
+                    disabled={isConnecting}
+                    variant="outline"
+                    size="sm"
+                    className="hidden md:flex"
+                  >
+                    <Wallet className="w-4 h-4 mr-2" />
+                    {isConnecting
+                      ? 'Connecting...'
+                      : web3State.isConnected && web3State.address
+                      ? web3Service.formatAddress(web3State.address)
+                      : 'Connect Wallet'}
+                  </Button>
+                )}
+
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" className="flex items-center space-x-2 p-2">
+                      <Avatar className="h-8 w-8">
+                        <AvatarImage src={user?.profileImageUrl} />
+                        <AvatarFallback className="text-xs">
+                          {getUserInitials()}
+                        </AvatarFallback>
+                      </Avatar>
+                      <span className="hidden md:block font-medium">
+                        {getUserDisplayName()}
+                      </span>
+                      <ChevronDown className="h-4 w-4" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="w-56">
+                    <div className="px-2 py-1.5">
+                      <p className="text-sm font-medium">{getUserDisplayName()}</p>
+                      <p className="text-xs text-muted-foreground">{user?.email}</p>
+                    </div>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem asChild>
+                      <Link href="/dashboard" className="flex items-center cursor-pointer">
+                        <User className="mr-2 h-4 w-4" />
+                        Dashboard
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link href="/profile" className="flex items-center cursor-pointer">
+                        <Settings className="mr-2 h-4 w-4" />
+                        Profile Settings
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem
+                      onClick={handleLogout}
+                      className="flex items-center cursor-pointer text-red-600 focus:text-red-600"
+                    >
+                      <LogOut className="mr-2 h-4 w-4" />
+                      Logout
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
+            )}
 
             <button
               className="md:hidden text-gray-700 dark:text-gray-300"
@@ -110,6 +212,47 @@ export default function Navigation() {
                   {link.label}
                 </Link>
               ))}
+              
+              {!isAuthenticated ? (
+                <div className="border-t border-gray-200 dark:border-gray-800 pt-3 mt-3 space-y-2">
+                  <Link
+                    href="/login"
+                    className="block px-3 py-2 text-gray-700 dark:text-gray-300 hover:text-primary"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    Sign In
+                  </Link>
+                  <Link
+                    href="/register"
+                    className="block px-3 py-2 text-primary font-medium"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    Sign Up
+                  </Link>
+                </div>
+              ) : (
+                <div className="border-t border-gray-200 dark:border-gray-800 pt-3 mt-3 space-y-2">
+                  <div className="px-3 py-2">
+                    <p className="text-sm font-medium text-gray-900 dark:text-white">
+                      {getUserDisplayName()}
+                    </p>
+                    <p className="text-xs text-gray-500">{user?.email}</p>
+                  </div>
+                  <Link
+                    href="/profile"
+                    className="block px-3 py-2 text-gray-700 dark:text-gray-300 hover:text-primary"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    Profile Settings
+                  </Link>
+                  <button
+                    onClick={handleLogout}
+                    className="block w-full text-left px-3 py-2 text-red-600 hover:text-red-700"
+                  >
+                    Logout
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         )}
