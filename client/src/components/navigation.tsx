@@ -6,6 +6,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { web3Service, type Web3State } from '@/lib/web3';
 import { useApp } from '@/contexts/AppContext';
 import { useAuth } from '@/hooks/useAuth';
+import WalletConnectDropdown from './wallet-connect-dropdown';
 import { Wallet, Menu, X, User, Settings, LogOut, ChevronDown } from 'lucide-react';
 
 export default function Navigation() {

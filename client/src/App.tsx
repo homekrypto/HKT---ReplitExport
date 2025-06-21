@@ -47,7 +47,9 @@ function Router() {
       <Route path="/profile" component={Profile} />
       <Route path="/terms-and-conditions" component={TermsAndConditions} />
       <Route path="/privacy-policy" component={PrivacyPolicy} />
+      <Route path="/homekrypto-whitepaper" component={Whitepaper} />
       <Route path="/whitepaper" component={Whitepaper} />
+      <Route path="/frequently-asked-questions" component={FAQ} />
       <Route path="/faq" component={FAQ} />
       <Route path="/work-with-us" component={WorkWithUs} />
       <Route path="/contact" component={Contact} />

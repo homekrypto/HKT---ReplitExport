@@ -2,6 +2,7 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { insertInvestmentSchema, insertQuarterlyDataSchema, insertSubscriberSchema } from "@shared/schema";
+import { getAIAssistance } from "./ai-assistant";
 import { z } from "zod";
 
 export async function registerRoutes(app: Express): Promise<Server> {
@@ -40,18 +41,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ error: 'Message is required' });
       }
 
-      const fallbackResponse = {
-        response: "I'm here to help with your HKT investment questions! I can assist with platform features, investment guidance, and real estate insights. Please provide your OpenAI API key to enable full AI assistance.",
-        suggestedActions: [
-          "How do I start investing in HKT?",
-          "Explain the property sharing model",
-          "Help with wallet connection",
-          "Show investment calculator"
-        ],
-        category: 'general'
-      };
+      const aiResponse = await getAIAssistance({
+        message,
+        context: {
+          currentPage: context?.currentPage,
+          userId: req.user?.id,
+          userInvestments: context?.userInvestments
+        }
+      });
 
-      res.json(fallbackResponse);
+      res.json(aiResponse);
     } catch (error) {
       console.error('AI Assistant error:', error);
       res.status(500).json({ 
@@ -217,19 +216,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Check if email already exists
       const existingSubscriber = await storage.getSubscriberByEmail(email);
       if (existingSubscriber) {
-        return res.status(400).json({ message: "Email is already subscribed" });
+        return res.status(200).json({ message: "You are already subscribed to our newsletter!" });
       }
 
       const subscriber = await storage.createSubscriber({ email });
       res.status(201).json({ 
-        message: "Successfully subscribed to HKT updates",
+        message: "Successfully subscribed to our newsletter!",
         subscriber: { id: subscriber.id, email: subscriber.email }
       });
     } catch (error) {
       if (error instanceof z.ZodError) {
         return res.status(400).json({ message: "Invalid email address", errors: error.errors });
       }
-      res.status(500).json({ message: "Failed to subscribe" });
+      res.status(500).json({ message: "Failed to subscribe. Please try again." });
     }
   });
 
