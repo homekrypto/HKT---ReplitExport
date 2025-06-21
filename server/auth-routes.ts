@@ -3,7 +3,7 @@ import { z } from 'zod';
 import { authLimiter, generalLimiter, csrfProtection, xssProtection } from './auth-utils';
 import { db } from './db';
 import { users, type InsertUser } from '@shared/schema';
-import { eq, or } from 'drizzle-orm';
+import { eq, or, sql } from 'drizzle-orm';
 import {
   hashPassword,
   verifyPassword,
@@ -78,13 +78,15 @@ router.post('/register', authLimiter, async (req, res) => {
     const { email, password, username, firstName, lastName, referralCode } = registerSchema.parse(req.body);
 
     // Check if user already exists
-    const [existingUser] = await db
-      .select({ id: users.id })
+    const existingUsers = await db
+      .select({ id: users.id, email: users.email, username: users.username })
       .from(users)
       .where(or(
         eq(users.email, email),
-        username ? eq(users.username, username) : undefined
-      ).filter(Boolean));
+        username ? eq(users.username, username) : sql`false`
+      ));
+    
+    const existingUser = existingUsers[0];
 
     if (existingUser) {
       return res.status(400).json({ message: 'User already exists with this email or username' });
