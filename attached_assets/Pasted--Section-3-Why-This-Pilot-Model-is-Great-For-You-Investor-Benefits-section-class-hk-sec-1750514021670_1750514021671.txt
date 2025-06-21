@@ -1,0 +1,56 @@
+<!-- Section 3: Why This Pilot Model is Great For You (Investor Benefits) -->
+<section class="hk-section hk-pilot-benefits-section">
+    <div class="hk-dark-container">
+        <h2 class="hk-section-title inline-border">The Home Krypto Pilot: Smart Ownership, Flexible Investing</h2>
+        <div class="hk-benefits-list">
+
+            <div class="hk-benefit-block">
+                <div class="hk-benefit-icon-small"><i class="fas fa-piggy-bank"></i></div>
+                <div class="hk-benefit-block-content">
+                    <h4>Affordable Vacation Home Access</h4>
+                    <p>Own a guaranteed week in a high-demand tourist spot for a fraction of the cost of buying a whole vacation property.</p>
+                </div>
+            </div>
+
+            <div class="hk-benefit-block">
+                <div class="hk-benefit-icon-small"><i class="fas fa-seedling"></i></div>
+                <div class="hk-benefit-block-content">
+                    <h4>Invest & Grow Steadily</h4>
+                    <p>Think of your monthly HKT purchases as a dual-benefit strategy: investing in crypto (HKT) and progressively building towards tangible real estate ownership.</p>
+                </div>
+            </div>
+
+            <div class="hk-benefit-block">
+                <div class="hk-benefit-icon-small"><i class="fas fa-exchange-alt"></i></div>
+                <div class="hk-benefit-block-content">
+                    <h4>Flexible Use & Income Potential</h4>
+                    <p>Enjoy your week, or turn it into an income-generating asset by renting it out.</p>
+                </div>
+            </div>
+
+            <div class="hk-benefit-block">
+                <div class="hk-benefit-icon-small"><i class="fas fa-gavel"></i></div>
+                <div class="hk-benefit-block-content">
+                    <h4>True Ownership, Not Timeshare</h4>
+                    <p>You own a real share of the property, recorded on the blockchain, with potential for value appreciation.</p>
+                </div>
+            </div>
+            
+            <div class="hk-benefit-block">
+                <div class="hk-benefit-icon-small"><i class="fas fa-globe-americas"></i></div>
+                <div class="hk-benefit-block-content">
+                    <h4>Expanding Global Network (Future Vision)</h4> 
+                    <p>Our vision includes partnering with leading real estate agents worldwide for a growing selection of prime properties.</p>
+                </div>
+            </div>
+
+            <div class="hk-benefit-block">
+                <div class="hk-benefit-icon-small"><i class="fas fa-tasks"></i></div>
+                <div class="hk-benefit-block-content">
+                    <h4>Simplified Investing with HKT</h4>
+                    <p>Transparent blockchain records and a platform designed for ease of use.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

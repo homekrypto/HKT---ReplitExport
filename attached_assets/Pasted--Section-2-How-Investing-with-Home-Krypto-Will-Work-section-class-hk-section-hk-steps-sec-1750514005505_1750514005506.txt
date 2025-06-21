@@ -1,0 +1,44 @@
+<!-- Section 2: How Investing with Home Krypto Will Work -->
+<section class="hk-section hk-steps-section" style="background-color: #1e1e1e;">
+    <div class="hk-dark-container">
+        <h2 class="hk-section-title inline-border">Your Journey to Property Shares: Step-by-Step with HKT (Our Pilot Model & Beyond)</h2>
+        <div class="hk-steps-grid">
+
+            <div class="hk-step-item">
+                <div class="hk-step-icon"><i class="fas fa-search-location"></i></div>
+                <h3>1. We Source High-Potential Properties</h3>
+                <p>Home Krypto's team will identify properties with strong investment potential. Our initial focus is on high-demand locations worldwide, especially those effective for short-term rental income. For example, our pilot vision centers on a property in a popular tourist destination, ideal for vacation stays. In the future, we plan to expand our network by registering and collaborating with top real estate agents globally to bring you the best opportunities.</p>
+            </div>
+
+            <div class="hk-step-item">
+                <div class="hk-step-icon"><i class="fas fa-calendar-week"></i></div>
+                <h3>2. Properties are Divided into Affordable "Slices" (Shares)</h3>
+                <p>The chosen property (e.g., an apartment valued at $200,000 in our pilot concept) is then structured for shared ownership. In our pilot model, this means dividing ownership into 52 shares – with each share representing the right to use the property for one week per year, or to benefit from its rental. This 'slicing' makes prime real estate accessible.</p>
+            </div>
+
+            <div class="hk-step-item">
+                <div class="hk-step-icon"><i class="fas fa-coins"></i></div>
+                <h3>3. Choose Your Share(s) & Invest with HKT</h3>
+                <p>You'll explore properties on our platform. Once live, select the property (or specific weeks in our pilot model) and decide how many HKT shares you want to purchase. The beauty is, you can start small! Acquiring HKT tokens monthly, even with amounts like $100-$200, is like building your crypto investment portfolio <em>and</em> steadily working towards owning a tangible property share. Over time, these regular contributions can accumulate into full ownership of one or more property shares (weeks).</p>
+            </div>
+
+            <div class="hk-step-item">
+                <div class="hk-step-icon"><i class="fas fa-key"></i></div>
+                <h3>4. You Own a Piece of Real Estate!</h3>
+                <p>Congratulations! You now own a real share of the property. Your ownership, represented by HKT, is transparently and securely recorded on the blockchain.</p>
+            </div>
+
+            <div class="hk-step-item">
+                <div class="hk-step-icon"><i class="fas fa-umbrella-beach"></i></div>
+                <h3>5. Enjoy the Benefits of Your Share</h3>
+                <p>As an HKT shareholder in a property like our pilot:
+                    <ul>
+                        <li><strong>Use Your Week:</strong> Enjoy staying at the property during your allocated week(s).</li>
+                        <li><strong>Earn Rental Income:</strong> If you choose not to use your week(s), opt to rent it out and receive your portion of the rental profit.</li>
+                        <li><strong>Potential Value Growth:</strong> If the property's value increases, your share's value could also increase.</li>
+                    </ul>
+                </p>
+            </div>
+        </div>
+    </div>
+</section>

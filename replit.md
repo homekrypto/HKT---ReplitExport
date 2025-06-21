@@ -120,6 +120,7 @@ This is a full-stack web application for HKT (Home Krypto Token), a blockchain-b
 - June 21, 2025. Homepage optimized - leadership team removed from Our Mission page, duplicate investment calculator removed from hero section, dark theme set as default with pure black background and high contrast text
 - June 21, 2025. Fixed Investment Calculator theme compatibility - improved visibility on both light and dark themes with proper contrast colors
 - June 21, 2025. Email verification system debugged - fixed SQL syntax errors and database query structure
+- June 21, 2025. Enhanced How It Works page - added comprehensive step-by-step investment process, pilot benefits section, and call-to-action with detailed property sharing model explanation
 
 ## User Preferences
 

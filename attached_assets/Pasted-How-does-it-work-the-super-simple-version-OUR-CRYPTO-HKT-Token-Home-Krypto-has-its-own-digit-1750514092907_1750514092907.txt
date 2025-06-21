@@ -1,0 +1,131 @@
+How does it work (the super simple version)?
+
+OUR CRYPTO (HKT Token):
+
+Home Krypto has its own digital money called "HKT". This is what you'll use on their website (the platform) to buy these tiny pieces of property.
+
+There's a limited amount of HKT, like there are only so many rare baseball cards. If lots of people want HKT to buy property pieces, the HKT itself might become more valuable over time (but no guarantees!).
+
+Finding Property Slices:
+
+Real estate agents will list properties on the Home Krypto website.
+
+Home Krypto checks these properties out to make sure they're legit.
+
+Each property is then "cut up" into many small digital pieces that people can buy.
+
+Buying Your Slice:
+
+You first get some HKT tokens (you can buy them during special sales or later on).
+
+You look through the properties on the Home Krypto website.
+
+You pick a property you like and decide how many "slices" you want to buy using your HKT tokens.
+
+All of this buying and selling is recorded securely on something called a "blockchain" – it's like a super public and unchangeable digital notebook that everyone can see, so it's transparent.
+
+What Happens After You Buy?
+
+You own a bit: You now officially own a tiny piece of that property!
+
+Share the rent: If the property is rented out, you get your share of the rental income (minus some fees for managing the property). More slices = bigger share of the rent.
+
+Value might go up (or down): If the property becomes more valuable over time, your little slice also becomes more valuable. (Of course, property values can also go down.)
+
+(Future Idea) Sell your slice: Later on, Home Krypto wants to make it easy for you to sell your property slices to other people if you want.
+
+Why is this cool for regular people?
+
+Start Small: You don't need hundreds of thousands of dollars to get into real estate. You can start with a much smaller amount of money by buying just a few HKT tokens.
+
+Lots of Choices: You can own tiny bits of different properties in different cities or even countries. It’s like not putting all your eggs in one basket.
+
+Easier & Faster (Hopefully!): Using HKT and blockchain aims to make the whole process of buying and selling property pieces smoother and quicker than the old-fashioned way.
+
+Clear & Open: Because it uses blockchain, things are meant to be more transparent. You can see where the money and ownership goes.
+
+What's in it for Real Estate Agents?
+
+They get to show their properties to a whole new bunch of people (crypto folks and small investors).
+
+They can earn some HKT tokens for bringing new investors to the platform.
+
+It's a new way for them to sell properties.
+
+The Big Dream (Long-Term):
+
+Home Krypto wants HKT to become a major digital currency used all over the world for buying and investing in real estate easily and openly, maybe even without using normal money like dollars or euros as much for these deals.
+
+  
+  
+    HKT Token Price Projections (Years 6-10)
+  
+  
+  
+    
+    
+      Year 6
+      $2
+      Adoption Growth
+    
+    
+    
+    
+      Year 7
+      $10
+      Mainstream Adoption
+    
+    
+    
+    
+      Year 8
+      $15
+      Ecosystem Expansion
+    
+    
+    
+    
+      Year 9
+      $20
+      Market Leadership
+    
+    
+    
+    
+      Year 10
+      $25
+      Mature Asset Class
+    
+  
+  
+  
+    
+      
+        
+      
+      Growth Trajectory Overview
+    
+    
+      This projection anticipates accelerating adoption of the Home Krypto ecosystem, with the HKT token reaching $2 by Year 6 as adoption grows, then experiencing exponential growth to $10 in Year 7 as mainstream adoption accelerates. The later years project continued appreciation to $25 by Year 10 as the token establishes itself as a mature digital asset class for fractional real estate ownership.
+    
+  
+  
+  
+    This projection is hypothetical and intended for illustrative purposes only. Actual results may vary significantly based on market conditions, adoption rates, and other factors.
+  
+
+🔰 How to Buy Home Krypto Token (HKT) on Uniswap
+
+Install MetaMask
+Download MetaMask from https://metamask.io and fund it with some ETH.
+
+Click this link to open Uniswap:
+👉 Buy HKT on Uniswap
+
+Connect your wallet (top-right corner).
+
+Enter the amount of ETH you want to swap and click Swap.
+
+Confirm the transaction in MetaMask.
+
+Done! HKT will appear in your wallet once the transaction is confirmed.
