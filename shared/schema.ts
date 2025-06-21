@@ -14,7 +14,7 @@ import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
 // User storage table with authentication
-export const users = pgTable("users", {
+export const users: any = pgTable("users", {
   id: serial("id").primaryKey(),
   email: varchar("email", { length: 255 }).unique().notNull(),
   username: varchar("username", { length: 50 }).unique(),
@@ -26,7 +26,7 @@ export const users = pgTable("users", {
   emailVerified: boolean("email_verified").default(false),
   twoFactorEnabled: boolean("two_factor_enabled").default(false),
   referralCode: varchar("referral_code", { length: 20 }),
-  referredBy: integer("referred_by").references(() => users.id),
+  referredBy: integer("referred_by").references((): any => users.id),
   lastLoginAt: timestamp("last_login_at"),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
@@ -118,9 +118,56 @@ export const subscribers = pgTable("subscribers", {
 });
 
 export const insertUserSchema = createInsertSchema(users).pick({
+  email: true,
   username: true,
-  password: true,
+  passwordHash: true,
   walletAddress: true,
+});
+
+// Auth schemas
+export const registerUserSchema = z.object({
+  email: z.string().email(),
+  username: z.string().min(3).max(50).optional(),
+  password: z.string().min(6),
+  confirmPassword: z.string().min(6),
+  walletAddress: z.string().optional(),
+  firstName: z.string().max(100).optional(),
+  lastName: z.string().max(100).optional(),
+  referralCode: z.string().optional(),
+}).refine((data) => data.password === data.confirmPassword, {
+  message: "Passwords don't match",
+  path: ["confirmPassword"],
+});
+
+export const loginSchema = z.object({
+  email: z.string().email(),
+  password: z.string(),
+  rememberMe: z.boolean().optional(),
+});
+
+export const forgotPasswordSchema = z.object({
+  email: z.string().email(),
+});
+
+export const resetPasswordSchema = z.object({
+  token: z.string(),
+  password: z.string().min(6),
+  confirmPassword: z.string().min(6),
+}).refine((data) => data.password === data.confirmPassword, {
+  message: "Passwords don't match",
+  path: ["confirmPassword"],
+});
+
+export const changePasswordSchema = z.object({
+  currentPassword: z.string(),
+  newPassword: z.string().min(6),
+});
+
+export const updateProfileSchema = z.object({
+  firstName: z.string().max(100).optional(),
+  lastName: z.string().max(100).optional(),
+  username: z.string().min(3).max(50).optional(),
+  profileImageUrl: z.string().url().optional(),
 });
 
 export const insertInvestmentSchema = createInsertSchema(investments).pick({
@@ -166,3 +213,11 @@ export type HktStats = typeof hktStats.$inferSelect;
 export type InsertHktStats = z.infer<typeof insertHktStatsSchema>;
 export type Subscriber = typeof subscribers.$inferSelect;
 export type InsertSubscriber = z.infer<typeof insertSubscriberSchema>;
+
+// Additional auth types for frontend
+export type RegisterUser = z.infer<typeof registerUserSchema>;
+export type LoginUser = z.infer<typeof loginSchema>;
+export type ForgotPasswordForm = z.infer<typeof forgotPasswordSchema>;
+export type ResetPasswordForm = z.infer<typeof resetPasswordSchema>;
+export type ChangePasswordForm = z.infer<typeof changePasswordSchema>;
+export type UpdateProfileForm = z.infer<typeof updateProfileSchema>;

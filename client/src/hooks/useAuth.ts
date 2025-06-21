@@ -184,26 +184,17 @@ export function useAuth(): AuthState & {
     login: async (data: LoginUser) => {
       await loginMutation.mutateAsync(data);
     },
-    logout: async () => {
-      await logoutMutation.mutateAsync();
+    logout: () => {
+      logoutMutation.mutate();
+    },
+    refreshTokens: async () => {
+      await refreshTokenMutation.mutateAsync();
     },
     forgotPassword: async (email: string) => {
       await forgotPasswordMutation.mutateAsync(email);
     },
     resetPassword: async (token: string, password: string, confirmPassword: string) => {
       await resetPasswordMutation.mutateAsync({ token, password, confirmPassword });
-    },
-    changePassword: async (currentPassword: string, newPassword: string, confirmPassword: string) => {
-      await changePasswordMutation.mutateAsync({ currentPassword, newPassword, confirmPassword });
-    },
-    updateProfile: async (data: Partial<User>) => {
-      await updateProfileMutation.mutateAsync(data);
-    },
-    connectWallet: async (walletAddress: string) => {
-      await connectWalletMutation.mutateAsync(walletAddress);
-    },
-    refreshToken: async () => {
-      await refreshTokenMutation.mutateAsync();
     },
   };
 }

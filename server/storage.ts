@@ -4,6 +4,9 @@ import {
   quarterlyData, 
   hktStats,
   subscribers,
+  emailVerificationTokens,
+  passwordResetTokens,
+  userSessions,
   type User, 
   type InsertUser, 
   type Investment, 
@@ -66,45 +69,45 @@ export interface IStorage {
 
 export class DatabaseStorage implements IStorage {
   async getUser(id: number): Promise<User | undefined> {
-    const [user] = await db.select().from(users).where(eq(users.id, id));
-    return user || undefined;
+    const result = await db.select().from(users).where(eq(users.id, id));
+    return result[0] || undefined;
   }
 
   async getUserByEmail(email: string): Promise<User | undefined> {
-    const [user] = await db.select().from(users).where(eq(users.email, email));
-    return user || undefined;
+    const result = await db.select().from(users).where(eq(users.email, email));
+    return result[0] || undefined;
   }
 
   async getUserByUsername(username: string): Promise<User | undefined> {
-    const [user] = await db.select().from(users).where(eq(users.username, username));
-    return user || undefined;
+    const result = await db.select().from(users).where(eq(users.username, username));
+    return result[0] || undefined;
   }
 
   async getUserByWallet(walletAddress: string): Promise<User | undefined> {
-    const [user] = await db.select().from(users).where(eq(users.walletAddress, walletAddress));
-    return user || undefined;
+    const result = await db.select().from(users).where(eq(users.walletAddress, walletAddress));
+    return result[0] || undefined;
   }
 
   async getUserByReferralCode(referralCode: string): Promise<User | undefined> {
-    const [user] = await db.select().from(users).where(eq(users.referralCode, referralCode));
-    return user || undefined;
+    const result = await db.select().from(users).where(eq(users.referralCode, referralCode));
+    return result[0] || undefined;
   }
 
   async createUser(insertUser: InsertUser): Promise<User> {
-    const [user] = await db
+    const result = await db
       .insert(users)
       .values(insertUser)
       .returning();
-    return user;
+    return (result as User[])[0];
   }
 
   async updateUser(id: number, updates: Partial<User>): Promise<User> {
-    const [user] = await db
+    const result = await db
       .update(users)
       .set({ ...updates, updatedAt: new Date() })
       .where(eq(users.id, id))
       .returning();
-    return user;
+    return result[0];
   }
 
   // Email verification methods
@@ -130,7 +133,7 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getPasswordResetToken(token: string): Promise<{ userId: number; expiresAt: Date; used: boolean } | undefined> {
-    const [tokenData] = await db
+    const result = await db
       .select({
         userId: passwordResetTokens.userId,
         expiresAt: passwordResetTokens.expiresAt,
@@ -138,7 +141,12 @@ export class DatabaseStorage implements IStorage {
       })
       .from(passwordResetTokens)
       .where(eq(passwordResetTokens.token, token));
-    return tokenData;
+    const tokenData = result[0];
+    return tokenData ? {
+      userId: tokenData.userId,
+      expiresAt: tokenData.expiresAt,
+      used: tokenData.used || false
+    } : undefined;
   }
 
   async markPasswordResetTokenUsed(token: string): Promise<void> {
