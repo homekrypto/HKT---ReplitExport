@@ -33,16 +33,15 @@ router.get('/verify-email', async (req, res) => {
     }
 
     // Update user as verified and mark token as used
-    await Promise.all([
-      db
-        .update(users)
-        .set({ isEmailVerified: true })
-        .where(eq(users.id, verification.userId)),
-      db
-        .update(emailVerifications)
-        .set({ used: true })
-        .where(eq(emailVerifications.id, verification.id))
-    ]);
+    await db
+      .update(users)
+      .set({ isEmailVerified: true })
+      .where(eq(users.id, verification.userId));
+      
+    await db
+      .update(emailVerifications)
+      .set({ used: true })
+      .where(eq(emailVerifications.id, verification.id));
 
     // Redirect to success page or login
     res.redirect('/?verified=true');

@@ -1,0 +1,68 @@
+This is the mail system at host nl-srv-smtpout2.hostinger.io.
+
+I'm sorry to have to inform you that your message could not
+be delivered to one or more recipients. It's attached below.
+
+For further assistance, please send mail to postmaster.
+
+If you do so, please include this problem report. You can
+delete your own text from the attached returned message.
+
+                  The mail system
+
+<clean@homekrypto.com>: host mx1.hostinger.com[172.65.182.103] said: 550 5.1.1
+   <clean@homekrypto.com>: Recipient address rejected: undeliverable address:
+   host nl-srv-smtpin1.hostinger.io[private/dovecot-lmtp] said: 550 5.1.1
+   <clean@homekrypto.com> User doesn't exist: clean@homekrypto.com (in reply
+   to RCPT TO command) (in reply to RCPT TO command)
+Reporting-MTA: dns; nl-srv-smtpout2.hostinger.io
+X-smtp-hostinger-com-Queue-ID: 4bPZjY2MPsz9btSh
+X-smtp-hostinger-com-Sender: rfc822; support@homekrypto.com
+Arrival-Date: Sat, 21 Jun 2025 13:21:05 +0000 (UTC)
+
+Final-Recipient: rfc822; clean@homekrypto.com
+Original-Recipient: rfc822;clean@homekrypto.com
+Action: failed
+Status: 5.1.1
+Remote-MTA: dns; mx1.hostinger.com
+Diagnostic-Code: smtp; 550 5.1.1 <clean@homekrypto.com>: Recipient address
+   rejected: undeliverable address: host
+   nl-srv-smtpin1.hostinger.io[private/dovecot-lmtp] said: 550 5.1.1
+   <clean@homekrypto.com> User doesn't exist: clean@homekrypto.com (in reply
+   to RCPT TO command)
+
+De: Home Krypto Token Support <support@homekrypto.com>
+Asunto: Verify Your Email - Home Krypto Token
+Fecha: 21 de junio de 2025, 3:21:05 p. m. CEST
+Para: clean@homekrypto.com
+
+
+Welcome to Home Krypto Token!
+
+Real Estate Investment Made Simple
+
+Verify Your Email Address
+
+Hello,
+
+Thank you for registering with Home Krypto Token. To complete your registration and start investing in real estate through blockchain technology, please verify your email address.
+
+Verify Email Address
+Or copy and paste this link into your browser:
+
+https://78605597-e555-49f7-840b-96f2f9a8ae52-00-3sg0ecjzc14w9.riker.replit.dev/verify-email?token=02b674cbfd53b4a435d1273d5e635315cef766ce093de7aec62206896987325d
+
+What's Next?
+
+Complete your profile setup
+Explore our investment plans starting at $106.83/month
+Connect your MetaMask wallet (optional)
+Start building your real estate portfolio
+If you didn't create an account with us, please ignore this email.
+
+Best regards,
+The Home Krypto Token Team
+
+This email was sent to clean@homekrypto.com
+
+Home Krypto Token - Democratizing Real Estate Investment

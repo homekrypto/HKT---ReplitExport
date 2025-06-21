@@ -17,6 +17,7 @@ import Register from "@/pages/register";
 import ForgotPassword from "@/pages/forgot-password";
 import ResetPassword from "@/pages/reset-password";
 import Profile from "@/pages/profile";
+import EmailVerified from "@/pages/email-verified";
 import NotFound from "@/pages/not-found";
 
 function Router() {

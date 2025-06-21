@@ -15,7 +15,6 @@ export default function Register() {
     email: '',
     password: '',
     confirmPassword: '',
-    username: '',
     firstName: '',
     lastName: '',
     referralCode: '',
@@ -49,9 +48,7 @@ export default function Register() {
       newErrors.confirmPassword = 'Passwords do not match';
     }
 
-    if (formData.username && formData.username.length < 3) {
-      newErrors.username = 'Username must be at least 3 characters';
-    }
+
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -205,22 +202,7 @@ export default function Register() {
               )}
             </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="username">Username</Label>
-              <Input
-                id="username"
-                name="username"
-                type="text"
-                autoComplete="username"
-                value={formData.username}
-                onChange={handleInputChange}
-                className={errors.username ? 'border-red-500' : ''}
-                placeholder="Optional"
-              />
-              {errors.username && (
-                <p className="text-sm text-red-500">{errors.username}</p>
-              )}
-            </div>
+
 
             <div className="space-y-2">
               <Label htmlFor="password">Password *</Label>
