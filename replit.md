@@ -126,7 +126,7 @@ This is a full-stack web application for HKT (Home Krypto Token), a blockchain-b
 - June 21, 2025. Updated HKT token contract address to real Ethereum address (0x0de50324B6960B15A5ceD3D076aE314ac174Da2e), fixed footer year to 2025, improved subscription functionality, and added multi-wallet connection dropdown with MetaMask, WalletConnect, Coinbase Wallet, and Trust Wallet options
 - June 21, 2025. Fixed all page routing to be publicly accessible, updated footer with comprehensive working links to all 9 pages, enhanced navigation with FAQ/Contact/Whitepaper links, and ensured wallet dropdown integration in both desktop and mobile navigation
 - June 21, 2025. Added smooth scroll-to-top functionality for all page navigation to improve user experience when clicking between pages
-- June 21, 2025. Integrated official Home Krypto logo across navigation, footer, and homepage hero section to replace text-based branding
+- June 21, 2025. Removed logo elements and reverted to clean text-based HKT branding across navigation, footer, and homepage
 
 ## User Preferences
 
