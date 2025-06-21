@@ -16,12 +16,7 @@ router.get('/verify-email', async (req, res) => {
 
     // Find the verification record
     const [verification] = await db
-      .select({
-        id: emailVerifications.id,
-        userId: emailVerifications.userId,
-        used: emailVerifications.used,
-        expiresAt: emailVerifications.expiresAt,
-      })
+      .select()
       .from(emailVerifications)
       .where(
         and(
