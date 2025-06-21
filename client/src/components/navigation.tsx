@@ -58,7 +58,7 @@ export default function Navigation() {
                 </Link>
               </div>
             </div>
-            <div className="absolute right-0 flex items-center space-x-4">
+            <div className="flex items-center space-x-4">
               <WalletConnectDropdown />
               <Link href="/login">
                 <Button variant="outline" size="sm">Log In</Button>
