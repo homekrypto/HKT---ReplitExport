@@ -10,6 +10,7 @@ import {
   integer,
   boolean,
   uuid,
+  unique,
 } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
@@ -22,7 +23,7 @@ export const users = pgTable("users", {
   firstName: varchar("first_name", { length: 100 }),
   lastName: varchar("last_name", { length: 100 }),
   passwordHash: varchar("password_hash", { length: 255 }),
-  walletAddress: varchar("wallet_address", { length: 42 }).unique(),
+  primaryWalletAddress: varchar("primary_wallet_address", { length: 42 }).unique(),
   isEmailVerified: boolean("is_email_verified").default(false),
   twoFactorEnabled: boolean("two_factor_enabled").default(false),
   twoFactorSecret: varchar("two_factor_secret", { length: 32 }),
@@ -105,6 +106,47 @@ export const hktStats = pgTable("hkt_stats", {
 export const subscribers = pgTable("subscribers", {
   id: serial("id").primaryKey(),
   email: varchar("email", { length: 255 }).unique().notNull(),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+// Cross-chain wallet verification tables
+export const supportedChains = pgTable("supported_chains", {
+  id: serial("id").primaryKey(),
+  chainId: integer("chain_id").unique().notNull(),
+  name: varchar("name", { length: 100 }).notNull(),
+  rpcUrl: varchar("rpc_url", { length: 500 }).notNull(),
+  blockExplorerUrl: varchar("block_explorer_url", { length: 500 }),
+  nativeCurrency: jsonb("native_currency").notNull(), // {name, symbol, decimals}
+  isTestnet: boolean("is_testnet").default(false),
+  isActive: boolean("is_active").default(true),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+export const userWallets = pgTable("user_wallets", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  userId: integer("user_id").notNull().references(() => users.id),
+  chainId: integer("chain_id").notNull().references(() => supportedChains.id),
+  walletAddress: varchar("wallet_address", { length: 42 }).notNull(),
+  walletType: varchar("wallet_type", { length: 50 }).notNull(), // metamask, walletconnect, etc
+  isVerified: boolean("is_verified").default(false),
+  isPrimary: boolean("is_primary").default(false),
+  verificationSignature: text("verification_signature"),
+  verificationMessage: text("verification_message"),
+  verificationTimestamp: timestamp("verification_timestamp"),
+  lastUsed: timestamp("last_used").defaultNow(),
+  createdAt: timestamp("created_at").defaultNow(),
+}, (table) => ({
+  uniqueUserChainWallet: unique().on(table.userId, table.chainId, table.walletAddress),
+}));
+
+export const walletVerificationChallenges = pgTable("wallet_verification_challenges", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  userId: integer("user_id").notNull().references(() => users.id),
+  walletAddress: varchar("wallet_address", { length: 42 }).notNull(),
+  chainId: integer("chain_id").notNull().references(() => supportedChains.id),
+  challenge: text("challenge").notNull(),
+  expiresAt: timestamp("expires_at").notNull(),
+  completed: boolean("completed").default(false),
   createdAt: timestamp("created_at").defaultNow(),
 });
 
@@ -194,3 +236,39 @@ export type HktStats = typeof hktStats.$inferSelect;
 export type InsertHktStats = z.infer<typeof insertHktStatsSchema>;
 export type Subscriber = typeof subscribers.$inferSelect;
 export type InsertSubscriber = z.infer<typeof insertSubscriberSchema>;
+
+// Cross-chain wallet types
+export type SupportedChain = typeof supportedChains.$inferSelect;
+export type InsertSupportedChain = typeof supportedChains.$inferInsert;
+export type UserWallet = typeof userWallets.$inferSelect;
+export type InsertUserWallet = typeof userWallets.$inferInsert;
+export type WalletVerificationChallenge = typeof walletVerificationChallenges.$inferSelect;
+export type InsertWalletVerificationChallenge = typeof walletVerificationChallenges.$inferInsert;
+
+// Create insert schemas for cross-chain wallet tables  
+export const insertSupportedChainSchema = createInsertSchema(supportedChains).pick({
+  chainId: true,
+  name: true,
+  rpcUrl: true,
+  blockExplorerUrl: true,
+  nativeCurrency: true,
+  isTestnet: true,
+  isActive: true,
+});
+
+export const insertUserWalletSchema = createInsertSchema(userWallets).pick({
+  userId: true,
+  chainId: true,
+  walletAddress: true,
+  walletType: true,
+  isVerified: true,
+  isPrimary: true,
+});
+
+export const insertWalletVerificationChallengeSchema = createInsertSchema(walletVerificationChallenges).pick({
+  userId: true,
+  walletAddress: true,
+  chainId: true,
+  challenge: true,
+  expiresAt: true,
+});

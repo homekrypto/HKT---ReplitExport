@@ -19,7 +19,7 @@ export interface AuthenticatedRequest extends Request {
     id: number;
     email: string;
     username?: string;
-    walletAddress?: string;
+    primaryWalletAddress?: string;
   };
 }
 
@@ -257,7 +257,7 @@ export async function requireAuth(req: AuthenticatedRequest, res: Response, next
         id: users.id,
         email: users.email,
         username: users.username,
-        walletAddress: users.walletAddress,
+        primaryWalletAddress: users.primaryWalletAddress,
       })
       .from(users)
       .where(eq(users.id, userId));
@@ -288,7 +288,7 @@ export async function optionalAuth(req: AuthenticatedRequest, res: Response, nex
             id: users.id,
             email: users.email,
             username: users.username,
-            walletAddress: users.walletAddress,
+            primaryWalletAddress: users.primaryWalletAddress,
           })
           .from(users)
           .where(eq(users.id, userId));

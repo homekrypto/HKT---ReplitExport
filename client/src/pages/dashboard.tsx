@@ -2,6 +2,8 @@ import { useAuth } from '@/hooks/useAuth';
 import ProtectedRoute from '@/components/protected-route';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import CrossChainWalletManager from '@/components/cross-chain-wallet-manager';
 import { 
   User,
   Mail,
@@ -9,7 +11,10 @@ import {
   DollarSign,
   TrendingUp,
   Target,
-  Wallet
+  Wallet,
+  PieChart,
+  BarChart3,
+  Activity
 } from 'lucide-react';
 
 export default function Dashboard() {

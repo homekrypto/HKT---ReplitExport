@@ -35,6 +35,7 @@ import SecondaryMarket from "@/pages/secondary-market";
 import Sitemap from "@/pages/sitemap";
 import JobApplication from "@/pages/job-application";
 import VerifyEmail from "@/pages/verify-email";
+import CrossChainWallets from "@/pages/cross-chain-wallets";
 import RegisterAsAgent from "@/pages/register-as-agent";
 import InvestmentGrowthProjection from "@/pages/investment-growth-projection";
 import NotFound from "@/pages/not-found";
@@ -63,6 +64,7 @@ function Router() {
       <Route path="/sitemap" component={Sitemap} />
       <Route path="/job-application/:position?" component={JobApplication} />
       <Route path="/verify-email" component={VerifyEmail} />
+      <Route path="/cross-chain-wallets" component={CrossChainWallets} />
       <Route path="/register-as-agent" component={RegisterAsAgent} />
       <Route path="/investment-growth-projection" component={InvestmentGrowthProjection} />
       <Route path="/login" component={Login} />

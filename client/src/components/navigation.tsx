@@ -39,6 +39,12 @@ export default function Navigation() {
                   </Link>
                 ))}
                 <Link
+                  href="/cross-chain-wallets"
+                  className="px-3 py-2 font-medium text-gray-700 dark:text-gray-300 hover:text-primary transition-colors"
+                >
+                  Wallets
+                </Link>
+                <Link
                   href="/faq"
                   className="px-3 py-2 font-medium text-gray-700 dark:text-gray-300 hover:text-primary transition-colors"
                 >

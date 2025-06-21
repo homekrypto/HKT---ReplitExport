@@ -63,6 +63,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Email verification route (not under /api/auth)
   const emailVerifyRoutes = (await import('./email-verify')).default;
   app.use(emailVerifyRoutes);
+  
+  // Cross-chain wallet routes
+  const crossChainWalletRoutes = (await import('./cross-chain-wallet')).default;
+  app.use('/api/cross-chain-wallet', crossChainWalletRoutes);
   // HKT Stats endpoint
   app.get("/api/hkt-stats", async (req, res) => {
     try {
