@@ -38,29 +38,12 @@ export default function Navigation() {
                     {link.label}
                   </Link>
                 ))}
-                <Link
-                  href="/cross-chain-wallets"
-                  className="px-3 py-2 font-medium text-gray-700 dark:text-gray-300 hover:text-primary transition-colors"
-                >
-                  Wallets
-                </Link>
-                <Link
-                  href="/faq"
-                  className="px-3 py-2 font-medium text-gray-700 dark:text-gray-300 hover:text-primary transition-colors"
-                >
-                  FAQ
-                </Link>
+
                 <Link
                   href="/contact"
                   className="px-3 py-2 font-medium text-gray-700 dark:text-gray-300 hover:text-primary transition-colors"
                 >
                   Contact
-                </Link>
-                <Link
-                  href="/whitepaper"
-                  className="px-3 py-2 font-medium text-gray-700 dark:text-gray-300 hover:text-primary transition-colors"
-                >
-                  Whitepaper
                 </Link>
               </div>
             </div>
@@ -118,13 +101,7 @@ export default function Navigation() {
                   {link.label}
                 </Link>
               ))}
-              <Link
-                href="/faq"
-                className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:text-primary hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                FAQ
-              </Link>
+
               <Link
                 href="/contact"
                 className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:text-primary hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
@@ -132,13 +109,7 @@ export default function Navigation() {
               >
                 Contact
               </Link>
-              <Link
-                href="/whitepaper"
-                className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:text-primary hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                Whitepaper
-              </Link>
+
               
               {/* Mobile Settings */}
               <div className="pt-4 pb-2 space-y-3 border-t border-gray-200 dark:border-gray-700">
