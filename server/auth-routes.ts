@@ -113,7 +113,6 @@ router.post('/register', authLimiter, async (req, res) => {
       .insert(users)
       .values({
         email,
-        username: null,
         firstName: firstName || null,
         lastName: lastName || null,
         passwordHash,
@@ -121,7 +120,6 @@ router.post('/register', authLimiter, async (req, res) => {
         referredBy: referredBy || null,
         isEmailVerified: false,
         twoFactorEnabled: false,
-        profileImageUrl: null,
       })
       .returning({ id: users.id, email: users.email });
 
