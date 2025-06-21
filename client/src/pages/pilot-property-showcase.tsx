@@ -26,68 +26,20 @@ import dominican4 from '@assets/invest-in-real-estate-and-cryptoo-at-same-time-s
 export default function PilotPropertyShowcase() {
   useScrollToTop();
 
-  const properties = [
-    {
-      id: 1,
-      title: "Luxury Resort Villas - Punta Cana",
-      location: "Punta Cana, Dominican Republic",
-      image: dominican1,
-      price: "$285,000",
-      tokenPrice: "1,875 HKT",
-      bedrooms: 2,
-      bathrooms: 2,
-      sqft: 1200,
-      occupancyRate: "92%",
-      yearlyReturn: "18.5%",
-      amenities: ["Private Pool", "Ocean View", "Resort Access", "Concierge"],
-      description: "Stunning 2-bedroom villas in a premier resort complex with direct beach access and world-class amenities."
-    },
-    {
-      id: 2,
-      title: "Modern Condos - Bavaro Beach",
-      location: "Bavaro, Dominican Republic",
-      image: dominican2,
-      price: "$195,000",
-      tokenPrice: "1,281 HKT",
-      bedrooms: 1,
-      bathrooms: 1,
-      sqft: 850,
-      occupancyRate: "88%",
-      yearlyReturn: "16.2%",
-      amenities: ["Beach Access", "Pool", "Gym", "Restaurant"],
-      description: "Contemporary condos just steps from pristine beaches with exceptional rental demand year-round."
-    },
-    {
-      id: 3,
-      title: "Penthouse Suites - Cap Cana",
-      location: "Cap Cana, Dominican Republic",
-      image: dominican3,
-      price: "$450,000",
-      tokenPrice: "2,960 HKT",
-      bedrooms: 3,
-      bathrooms: 3,
-      sqft: 1800,
-      occupancyRate: "85%",
-      yearlyReturn: "22.3%",
-      amenities: ["Rooftop Terrace", "Marina View", "Golf Access", "Spa"],
-      description: "Exclusive penthouse units with panoramic views and access to championship golf courses."
-    },
-    {
-      id: 4,
-      title: "Beachfront Apartments - La Romana",
-      location: "La Romana, Dominican Republic",
-      image: dominican4,
-      price: "$165,000",
-      tokenPrice: "1,085 HKT",
-      bedrooms: 1,
-      bathrooms: 1,
-      sqft: 750,
-      occupancyRate: "94%",
-      yearlyReturn: "19.8%",
-      amenities: ["Direct Beach", "Pool", "Bar", "Water Sports"],
-      description: "Prime beachfront location with exceptional rental performance and stunning ocean views."
-    }
-  ];
+  const property = {
+    title: "Luxury Resort Complex - Punta Cana",
+    location: "Punta Cana, Dominican Republic",
+    images: [dominican1, dominican2, dominican3, dominican4],
+    price: "$285,000",
+    tokenPrice: "1,875 HKT",
+    bedrooms: 2,
+    bathrooms: 2,
+    sqft: 1200,
+    occupancyRate: "92%",
+    yearlyReturn: "18.5%",
+    amenities: ["Private Pool", "Ocean View", "Resort Access", "Concierge", "Beach Access", "Spa", "Golf Access", "Marina View"],
+    description: "Stunning luxury resort complex featuring modern villas, condos, and penthouse suites with direct beach access, world-class amenities, and exceptional rental performance in one of the Caribbean's most popular destinations."
+  };
 
   const stats = [
     {
@@ -156,83 +108,90 @@ export default function PilotPropertyShowcase() {
           ))}
         </div>
 
-        {/* Property Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
-          {properties.map((property) => (
-            <Card key={property.id} className="overflow-hidden">
-              <div className="relative">
-                <img 
-                  src={property.image} 
-                  alt={property.title}
-                  className="w-full h-64 object-cover"
-                />
-                <div className="absolute top-4 right-4">
-                  <Badge className="bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200">
-                    {property.occupancyRate} Occupied
-                  </Badge>
-                </div>
+        {/* Property Showcase */}
+        <div className="mb-16">
+          <Card className="overflow-hidden">
+            {/* Image Gallery */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
+              <div className="grid grid-cols-2 gap-0">
+                {property.images.map((image, index) => (
+                  <div key={index} className="relative">
+                    <img 
+                      src={image} 
+                      alt={`${property.title} - View ${index + 1}`}
+                      className="w-full h-64 object-cover"
+                    />
+                    {index === 0 && (
+                      <div className="absolute top-4 right-4">
+                        <Badge className="bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200">
+                          {property.occupancyRate} Occupied
+                        </Badge>
+                      </div>
+                    )}
+                  </div>
+                ))}
               </div>
               
-              <CardHeader>
-                <div className="flex justify-between items-start">
+              <div className="p-8">
+                <div className="flex justify-between items-start mb-4">
                   <div>
-                    <CardTitle className="text-xl mb-2">{property.title}</CardTitle>
-                    <div className="flex items-center text-gray-500 dark:text-gray-400 mb-2">
+                    <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+                      {property.title}
+                    </h2>
+                    <div className="flex items-center text-gray-500 dark:text-gray-400 mb-4">
                       <MapPin className="h-4 w-4 mr-1" />
                       {property.location}
                     </div>
                   </div>
                   <div className="text-right">
-                    <div className="text-2xl font-bold text-gray-900 dark:text-white">
+                    <div className="text-3xl font-bold text-gray-900 dark:text-white">
                       {property.price}
                     </div>
-                    <div className="text-sm text-blue-600 dark:text-blue-400">
+                    <div className="text-lg text-blue-600 dark:text-blue-400">
                       {property.tokenPrice}
                     </div>
                   </div>
                 </div>
-              </CardHeader>
-              
-              <CardContent>
-                <p className="text-gray-600 dark:text-gray-300 mb-4">
+                
+                <p className="text-gray-600 dark:text-gray-300 mb-6">
                   {property.description}
                 </p>
                 
                 {/* Property Details */}
-                <div className="grid grid-cols-3 gap-4 mb-4">
+                <div className="grid grid-cols-3 gap-4 mb-6">
                   <div className="flex items-center">
-                    <Bed className="h-4 w-4 mr-2 text-gray-500" />
-                    <span className="text-sm">{property.bedrooms} Bed</span>
+                    <Bed className="h-5 w-5 mr-2 text-gray-500" />
+                    <span className="text-sm">{property.bedrooms} Bedrooms</span>
                   </div>
                   <div className="flex items-center">
-                    <Bath className="h-4 w-4 mr-2 text-gray-500" />
-                    <span className="text-sm">{property.bathrooms} Bath</span>
+                    <Bath className="h-5 w-5 mr-2 text-gray-500" />
+                    <span className="text-sm">{property.bathrooms} Bathrooms</span>
                   </div>
                   <div className="flex items-center">
-                    <Square className="h-4 w-4 mr-2 text-gray-500" />
+                    <Square className="h-5 w-5 mr-2 text-gray-500" />
                     <span className="text-sm">{property.sqft} sqft</span>
                   </div>
                 </div>
 
                 {/* Performance Metrics */}
-                <div className="grid grid-cols-2 gap-4 mb-4">
-                  <div className="bg-gray-50 dark:bg-gray-800 p-3 rounded-lg">
+                <div className="grid grid-cols-2 gap-4 mb-6">
+                  <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
                     <div className="text-sm text-gray-500 dark:text-gray-400">Yearly Return</div>
-                    <div className="text-lg font-semibold text-green-600 dark:text-green-400">
+                    <div className="text-2xl font-semibold text-green-600 dark:text-green-400">
                       {property.yearlyReturn}
                     </div>
                   </div>
-                  <div className="bg-gray-50 dark:bg-gray-800 p-3 rounded-lg">
-                    <div className="text-sm text-gray-500 dark:text-gray-400">Occupancy</div>
-                    <div className="text-lg font-semibold text-blue-600 dark:text-blue-400">
+                  <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
+                    <div className="text-sm text-gray-500 dark:text-gray-400">Occupancy Rate</div>
+                    <div className="text-2xl font-semibold text-blue-600 dark:text-blue-400">
                       {property.occupancyRate}
                     </div>
                   </div>
                 </div>
 
                 {/* Amenities */}
-                <div className="mb-4">
-                  <div className="text-sm font-medium text-gray-900 dark:text-white mb-2">Amenities</div>
+                <div className="mb-6">
+                  <div className="text-sm font-medium text-gray-900 dark:text-white mb-3">Premium Amenities</div>
                   <div className="flex flex-wrap gap-2">
                     {property.amenities.map((amenity, index) => (
                       <Badge key={index} variant="secondary" className="text-xs">
@@ -242,12 +201,12 @@ export default function PilotPropertyShowcase() {
                   </div>
                 </div>
 
-                <Button className="w-full">
-                  View Property Details
+                <Button className="w-full" size="lg">
+                  Invest in This Property
                 </Button>
-              </CardContent>
-            </Card>
-          ))}
+              </div>
+            </div>
+          </Card>
         </div>
 
         {/* Why These Properties Section */}
