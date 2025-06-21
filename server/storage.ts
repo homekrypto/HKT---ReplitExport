@@ -67,7 +67,7 @@ export class DatabaseStorage implements IStorage {
 
   async getUserByWallet(walletAddress: string): Promise<User | undefined> {
     try {
-      const [user] = await db.select().from(users).where(eq(users.walletAddress, walletAddress));
+      const [user] = await db.select().from(users).where(eq(users.primaryWalletAddress, walletAddress));
       return user as User || undefined;
     } catch {
       return undefined;

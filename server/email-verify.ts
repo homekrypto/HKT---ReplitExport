@@ -21,7 +21,6 @@ router.get('/verify-email', async (req, res) => {
       .where(
         and(
           eq(emailVerifications.token, token),
-          eq(emailVerifications.verified, false),
           gt(emailVerifications.expiresAt, new Date())
         )
       );
@@ -43,7 +42,7 @@ router.get('/verify-email', async (req, res) => {
     await db
       .update(emailVerifications)
       .set({ verified: true })
-      .where(eq(emailVerifications.id, verification.id));
+      .where(eq(emailVerifications.token, token));
 
     // Redirect to success page
     res.redirect('/verify-email?status=success');
