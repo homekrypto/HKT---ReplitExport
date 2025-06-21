@@ -116,6 +116,7 @@ This is a full-stack web application for HKT (Home Krypto Token), a blockchain-b
 - June 21, 2025. Added Uniswap widget integration for direct HKT token purchases with professional trading interface
 - June 21, 2025. Fixed all database schema issues and completed user registration system with email verification
 - June 21, 2025. Email system fully operational - SMTP working correctly with Hostinger, professional verification emails being sent
+- June 21, 2025. Registration flow complete - username field fully removed, clean form with email/password + optional fields, email verification working
 
 ## User Preferences
 

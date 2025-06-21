@@ -30,6 +30,7 @@ function Router() {
       <Route path="/register" component={Register} />
       <Route path="/forgot-password" component={ForgotPassword} />
       <Route path="/reset-password/:token" component={ResetPassword} />
+      <Route path="/verify-email" component={EmailVerified} />
       <Route path="/buy-hkt" component={BuyHKT} />
       <Route path="/dashboard" component={Dashboard} />
       <Route path="/profile" component={Profile} />
