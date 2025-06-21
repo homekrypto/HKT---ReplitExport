@@ -3,6 +3,7 @@ import {
   investments, 
   quarterlyData, 
   hktStats,
+  subscribers,
   type User, 
   type InsertUser, 
   type Investment, 
@@ -10,7 +11,9 @@ import {
   type QuarterlyData,
   type InsertQuarterlyData,
   type HktStats,
-  type InsertHktStats
+  type InsertHktStats,
+  type Subscriber,
+  type InsertSubscriber
 } from "@shared/schema";
 import { db } from "./db";
 import { eq } from "drizzle-orm";
@@ -36,6 +39,11 @@ export interface IStorage {
   // HKT Stats
   getLatestHktStats(): Promise<HktStats | undefined>;
   updateHktStats(stats: InsertHktStats): Promise<HktStats>;
+
+  // Subscribers
+  createSubscriber(subscriber: InsertSubscriber): Promise<Subscriber>;
+  getSubscriberByEmail(email: string): Promise<Subscriber | undefined>;
+  getAllSubscribers(): Promise<Subscriber[]>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -116,6 +124,23 @@ export class DatabaseStorage implements IStorage {
       .values(insertStats)
       .returning();
     return stats;
+  }
+
+  async createSubscriber(insertSubscriber: InsertSubscriber): Promise<Subscriber> {
+    const [subscriber] = await db
+      .insert(subscribers)
+      .values(insertSubscriber)
+      .returning();
+    return subscriber;
+  }
+
+  async getSubscriberByEmail(email: string): Promise<Subscriber | undefined> {
+    const [subscriber] = await db.select().from(subscribers).where(eq(subscribers.email, email));
+    return subscriber || undefined;
+  }
+
+  async getAllSubscribers(): Promise<Subscriber[]> {
+    return await db.select().from(subscribers).where(eq(subscribers.isActive, true));
   }
 }
 

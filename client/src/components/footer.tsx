@@ -1,6 +1,44 @@
+import { useState } from 'react';
 import { Link } from 'wouter';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { useToast } from '@/hooks/use-toast';
+import { useMutation } from '@tanstack/react-query';
+import { apiRequest } from '@/lib/queryClient';
+import { Mail } from 'lucide-react';
 
 export default function Footer() {
+  const [email, setEmail] = useState('');
+  const { toast } = useToast();
+
+  const subscribeMutation = useMutation({
+    mutationFn: async (email: string) => {
+      const response = await apiRequest('POST', '/api/subscribe', { email });
+      return response.json();
+    },
+    onSuccess: () => {
+      toast({
+        title: "Successfully subscribed!",
+        description: "You'll receive updates about HKT and investment opportunities.",
+      });
+      setEmail('');
+    },
+    onError: (error: any) => {
+      toast({
+        title: "Subscription failed",
+        description: error.message || "Please try again later.",
+        variant: "destructive",
+      });
+    },
+  });
+
+  const handleSubscribe = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (email.trim()) {
+      subscribeMutation.mutate(email.trim());
+    }
+  };
+
   const footerSections = [
     {
       title: 'Product',
@@ -46,6 +84,34 @@ export default function Footer() {
             <p className="text-gray-300">
               Revolutionizing real estate investment through blockchain technology.
             </p>
+            
+            {/* Newsletter Subscription */}
+            <div className="space-y-3">
+              <h4 className="text-lg font-semibold">Stay Updated</h4>
+              <p className="text-sm text-gray-400">
+                Get the latest HKT news and investment opportunities.
+              </p>
+              <form onSubmit={handleSubscribe} className="space-y-2">
+                <div className="flex space-x-2">
+                  <Input
+                    type="email"
+                    placeholder="Enter your email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="bg-gray-800 border-gray-600 text-white placeholder-gray-400 flex-1"
+                    required
+                  />
+                  <Button 
+                    type="submit" 
+                    disabled={subscribeMutation.isPending}
+                    className="bg-primary hover:bg-blue-700 text-white px-4"
+                  >
+                    <Mail className="w-4 h-4" />
+                  </Button>
+                </div>
+              </form>
+            </div>
+            
             <div className="flex space-x-4">
               {socialLinks.map((social, index) => (
                 <a

@@ -1,7 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { insertInvestmentSchema, insertQuarterlyDataSchema } from "@shared/schema";
+import { insertInvestmentSchema, insertQuarterlyDataSchema, insertSubscriberSchema } from "@shared/schema";
 import { z } from "zod";
 
 export async function registerRoutes(app: Express): Promise<Server> {
@@ -147,6 +147,40 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.json(investments);
     } catch (error) {
       res.status(500).json({ message: "Failed to fetch investments" });
+    }
+  });
+
+  // Subscribe to newsletter
+  app.post("/api/subscribe", async (req, res) => {
+    try {
+      const { email } = insertSubscriberSchema.parse(req.body);
+      
+      // Check if email already exists
+      const existingSubscriber = await storage.getSubscriberByEmail(email);
+      if (existingSubscriber) {
+        return res.status(400).json({ message: "Email is already subscribed" });
+      }
+
+      const subscriber = await storage.createSubscriber({ email });
+      res.status(201).json({ 
+        message: "Successfully subscribed to HKT updates",
+        subscriber: { id: subscriber.id, email: subscriber.email }
+      });
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ message: "Invalid email address", errors: error.errors });
+      }
+      res.status(500).json({ message: "Failed to subscribe" });
+    }
+  });
+
+  // Get all subscribers (admin endpoint)
+  app.get("/api/subscribers", async (req, res) => {
+    try {
+      const subscribers = await storage.getAllSubscribers();
+      res.json(subscribers);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch subscribers" });
     }
   });
 

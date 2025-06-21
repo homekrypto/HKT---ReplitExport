@@ -46,6 +46,13 @@ export const hktStats = pgTable("hkt_stats", {
   updatedAt: timestamp("updated_at").defaultNow(),
 });
 
+export const subscribers = pgTable("subscribers", {
+  id: serial("id").primaryKey(),
+  email: text("email").notNull().unique(),
+  isActive: boolean("is_active").default(true),
+  subscribedAt: timestamp("subscribed_at").defaultNow(),
+});
+
 export const insertUserSchema = createInsertSchema(users).pick({
   username: true,
   password: true,
@@ -81,6 +88,10 @@ export const insertHktStatsSchema = createInsertSchema(hktStats).pick({
   volume24h: true,
 });
 
+export const insertSubscriberSchema = createInsertSchema(subscribers).pick({
+  email: true,
+});
+
 export type User = typeof users.$inferSelect;
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type Investment = typeof investments.$inferSelect;
@@ -89,3 +100,5 @@ export type QuarterlyData = typeof quarterlyData.$inferSelect;
 export type InsertQuarterlyData = z.infer<typeof insertQuarterlyDataSchema>;
 export type HktStats = typeof hktStats.$inferSelect;
 export type InsertHktStats = z.infer<typeof insertHktStatsSchema>;
+export type Subscriber = typeof subscribers.$inferSelect;
+export type InsertSubscriber = z.infer<typeof insertSubscriberSchema>;
