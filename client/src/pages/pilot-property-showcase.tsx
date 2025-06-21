@@ -30,8 +30,10 @@ export default function PilotPropertyShowcase() {
     title: "Luxury Resort Complex - Punta Cana",
     location: "Punta Cana, Dominican Republic",
     images: [dominican1, dominican2, dominican3, dominican4],
-    price: "$285,000",
-    tokenPrice: "1,875 HKT",
+    price: "$195,000",
+    tokenPrice: "37,500 HKT",
+    sharePrice: "$3,750",
+    shareTokens: "37,500 HKT",
     bedrooms: 2,
     bathrooms: 2,
     sqft: 1200,
@@ -144,11 +146,14 @@ export default function PilotPropertyShowcase() {
                     </div>
                   </div>
                   <div className="text-right">
-                    <div className="text-3xl font-bold text-gray-900 dark:text-white">
-                      {property.price}
+                    <div className="text-2xl font-bold text-gray-900 dark:text-white">
+                      Property Value: {property.price}
                     </div>
-                    <div className="text-lg text-blue-600 dark:text-blue-400">
-                      {property.tokenPrice}
+                    <div className="text-lg text-blue-600 dark:text-blue-400 mt-2">
+                      Share (1 Week): {property.sharePrice}
+                    </div>
+                    <div className="text-sm text-gray-500 dark:text-gray-400">
+                      ~{property.shareTokens} @ $0.10 HKT/USD
                     </div>
                   </div>
                 </div>
@@ -251,11 +256,11 @@ export default function PilotPropertyShowcase() {
         <Card className="bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-950 dark:to-purple-950">
           <CardContent className="p-8 text-center">
             <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
-              Ready to Invest in These Properties?
+              Ready to Invest in This Property?
             </h2>
             <p className="text-lg text-gray-600 dark:text-gray-300 mb-6 max-w-2xl mx-auto">
-              Join our pilot program and start earning returns from day one. With fractional ownership through HKT tokens, 
-              you can diversify across multiple properties with minimal capital requirements.
+              Start with just $3,750 USD for a 1-week share in this luxury resort complex. 
+              Get fractional ownership through 37,500 HKT tokens at $0.10 per token and earn returns from short-term rentals.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/buy-hkt">
