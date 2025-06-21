@@ -5,7 +5,7 @@ import { eq, and, gt } from 'drizzle-orm';
 
 const router = Router();
 
-// Email verification endpoint
+// Email verification endpoint with query parameter
 router.get('/verify-email', async (req, res) => {
   try {
     const { token } = req.query;
@@ -14,6 +14,8 @@ router.get('/verify-email', async (req, res) => {
       return res.status(400).json({ message: 'Invalid verification token' });
     }
 
+    console.log('Verification attempt for token:', token);
+
     // Find the verification record
     const verificationResult = await db
       .select()
@@ -21,6 +23,7 @@ router.get('/verify-email', async (req, res) => {
       .where(
         and(
           eq(emailVerifications.token, token),
+          eq(emailVerifications.verified, false),
           gt(emailVerifications.expiresAt, new Date())
         )
       );

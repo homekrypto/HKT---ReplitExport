@@ -1,105 +1,142 @@
 import { useEffect, useState } from 'react';
+import { useLocation } from 'wouter';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { CheckCircle, XCircle, Loader } from 'lucide-react';
-import { Link, useLocation } from 'wouter';
-import { useScrollToTop } from '@/hooks/useScrollToTop';
+import { CheckCircle, XCircle, Clock, AlertCircle } from 'lucide-react';
 
-export default function VerifyEmail() {
-  useScrollToTop();
+export default function VerifyEmailPage() {
   const [location] = useLocation();
-  const [status, setStatus] = useState<'loading' | 'success' | 'error'>('loading');
-  const [message, setMessage] = useState('');
+  const [status, setStatus] = useState<string>('loading');
+  const [message, setMessage] = useState<string>('Verifying your email...');
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
-    const token = urlParams.get('token');
     const statusParam = urlParams.get('status');
+    const token = urlParams.get('token');
 
-    if (statusParam === 'success') {
-      setStatus('success');
-      setMessage('Your email has been successfully verified! You can now log in to your account.');
-      return;
-    }
-
-    if (!token) {
+    if (statusParam) {
+      setStatus(statusParam);
+      switch (statusParam) {
+        case 'success':
+          setMessage('Email verified successfully! You can now log in.');
+          break;
+        case 'already-verified':
+          setMessage('This email has already been verified. You can log in now.');
+          break;
+        case 'expired':
+          setMessage('Verification token has expired. Please request a new verification email.');
+          break;
+        case 'invalid':
+          setMessage('Invalid verification token. Please check your email and try again.');
+          break;
+        case 'error':
+          setMessage('Email verification failed. Please try again.');
+          break;
+        default:
+          setMessage('Unknown verification status.');
+      }
+    } else if (token) {
+      // If token is in URL, verify it
+      verifyToken(token);
+    } else {
       setStatus('error');
-      setMessage('Invalid verification link. Please check your email and try again.');
-      return;
+      setMessage('No verification token provided.');
     }
+  }, [location]);
 
-    // Verify the token
-    fetch(`/api/verify-email?token=${token}`)
-      .then(response => {
-        if (response.ok) {
-          setStatus('success');
-          setMessage('Your email has been successfully verified! You can now log in to your account.');
-        } else {
-          return response.json().then(data => {
-            throw new Error(data.message || 'Verification failed');
-          });
-        }
-      })
-      .catch(error => {
+  const verifyToken = async (token: string) => {
+    try {
+      const response = await fetch(`/verify-email/${token}`);
+      const data = await response.json();
+      
+      if (response.ok) {
+        setStatus('success');
+        setMessage(data.message);
+      } else {
         setStatus('error');
-        setMessage(error.message || 'Verification failed. Please try again or contact support.');
-      });
-  }, []);
+        setMessage(data.message);
+      }
+    } catch (error) {
+      setStatus('error');
+      setMessage('Email verification failed. Please try again.');
+    }
+  };
+
+  const getIcon = () => {
+    switch (status) {
+      case 'success':
+      case 'already-verified':
+        return <CheckCircle className="h-16 w-16 text-green-500" />;
+      case 'expired':
+      case 'invalid':
+      case 'error':
+        return <XCircle className="h-16 w-16 text-red-500" />;
+      case 'loading':
+        return <Clock className="h-16 w-16 text-blue-500 animate-spin" />;
+      default:
+        return <AlertCircle className="h-16 w-16 text-yellow-500" />;
+    }
+  };
+
+  const getButtonText = () => {
+    switch (status) {
+      case 'success':
+      case 'already-verified':
+        return 'Go to Login';
+      case 'expired':
+      case 'invalid':
+      case 'error':
+        return 'Back to Registration';
+      default:
+        return 'Go to Home';
+    }
+  };
+
+  const getButtonLink = () => {
+    switch (status) {
+      case 'success':
+      case 'already-verified':
+        return '/login';
+      case 'expired':
+      case 'invalid':
+      case 'error':
+        return '/register';
+      default:
+        return '/';
+    }
+  };
 
   return (
-    <div className="min-h-screen bg-white dark:bg-black py-20">
-      <div className="max-w-md mx-auto px-4 sm:px-6 lg:px-8">
-        <Card>
-          <CardHeader className="text-center">
-            <CardTitle className="flex items-center justify-center mb-4">
-              {status === 'loading' && <Loader className="h-8 w-8 text-blue-600 animate-spin" />}
-              {status === 'success' && <CheckCircle className="h-8 w-8 text-green-600" />}
-              {status === 'error' && <XCircle className="h-8 w-8 text-red-600" />}
-            </CardTitle>
-            <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
-              {status === 'loading' && 'Verifying Email...'}
-              {status === 'success' && 'Email Verified!'}
-              {status === 'error' && 'Verification Failed'}
-            </h1>
-          </CardHeader>
-          <CardContent className="text-center">
-            <p className="text-gray-600 dark:text-gray-300 mb-6">
-              {message}
-            </p>
-            
-            <div className="space-y-3">
-              {status === 'success' && (
-                <Link href="/login">
-                  <Button className="w-full">
-                    Go to Login
-                  </Button>
-                </Link>
-              )}
-              
-              {status === 'error' && (
-                <>
-                  <Link href="/register">
-                    <Button variant="outline" className="w-full">
-                      Try Registration Again
-                    </Button>
-                  </Link>
-                  <Link href="/contact">
-                    <Button variant="outline" className="w-full">
-                      Contact Support
-                    </Button>
-                  </Link>
-                </>
-              )}
-              
-              <Link href="/">
-                <Button variant="ghost" className="w-full">
-                  Return to Homepage
-                </Button>
-              </Link>
+    <div className="min-h-screen bg-gray-50 dark:bg-black flex items-center justify-center p-4">
+      <Card className="w-full max-w-md">
+        <CardHeader className="text-center">
+          <div className="flex justify-center mb-4">
+            {getIcon()}
+          </div>
+          <CardTitle className="text-2xl">Email Verification</CardTitle>
+        </CardHeader>
+        <CardContent className="text-center space-y-6">
+          <p className="text-gray-600 dark:text-gray-300">
+            {message}
+          </p>
+          
+          <Button 
+            asChild 
+            className="w-full"
+            variant={status === 'success' || status === 'already-verified' ? 'default' : 'outline'}
+          >
+            <a href={getButtonLink()}>
+              {getButtonText()}
+            </a>
+          </Button>
+          
+          {(status === 'expired' || status === 'invalid') && (
+            <div className="text-sm text-gray-500 dark:text-gray-400">
+              <p>Need help? Contact support at support@homekrypto.com</p>
             </div>
-          </CardContent>
-        </Card>
-      </div>
+          )}
+        </CardContent>
+      </Card>
     </div>
   );
 }
