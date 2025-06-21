@@ -67,7 +67,7 @@ export default function Footer() {
       links: [
         { label: 'Terms & Conditions', href: '/terms-and-conditions' },
         { label: 'Privacy Policy', href: '/privacy-policy' },
-        { label: 'Our Mission', href: '/our-mission' },
+        { label: 'Sitemap', href: '/sitemap' },
         { label: 'For Developers', href: '/for-developers' }
       ]
     }

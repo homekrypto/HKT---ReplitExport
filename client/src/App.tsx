@@ -32,6 +32,7 @@ import PilotPropertyShowcase from "@/pages/pilot-property-showcase";
 import Properties from "@/pages/properties";
 import PropertyDetails from "@/pages/property-details";
 import SecondaryMarket from "@/pages/secondary-market";
+import Sitemap from "@/pages/sitemap";
 import RegisterAsAgent from "@/pages/register-as-agent";
 import InvestmentGrowthProjection from "@/pages/investment-growth-projection";
 import NotFound from "@/pages/not-found";
@@ -57,6 +58,7 @@ function Router() {
       <Route path="/properties" component={Properties} />
       <Route path="/property-details/:id" component={PropertyDetails} />
       <Route path="/secondary-market" component={SecondaryMarket} />
+      <Route path="/sitemap" component={Sitemap} />
       <Route path="/register-as-agent" component={RegisterAsAgent} />
       <Route path="/investment-growth-projection" component={InvestmentGrowthProjection} />
       <Route path="/login" component={Login} />
