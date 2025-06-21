@@ -9,6 +9,7 @@ import Navigation from "@/components/navigation";
 import Footer from "@/components/footer";
 import AIAssistant from "@/components/ai-assistant";
 import { useAIAssistant } from "@/hooks/useAIAssistant";
+import { useScrollToTop } from "@/hooks/useScrollToTop";
 import Home from "@/pages/home";
 import HowItWorks from "@/pages/how-it-works";
 import BuyHKT from "@/pages/buy-hkt";
@@ -32,6 +33,8 @@ import InvestmentGrowthProjection from "@/pages/investment-growth-projection";
 import NotFound from "@/pages/not-found";
 
 function Router() {
+  useScrollToTop();
+  
   return (
     <Switch>
       <Route path="/" component={Home} />

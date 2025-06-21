@@ -159,9 +159,9 @@ export default function Footer() {
         </div>
         
         <div className="border-t border-gray-700 dark:border-gray-800 mt-12 pt-8 text-center text-gray-400 dark:text-gray-500">
-          <p>&copy; 2024 {t.footer.copyright}</p>
+          <p>&copy; 2025 Home Krypto Token. All rights reserved.</p>
           <p className="mt-2 text-sm">
-            {t.footer.contractAddress}
+            Contract: 0x0de50324B6960B15A5ceD3D076aE314ac174Da2e
           </p>
         </div>
       </div>
