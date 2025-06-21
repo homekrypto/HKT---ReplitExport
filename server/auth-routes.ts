@@ -75,9 +75,7 @@ const web3LoginSchema = z.object({
 // Register
 router.post('/register', authLimiter, async (req, res) => {
   try {
-    const parsed = registerSchema.parse(req.body);
-    const { email, password, firstName, lastName, referralCode } = parsed;
-    const username = parsed.username && parsed.username.trim().length >= 3 ? parsed.username.trim() : null;
+    const { email, password, firstName, lastName, referralCode } = registerSchema.parse(req.body);
 
     // Check if user already exists by email
     const existingByEmail = await db
@@ -89,17 +87,7 @@ router.post('/register', authLimiter, async (req, res) => {
       return res.status(400).json({ message: 'User already exists with this email' });
     }
 
-    // Check username if provided
-    if (username && username.trim().length >= 3) {
-      const existingByUsername = await db
-        .select({ id: users.id })
-        .from(users)
-        .where(eq(users.username, username));
 
-      if (existingByUsername.length > 0) {
-        return res.status(400).json({ message: 'Username already taken' });
-      }
-    }
 
 
 
@@ -125,20 +113,33 @@ router.post('/register', authLimiter, async (req, res) => {
       .insert(users)
       .values({
         email,
-        username,
-        firstName,
-        lastName,
-        passwordHash,
-        referralCode: userReferralCode,
-        referredBy,
+        username: null,
+        first_name: firstName || null,
+        last_name: lastName || null,
+        password_hash: passwordHash,
+        referral_code: userReferralCode,
+        referred_by: referredBy || null,
+        is_email_verified: false,
+        two_factor_enabled: false,
       })
       .returning({ id: users.id, email: users.email });
 
     // Create email verification token
     const verificationToken = await createEmailVerificationToken(newUser.id);
 
-    // TODO: Send verification email (implement email service)
-    console.log(`Verification token for ${email}: ${verificationToken}`);
+    // Send verification email
+    try {
+      const { sendEmail, generateVerificationEmailHtml } = await import('./email');
+      await sendEmail({
+        to: email,
+        subject: 'Verify Your Email - Home Krypto Token',
+        html: generateVerificationEmailHtml(verificationToken, email),
+        text: `Please verify your email by visiting: ${process.env.APP_URL || 'http://localhost:5000'}/verify-email?token=${verificationToken}`,
+      });
+    } catch (emailError) {
+      console.error('Failed to send verification email:', emailError);
+      // Continue with registration even if email fails
+    }
 
     res.status(201).json({
       message: 'User registered successfully. Please check your email for verification.',

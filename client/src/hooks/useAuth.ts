@@ -26,7 +26,6 @@ interface LoginData {
 interface RegisterData {
   email: string;
   password: string;
-  username?: string;
   firstName?: string;
   lastName?: string;
   referralCode?: string;

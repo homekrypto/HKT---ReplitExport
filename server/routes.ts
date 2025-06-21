@@ -30,6 +30,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   // Authentication routes
   app.use('/api/auth', authRoutes);
+  
+  // Email verification route (not under /api/auth)
+  const emailVerifyRoutes = (await import('./email-verify')).default;
+  app.use(emailVerifyRoutes);
   // HKT Stats endpoint
   app.get("/api/hkt-stats", async (req, res) => {
     try {
