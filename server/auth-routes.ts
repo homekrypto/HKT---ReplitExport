@@ -114,13 +114,14 @@ router.post('/register', authLimiter, async (req, res) => {
       .values({
         email,
         username: null,
-        first_name: firstName || null,
-        last_name: lastName || null,
-        password_hash: passwordHash,
-        referral_code: userReferralCode,
-        referred_by: referredBy || null,
-        is_email_verified: false,
-        two_factor_enabled: false,
+        firstName: firstName || null,
+        lastName: lastName || null,
+        passwordHash,
+        referralCode: userReferralCode,
+        referredBy: referredBy || null,
+        isEmailVerified: false,
+        twoFactorEnabled: false,
+        profileImageUrl: null,
       })
       .returning({ id: users.id, email: users.email });
 
