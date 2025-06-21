@@ -107,6 +107,18 @@ export default function Navigation() {
                     {link.label}
                   </Link>
                 ))}
+                <Link
+                  href="/faq"
+                  className="px-3 py-2 font-medium text-gray-700 dark:text-gray-300 hover:text-primary transition-colors"
+                >
+                  FAQ
+                </Link>
+                <Link
+                  href="/contact"
+                  className="px-3 py-2 font-medium text-gray-700 dark:text-gray-300 hover:text-primary transition-colors"
+                >
+                  Contact
+                </Link>
               </div>
             </div>
           </div>
@@ -114,6 +126,7 @@ export default function Navigation() {
           <div className="flex items-center space-x-4">
             {!isAuthenticated ? (
               <div className="flex items-center space-x-2">
+                <WalletConnectDropdown />
                 <Button variant="outline" asChild>
                   <Link href="/login">Sign In</Link>
                 </Button>
