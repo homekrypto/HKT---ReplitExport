@@ -40,13 +40,15 @@ export default function InvestmentCalculator() {
   };
 
   return (
-    <Card className="bg-white bg-opacity-10 backdrop-blur-sm border-white border-opacity-30">
-      <CardHeader>
-        <CardTitle className="text-2xl font-bold text-white">{t.calculator.title}</CardTitle>
-      </CardHeader>
-      <CardContent className="space-y-4">
-        <div>
-          <Label className="block text-sm font-medium mb-2 text-white">{t.calculator.monthlyInvestment}</Label>
+    <section className="py-16 bg-gray-50 dark:bg-gray-800">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <Card className="shadow-xl bg-white dark:bg-gray-900">
+          <CardHeader>
+            <CardTitle className="text-2xl font-bold text-gray-900 dark:text-white text-center">{t.calculator.title}</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div>
+              <Label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">{t.calculator.monthlyInvestment}</Label>
           <Input
             type="number"
             value={monthlyAmount}
@@ -102,7 +104,9 @@ export default function InvestmentCalculator() {
             </div>
           </div>
         )}
-      </CardContent>
-    </Card>
+          </CardContent>
+        </Card>
+      </div>
+    </section>
   );
 }

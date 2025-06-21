@@ -186,6 +186,69 @@ export const translations: Record<Language, Translation> = {
       subscribeFailed: 'Subscription failed',
       subscribeFailedDesc: 'Please try again later.',
     },
+    mission: {
+      title: 'Our Mission',
+      subtitle: 'Democratizing real estate investment through blockchain technology, making premium property ownership accessible to everyone, everywhere.',
+      statement: {
+        title: 'Mission Statement',
+        content: 'To revolutionize real estate investment by providing transparent, accessible, and profitable opportunities through innovative blockchain technology, enabling anyone to build wealth through premium property ownership.'
+      },
+      values: {
+        title: 'Our Core Values'
+      },
+      accessibility: {
+        title: 'Accessibility',
+        description: 'Breaking down barriers to real estate investment with low minimum investments starting at $106.83/month.'
+      },
+      transparency: {
+        title: 'Transparency',
+        description: 'Full blockchain transparency with real-time tracking of investments, returns, and property performance.'
+      },
+      innovation: {
+        title: 'Innovation',
+        description: 'Leveraging cutting-edge blockchain technology to create new possibilities in real estate investment.'
+      },
+      returns: {
+        title: 'Sustainable Returns',
+        description: 'Delivering consistent 15% annual returns through strategic property selection and professional management.'
+      },
+      community: {
+        title: 'Community First',
+        description: 'Building a global community of investors who share in the success of premium real estate opportunities.'
+      },
+      quality: {
+        title: 'Quality Properties',
+        description: 'Carefully curated portfolio of high-value properties in prime locations with strong growth potential.'
+      },
+      vision: {
+        title: 'Our Vision',
+        content: 'We envision a future where anyone, regardless of their location or financial background, can participate in the wealth-building opportunities that real estate provides.',
+        point1: 'Global accessibility to premium real estate markets',
+        point2: 'Transparent and fair investment opportunities for all',
+        point3: 'Sustainable wealth building through property ownership'
+      },
+      stats: {
+        properties: 'Property Value',
+        investors: 'Active Investors',
+        countries: 'Countries',
+        returns: 'Avg. Returns'
+      },
+      team: {
+        title: 'Leadership Team',
+        ceo: 'Chief Executive Officer',
+        cto: 'Chief Technology Officer',
+        cfo: 'Chief Financial Officer',
+        ceoDesc: '15+ years in real estate development and blockchain innovation, leading the vision for democratized property investment.',
+        ctoDesc: 'Former blockchain architect at major fintech companies, ensuring secure and scalable technology infrastructure.',
+        cfoDesc: 'Wall Street veteran with expertise in real estate finance and investment strategy, optimizing returns for all stakeholders.'
+      },
+      cta: {
+        title: 'Join the Real Estate Revolution',
+        subtitle: 'Start building your property portfolio today with HKT tokens',
+        invest: 'Start Investing',
+        learn: 'Learn More'
+      }
+    },
   },
   es: {
     nav: {
@@ -246,6 +309,69 @@ export const translations: Record<Language, Translation> = {
       subscribeSuccessDesc: 'Recibirá actualizaciones sobre HKT y oportunidades de inversión.',
       subscribeFailed: 'Falló la suscripción',
       subscribeFailedDesc: 'Por favor intente de nuevo más tarde.',
+    },
+    mission: {
+      title: 'Nuestra Misión',
+      subtitle: 'Democratizando la inversión inmobiliaria a través de la tecnología blockchain, haciendo accesible la propiedad premium para todos, en todas partes.',
+      statement: {
+        title: 'Declaración de Misión',
+        content: 'Revolucionar la inversión inmobiliaria proporcionando oportunidades transparentes, accesibles y rentables a través de tecnología blockchain innovadora, permitiendo que cualquiera construya riqueza a través de la propiedad premium.'
+      },
+      values: {
+        title: 'Nuestros Valores Fundamentales'
+      },
+      accessibility: {
+        title: 'Accesibilidad',
+        description: 'Eliminando barreras a la inversión inmobiliaria con inversiones mínimas bajas comenzando en $106.83/mes.'
+      },
+      transparency: {
+        title: 'Transparencia',
+        description: 'Transparencia completa de blockchain con seguimiento en tiempo real de inversiones, rendimientos y rendimiento de propiedades.'
+      },
+      innovation: {
+        title: 'Innovación',
+        description: 'Aprovechando la tecnología blockchain de vanguardia para crear nuevas posibilidades en inversión inmobiliaria.'
+      },
+      returns: {
+        title: 'Rendimientos Sostenibles',
+        description: 'Entregando rendimientos anuales consistentes del 15% a través de selección estratégica de propiedades y gestión profesional.'
+      },
+      community: {
+        title: 'Comunidad Primero',
+        description: 'Construyendo una comunidad global de inversores que comparten el éxito de oportunidades inmobiliarias premium.'
+      },
+      quality: {
+        title: 'Propiedades de Calidad',
+        description: 'Portafolio cuidadosamente curado de propiedades de alto valor en ubicaciones prime con fuerte potencial de crecimiento.'
+      },
+      vision: {
+        title: 'Nuestra Visión',
+        content: 'Visualizamos un futuro donde cualquiera, independientemente de su ubicación o trasfondo financiero, pueda participar en las oportunidades de construcción de riqueza que proporciona el sector inmobiliario.',
+        point1: 'Accesibilidad global a mercados inmobiliarios premium',
+        point2: 'Oportunidades de inversión transparentes y justas para todos',
+        point3: 'Construcción sostenible de riqueza a través de la propiedad'
+      },
+      stats: {
+        properties: 'Valor de Propiedades',
+        investors: 'Inversores Activos',
+        countries: 'Países',
+        returns: 'Rendimientos Promedio'
+      },
+      team: {
+        title: 'Equipo de Liderazgo',
+        ceo: 'Director Ejecutivo',
+        cto: 'Director de Tecnología',
+        cfo: 'Director Financiero',
+        ceoDesc: '15+ años en desarrollo inmobiliario e innovación blockchain, liderando la visión para inversión inmobiliaria democratizada.',
+        ctoDesc: 'Ex-arquitecto blockchain en importantes empresas fintech, asegurando infraestructura tecnológica segura y escalable.',
+        cfoDesc: 'Veterano de Wall Street con experiencia en finanzas inmobiliarias y estrategia de inversión, optimizando rendimientos para todos los stakeholders.'
+      },
+      cta: {
+        title: 'Únete a la Revolución Inmobiliaria',
+        subtitle: 'Comienza a construir tu portafolio inmobiliario hoy con tokens HKT',
+        invest: 'Comenzar a Invertir',
+        learn: 'Aprender Más'
+      }
     },
   },
   ar: {
