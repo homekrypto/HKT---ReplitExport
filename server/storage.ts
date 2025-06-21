@@ -12,6 +12,8 @@ import {
   type HktStats,
   type InsertHktStats
 } from "@shared/schema";
+import { db } from "./db";
+import { eq } from "drizzle-orm";
 
 export interface IStorage {
   // Users
@@ -36,139 +38,85 @@ export interface IStorage {
   updateHktStats(stats: InsertHktStats): Promise<HktStats>;
 }
 
-export class MemStorage implements IStorage {
-  private users: Map<number, User>;
-  private investments: Map<number, Investment>;
-  private quarterlyData: Map<number, QuarterlyData>;
-  private hktStats: Map<number, HktStats>;
-  private currentUserId: number;
-  private currentInvestmentId: number;
-  private currentQuarterlyId: number;
-  private currentStatsId: number;
-
-  constructor() {
-    this.users = new Map();
-    this.investments = new Map();
-    this.quarterlyData = new Map();
-    this.hktStats = new Map();
-    this.currentUserId = 1;
-    this.currentInvestmentId = 1;
-    this.currentQuarterlyId = 1;
-    this.currentStatsId = 1;
-
-    // Initialize with sample HKT stats
-    this.initializeHktStats();
-  }
-
-  private initializeHktStats() {
-    const stats: HktStats = {
-      id: this.currentStatsId++,
-      currentPrice: "0.152",
-      priceChange24h: "15.00",
-      totalSupply: "1000000000",
-      marketCap: "152000000",
-      volume24h: "2500000",
-      updatedAt: new Date(),
-    };
-    this.hktStats.set(stats.id, stats);
-  }
-
+export class DatabaseStorage implements IStorage {
   async getUser(id: number): Promise<User | undefined> {
-    return this.users.get(id);
+    const [user] = await db.select().from(users).where(eq(users.id, id));
+    return user || undefined;
   }
 
   async getUserByUsername(username: string): Promise<User | undefined> {
-    return Array.from(this.users.values()).find(
-      (user) => user.username === username,
-    );
+    const [user] = await db.select().from(users).where(eq(users.username, username));
+    return user || undefined;
   }
 
   async getUserByWallet(walletAddress: string): Promise<User | undefined> {
-    return Array.from(this.users.values()).find(
-      (user) => user.walletAddress === walletAddress,
-    );
+    const [user] = await db.select().from(users).where(eq(users.walletAddress, walletAddress));
+    return user || undefined;
   }
 
   async createUser(insertUser: InsertUser): Promise<User> {
-    const id = this.currentUserId++;
-    const user: User = { 
-      ...insertUser, 
-      id, 
-      walletAddress: insertUser.walletAddress || null,
-      createdAt: new Date()
-    };
-    this.users.set(id, user);
+    const [user] = await db
+      .insert(users)
+      .values(insertUser)
+      .returning();
     return user;
   }
 
   async getInvestment(id: number): Promise<Investment | undefined> {
-    return this.investments.get(id);
+    const [investment] = await db.select().from(investments).where(eq(investments.id, id));
+    return investment || undefined;
   }
 
   async getInvestmentByWallet(walletAddress: string): Promise<Investment | undefined> {
-    return Array.from(this.investments.values()).find(
-      (investment) => investment.walletAddress === walletAddress,
-    );
+    const [investment] = await db.select().from(investments).where(eq(investments.walletAddress, walletAddress));
+    return investment || undefined;
   }
 
   async createInvestment(insertInvestment: InsertInvestment): Promise<Investment> {
-    const id = this.currentInvestmentId++;
-    const investment: Investment = {
-      ...insertInvestment,
-      id,
-      userId: null,
-      isActive: true,
-      createdAt: new Date(),
-    };
-    this.investments.set(id, investment);
+    const [investment] = await db
+      .insert(investments)
+      .values(insertInvestment)
+      .returning();
     return investment;
   }
 
   async updateInvestment(id: number, updateData: Partial<Investment>): Promise<Investment | undefined> {
-    const investment = this.investments.get(id);
-    if (!investment) return undefined;
-    
-    const updated: Investment = { ...investment, ...updateData };
-    this.investments.set(id, updated);
-    return updated;
+    const [investment] = await db
+      .update(investments)
+      .set(updateData)
+      .where(eq(investments.id, id))
+      .returning();
+    return investment || undefined;
   }
 
   async getAllInvestments(): Promise<Investment[]> {
-    return Array.from(this.investments.values());
+    return await db.select().from(investments);
   }
 
   async getQuarterlyData(investmentId: number): Promise<QuarterlyData[]> {
-    return Array.from(this.quarterlyData.values()).filter(
-      (data) => data.investmentId === investmentId,
-    );
+    return await db.select().from(quarterlyData).where(eq(quarterlyData.investmentId, investmentId));
   }
 
   async createQuarterlyData(insertData: InsertQuarterlyData): Promise<QuarterlyData> {
-    const id = this.currentQuarterlyId++;
-    const data: QuarterlyData = { 
-      ...insertData, 
-      id,
-      investmentId: insertData.investmentId || null
-    };
-    this.quarterlyData.set(id, data);
+    const [data] = await db
+      .insert(quarterlyData)
+      .values(insertData)
+      .returning();
     return data;
   }
 
   async getLatestHktStats(): Promise<HktStats | undefined> {
-    const stats = Array.from(this.hktStats.values());
-    return stats.length > 0 ? stats[stats.length - 1] : undefined;
+    const [stats] = await db.select().from(hktStats).orderBy(hktStats.id).limit(1);
+    return stats || undefined;
   }
 
   async updateHktStats(insertStats: InsertHktStats): Promise<HktStats> {
-    const id = this.currentStatsId++;
-    const stats: HktStats = {
-      ...insertStats,
-      id,
-      updatedAt: new Date(),
-    };
-    this.hktStats.set(id, stats);
+    const [stats] = await db
+      .insert(hktStats)
+      .values(insertStats)
+      .returning();
     return stats;
   }
 }
 
-export const storage = new MemStorage();
+export const storage = new DatabaseStorage();

@@ -109,6 +109,7 @@ This is a full-stack web application for HKT (Home Krypto Token), a blockchain-b
 
 ## Changelog
 - June 21, 2025. Initial setup
+- June 21, 2025. Added PostgreSQL database integration - migrated from in-memory storage to persistent database
 
 ## User Preferences
 
