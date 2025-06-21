@@ -16,7 +16,7 @@ export default function Dashboard() {
 
   if (!web3State.isConnected) {
     return (
-      <div className="min-h-screen bg-gray-50 py-20">
+      <div className="min-h-screen bg-white dark:bg-gray-900 py-20">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <Alert className="max-w-md mx-auto">
@@ -84,12 +84,12 @@ export default function Dashboard() {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50 py-20">
+    <div className="min-h-screen bg-white dark:bg-gray-900 py-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">Investor Dashboard</h1>
-          <p className="text-xl text-gray-600">Track your HKT investment performance and property ownership</p>
-          <div className="mt-4 text-sm text-gray-500">
+          <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">Investor Dashboard</h1>
+          <p className="text-xl text-gray-600 dark:text-gray-300">Track your HKT investment performance and property ownership</p>
+          <div className="mt-4 text-sm text-gray-500 dark:text-gray-400">
             Connected: {web3Service.formatAddress(web3State.address!)}
           </div>
         </div>
@@ -103,13 +103,13 @@ export default function Dashboard() {
                 <Card key={index} className="shadow-lg">
                   <CardContent className="p-6">
                     <div className="flex items-center justify-between mb-4">
-                      <h3 className="text-sm font-medium text-gray-600">{card.title}</h3>
+                      <h3 className="text-sm font-medium text-gray-600 dark:text-gray-300">{card.title}</h3>
                       <IconComponent className={card.color} size={20} />
                     </div>
-                    <div className={`text-3xl font-bold text-gray-900 ${card.color}`}>
+                    <div className={`text-3xl font-bold text-gray-900 dark:text-white ${card.color}`}>
                       {card.value}
                     </div>
-                    <div className="text-sm text-gray-500 mt-1">{card.subtitle}</div>
+                    <div className="text-sm text-gray-500 dark:text-gray-400 mt-1">{card.subtitle}</div>
                   </CardContent>
                 </Card>
               );

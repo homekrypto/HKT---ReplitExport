@@ -49,11 +49,11 @@ export default function HowItWorks() {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50 py-20">
+    <div className="min-h-screen bg-white dark:bg-gray-900 py-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">How HKT Works</h1>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">How HKT Works</h1>
+          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
             Simple, transparent, and secure property investment through blockchain technology
           </p>
         </div>
@@ -67,8 +67,8 @@ export default function HowItWorks() {
                   <div className={`w-16 h-16 ${step.bgColor} rounded-full flex items-center justify-center mb-6`}>
                     <IconComponent className="text-white" size={32} />
                   </div>
-                  <h3 className="text-2xl font-bold mb-4">{step.title}</h3>
-                  <p className="text-gray-600 leading-relaxed">
+                  <h3 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">{step.title}</h3>
+                  <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
                     {step.description}
                   </p>
                 </CardContent>
@@ -79,7 +79,7 @@ export default function HowItWorks() {
 
         <Card className="shadow-xl">
           <CardContent className="p-8">
-            <h3 className="text-3xl font-bold text-center mb-8">Investment Timeline</h3>
+            <h3 className="text-3xl font-bold text-center mb-8 text-gray-900 dark:text-white">Investment Timeline</h3>
             <div className="space-y-6">
               {timelineData.map((phase, index) => (
                 <div key={index} className={`flex items-center space-x-6 p-4 ${phase.bgColor} rounded-lg`}>
@@ -87,8 +87,8 @@ export default function HowItWorks() {
                     {phase.year}
                   </div>
                   <div className="flex-1">
-                    <h4 className="font-semibold text-lg">{phase.title}</h4>
-                    <p className="text-gray-600">{phase.description}</p>
+                    <h4 className="font-semibold text-lg text-gray-900 dark:text-white">{phase.title}</h4>
+                    <p className="text-gray-600 dark:text-gray-300">{phase.description}</p>
                   </div>
                 </div>
               ))}
@@ -97,7 +97,7 @@ export default function HowItWorks() {
         </Card>
 
         <div className="mt-16">
-          <h3 className="text-2xl font-bold text-center mb-8">Quarterly Breakdown</h3>
+          <h3 className="text-2xl font-bold text-center mb-8 text-gray-900 dark:text-white">Quarterly Breakdown</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {QUARTERLY_BREAKDOWN.map((quarter, index) => (
               <Card key={index} className="p-4">
