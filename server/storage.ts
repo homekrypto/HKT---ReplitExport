@@ -21,9 +21,27 @@ import { eq } from "drizzle-orm";
 export interface IStorage {
   // Users
   getUser(id: number): Promise<User | undefined>;
+  getUserByEmail(email: string): Promise<User | undefined>;
   getUserByUsername(username: string): Promise<User | undefined>;
   getUserByWallet(walletAddress: string): Promise<User | undefined>;
+  getUserByReferralCode(referralCode: string): Promise<User | undefined>;
   createUser(user: InsertUser): Promise<User>;
+  updateUser(id: number, updates: Partial<User>): Promise<User>;
+
+  // Email verification
+  createEmailVerificationToken(token: { userId: number; token: string; expiresAt: Date }): Promise<void>;
+  getEmailVerificationToken(token: string): Promise<{ userId: number; expiresAt: Date } | undefined>;
+  deleteEmailVerificationToken(token: string): Promise<void>;
+
+  // Password reset
+  createPasswordResetToken(token: { userId: number; token: string; expiresAt: Date }): Promise<void>;
+  getPasswordResetToken(token: string): Promise<{ userId: number; expiresAt: Date; used: boolean } | undefined>;
+  markPasswordResetTokenUsed(token: string): Promise<void>;
+
+  // User sessions
+  createUserSession(session: { userId: number; refreshToken: string; deviceInfo?: string; ipAddress?: string; expiresAt: Date }): Promise<void>;
+  getUserSession(refreshToken: string): Promise<{ userId: number; expiresAt: Date } | undefined>;
+  deleteUserSession(refreshToken: string): Promise<void>;
 
   // Investments
   getInvestment(id: number): Promise<Investment | undefined>;
@@ -52,6 +70,11 @@ export class DatabaseStorage implements IStorage {
     return user || undefined;
   }
 
+  async getUserByEmail(email: string): Promise<User | undefined> {
+    const [user] = await db.select().from(users).where(eq(users.email, email));
+    return user || undefined;
+  }
+
   async getUserByUsername(username: string): Promise<User | undefined> {
     const [user] = await db.select().from(users).where(eq(users.username, username));
     return user || undefined;
@@ -62,12 +85,84 @@ export class DatabaseStorage implements IStorage {
     return user || undefined;
   }
 
+  async getUserByReferralCode(referralCode: string): Promise<User | undefined> {
+    const [user] = await db.select().from(users).where(eq(users.referralCode, referralCode));
+    return user || undefined;
+  }
+
   async createUser(insertUser: InsertUser): Promise<User> {
     const [user] = await db
       .insert(users)
       .values(insertUser)
       .returning();
     return user;
+  }
+
+  async updateUser(id: number, updates: Partial<User>): Promise<User> {
+    const [user] = await db
+      .update(users)
+      .set({ ...updates, updatedAt: new Date() })
+      .where(eq(users.id, id))
+      .returning();
+    return user;
+  }
+
+  // Email verification methods
+  async createEmailVerificationToken(token: { userId: number; token: string; expiresAt: Date }): Promise<void> {
+    await db.insert(emailVerificationTokens).values(token);
+  }
+
+  async getEmailVerificationToken(token: string): Promise<{ userId: number; expiresAt: Date } | undefined> {
+    const [tokenData] = await db
+      .select({ userId: emailVerificationTokens.userId, expiresAt: emailVerificationTokens.expiresAt })
+      .from(emailVerificationTokens)
+      .where(eq(emailVerificationTokens.token, token));
+    return tokenData;
+  }
+
+  async deleteEmailVerificationToken(token: string): Promise<void> {
+    await db.delete(emailVerificationTokens).where(eq(emailVerificationTokens.token, token));
+  }
+
+  // Password reset methods
+  async createPasswordResetToken(token: { userId: number; token: string; expiresAt: Date }): Promise<void> {
+    await db.insert(passwordResetTokens).values(token);
+  }
+
+  async getPasswordResetToken(token: string): Promise<{ userId: number; expiresAt: Date; used: boolean } | undefined> {
+    const [tokenData] = await db
+      .select({
+        userId: passwordResetTokens.userId,
+        expiresAt: passwordResetTokens.expiresAt,
+        used: passwordResetTokens.used,
+      })
+      .from(passwordResetTokens)
+      .where(eq(passwordResetTokens.token, token));
+    return tokenData;
+  }
+
+  async markPasswordResetTokenUsed(token: string): Promise<void> {
+    await db
+      .update(passwordResetTokens)
+      .set({ used: true })
+      .where(eq(passwordResetTokens.token, token));
+  }
+
+  // User session methods
+  async createUserSession(session: { userId: number; refreshToken: string; deviceInfo?: string; ipAddress?: string; expiresAt: Date }): Promise<void> {
+    await db.insert(userSessions).values(session);
+  }
+
+  async getUserSession(refreshToken: string): Promise<{ userId: number; expiresAt: Date } | undefined> {
+    const [session] = await db
+      .select({ userId: userSessions.userId, expiresAt: userSessions.expiresAt })
+      .from(userSessions)
+      .where(eq(userSessions.refreshToken, refreshToken));
+    return session;
+  }
+
+  async deleteUserSession(refreshToken: string): Promise<void> {
+    await db.delete(userSessions).where(eq(userSessions.refreshToken, refreshToken));
   }
 
   async getInvestment(id: number): Promise<Investment | undefined> {

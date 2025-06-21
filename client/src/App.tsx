@@ -11,6 +11,11 @@ import HowItWorks from "@/pages/how-it-works";
 import BuyHKT from "@/pages/buy-hkt";
 import Dashboard from "@/pages/dashboard";
 import OurMission from "@/pages/our-mission";
+import Login from "@/pages/login";
+import Register from "@/pages/register";
+import ForgotPassword from "@/pages/forgot-password";
+import ResetPassword from "@/pages/reset-password";
+import VerifyEmail from "@/pages/verify-email";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -21,6 +26,11 @@ function Router() {
       <Route path="/how-it-works" component={HowItWorks} />
       <Route path="/buy-hkt" component={BuyHKT} />
       <Route path="/dashboard" component={Dashboard} />
+      <Route path="/login" component={Login} />
+      <Route path="/register" component={Register} />
+      <Route path="/forgot-password" component={ForgotPassword} />
+      <Route path="/reset-password" component={ResetPassword} />
+      <Route path="/verify-email" component={VerifyEmail} />
       <Route component={NotFound} />
     </Switch>
   );

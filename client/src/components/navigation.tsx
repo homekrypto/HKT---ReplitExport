@@ -3,7 +3,8 @@ import { Link, useLocation } from 'wouter';
 import { Button } from '@/components/ui/button';
 import { web3Service, type Web3State } from '@/lib/web3';
 import { useApp } from '@/contexts/AppContext';
-import { Wallet, Menu, X } from 'lucide-react';
+import { useAuth } from '@/hooks/useAuth';
+import { Wallet, Menu, X, User, LogOut } from 'lucide-react';
 
 export default function Navigation() {
   const [location] = useLocation();
@@ -11,6 +12,7 @@ export default function Navigation() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isConnecting, setIsConnecting] = useState(false);
   const { t } = useApp();
+  const { user, isAuthenticated, logout } = useAuth();
 
   useEffect(() => {
     const unsubscribe = web3Service.subscribe(setWeb3State);
@@ -66,22 +68,53 @@ export default function Navigation() {
           </div>
 
           <div className="flex items-center space-x-4">
-            <Button
-              onClick={handleConnectWallet}
-              disabled={isConnecting}
-              className={`${
-                web3State.isConnected
-                  ? 'bg-secondary hover:bg-green-700'
-                  : 'bg-primary hover:bg-blue-700'
-              } text-white font-medium transition-colors`}
-            >
-              <Wallet className="w-4 h-4 mr-2" />
-              {isConnecting
-                ? 'Connecting...'
-                : web3State.isConnected && web3State.address
-                ? web3Service.formatAddress(web3State.address)
-                : t.nav.connectWallet}
-            </Button>
+            {isAuthenticated ? (
+              <div className="flex items-center space-x-4">
+                <span className="text-gray-700 dark:text-gray-300">
+                  Welcome, {user?.firstName || user?.username || user?.email}
+                </span>
+                <Button
+                  onClick={logout}
+                  variant="outline"
+                  className="text-gray-700 dark:text-gray-300"
+                >
+                  <LogOut className="w-4 h-4 mr-2" />
+                  Logout
+                </Button>
+              </div>
+            ) : (
+              <div className="flex items-center space-x-2">
+                <Link href="/login">
+                  <Button variant="outline">
+                    <User className="w-4 h-4 mr-2" />
+                    Login
+                  </Button>
+                </Link>
+                <Link href="/register">
+                  <Button>Sign Up</Button>
+                </Link>
+              </div>
+            )}
+
+            {isAuthenticated && (
+              <Button
+                onClick={handleConnectWallet}
+                disabled={isConnecting}
+                variant="outline"
+                className={`${
+                  web3State.isConnected
+                    ? 'border-green-500 text-green-600'
+                    : 'border-gray-300'
+                }`}
+              >
+                <Wallet className="w-4 h-4 mr-2" />
+                {isConnecting
+                  ? 'Connecting...'
+                  : web3State.isConnected && web3State.address
+                  ? web3Service.formatAddress(web3State.address)
+                  : 'Connect Wallet'}
+              </Button>
+            )}
 
             <button
               className="md:hidden text-gray-700 dark:text-gray-300"
