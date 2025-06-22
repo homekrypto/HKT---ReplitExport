@@ -46,21 +46,21 @@ export default function HowItWorks() {
       year: 1,
       title: 'Year 1: Foundation Building',
       description: 'HKT Price: $0.100 | Quarterly Investment: $320.40 | Total HKT: 12,816',
-      bgColor: 'bg-blue-50',
+      bgColor: 'bg-blue-50 dark:bg-blue-900/20',
       iconBg: 'bg-primary'
     },
     {
       year: 2,
       title: 'Year 2: Growth Phase',
       description: 'HKT Price: $0.115 | Quarterly Investment: $320.40 | Total HKT: 23,960',
-      bgColor: 'bg-green-50',
+      bgColor: 'bg-green-50 dark:bg-green-900/20',
       iconBg: 'bg-secondary'
     },
     {
       year: 3,
       title: 'Year 3: Maturity & Returns',
       description: 'HKT Price: $0.152 | Final Portfolio: $5,300 | Profit: $1,454 (37.8% ROI)',
-      bgColor: 'bg-yellow-50',
+      bgColor: 'bg-yellow-50 dark:bg-yellow-900/20',
       iconBg: 'bg-accent'
     }
   ];
@@ -99,13 +99,13 @@ export default function HowItWorks() {
             <h3 className="text-3xl font-bold text-center mb-8 text-gray-900 dark:text-white">Investment Timeline</h3>
             <div className="space-y-6">
               {timelineData.map((phase, index) => (
-                <div key={index} className={`flex items-center space-x-6 p-4 ${phase.bgColor} rounded-lg`}>
+                <div key={index} className={`flex items-center space-x-6 p-4 ${phase.bgColor} rounded-lg border border-gray-200 dark:border-gray-700`}>
                   <div className={`w-12 h-12 ${phase.iconBg} rounded-full flex items-center justify-center text-white font-bold`}>
                     {phase.year}
                   </div>
                   <div className="flex-1">
                     <h4 className="font-semibold text-lg text-gray-900 dark:text-white">{phase.title}</h4>
-                    <p className="text-gray-600 dark:text-gray-300">{phase.description}</p>
+                    <p className="text-gray-700 dark:text-gray-200 font-medium">{phase.description}</p>
                   </div>
                 </div>
               ))}

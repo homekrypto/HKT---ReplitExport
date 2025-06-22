@@ -141,6 +141,7 @@ This is a full-stack web application for HKT (Home Krypto Token), a blockchain-b
 - June 21, 2025. Implemented comprehensive onboarding walkthrough system with 6-step guided tour covering platform basics, investment features, security, and wallet integration with automatic triggering for new users
 - June 21, 2025. Resolved critical database schema issues preventing login, fixed session creation constraints, implemented email deliverability warnings for iCloud users, and completed full authentication system with working registration, verification, and login flows
 - June 21, 2025. Simplified navigation menu - removed Wallets, FAQ, and Whitepaper links per user request, keeping only Properties and Contact in main navigation
+- June 22, 2025. Fixed Investment Timeline visibility in dark theme on How It Works page - enhanced text contrast and background colors for better readability
 
 ## User Preferences
 
