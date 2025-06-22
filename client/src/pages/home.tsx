@@ -19,7 +19,7 @@ export default function Home() {
       {/* Problem Solution Section */}
       <section className="py-16 bg-gray-50 dark:bg-gray-900">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 text-gray-900 dark:text-white">
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 text-gray-900 dark:text-white drop-shadow-sm">
             Tired of Real Estate Roadblocks? HKT is Changing That.
           </h2>
           <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
@@ -27,10 +27,10 @@ export default function Home() {
               <div className="mb-4 flex justify-center">
                 <Roadblock className="h-12 w-12 text-red-600" />
               </div>
-              <h3 className="text-xl font-semibold mb-4 text-gray-900 dark:text-white">
+              <h3 className="text-xl font-semibold mb-4 text-gray-900 dark:text-white drop-shadow-sm">
                 Traditional Investing Can Be Tough
               </h3>
-              <ul className="space-y-2 text-gray-600 dark:text-gray-300">
+              <ul className="space-y-2 text-gray-700 dark:text-gray-300 font-medium">
                 <li>High Costs & Down Payments</li>
                 <li>Complex & Slow Processes</li>
                 <li>Hard to Sell Quickly (Illiquid)</li>
@@ -40,10 +40,10 @@ export default function Home() {
               <div className="mb-4 flex justify-center">
                 <Key className="h-12 w-12 text-green-600" />
               </div>
-              <h3 className="text-xl font-semibold mb-4 text-gray-900 dark:text-white">
+              <h3 className="text-xl font-semibold mb-4 text-gray-900 dark:text-white drop-shadow-sm">
                 HKT Makes it Accessible & Simple
               </h3>
-              <ul className="space-y-2 text-gray-600 dark:text-gray-300">
+              <ul className="space-y-2 text-gray-700 dark:text-gray-300 font-medium">
                 <li>Start with Affordable Shares</li>
                 <li>Simplified & Transparent Process (Our Vision)</li>
                 <li>Easier to Trade Shares (Future Goal)</li>
@@ -117,10 +117,14 @@ export default function Home() {
           <div className="grid md:grid-cols-3 gap-8 mb-12">
             {/* Cap Cana Pilot */}
             <Card className="bg-gray-800 border-gray-700">
-              <div className="aspect-video bg-cover bg-center rounded-t-lg" 
-                   style={{backgroundImage: "url('https://homekrypto.com/wp-content/uploads/2025/06/invest-in-dominican-republic.jpg')"}}
-                   role="img" 
-                   aria-label="Cap Cana Property"></div>
+              <div className="aspect-video rounded-t-lg overflow-hidden">
+                <img 
+                  src="https://homekrypto.com/wp-content/uploads/2025/06/invest-in-dominican-republic.jpg"
+                  alt="Cap Cana Property - Luxury Dominican Republic Real Estate"
+                  className="w-full h-full object-cover"
+                  loading="lazy"
+                />
+              </div>
               <CardContent className="p-6">
                 <h3 className="text-xl font-semibold mb-2 text-white">Marvelous Cap Cana Condo (Our Pilot Focus)</h3>
                 <p className="text-gray-300 mb-4">Luxury 2-Bed/2-Bath condo in Ciudad Las Canas. High rental demand (80-85% occupancy) in a prime Dominican Republic tourist hub.</p>
