@@ -33,7 +33,7 @@ export function AppProvider({ children }: AppProviderProps) {
 
   const [theme, setThemeState] = useState<Theme>(() => {
     const saved = localStorage.getItem('hkt-theme');
-    return (saved as Theme) || 'light';
+    return (saved as Theme) || 'dark';
   });
 
   const setLanguage = (lang: Language) => {
