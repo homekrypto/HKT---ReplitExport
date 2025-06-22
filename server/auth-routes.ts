@@ -268,12 +268,32 @@ router.post('/forgot-password', generalLimiter, async (req, res) => {
       .from(users)
       .where(eq(users.email, email));
 
+    console.log(`Password reset request for ${email}:`, user ? `Found user ID ${user.id}` : 'User not found');
+
     // Always return success for security (don't reveal if email exists)
     if (user) {
       const resetToken = await createPasswordResetToken(user.id);
+      console.log(`Password reset token created for ${email}: ${resetToken}`);
       
-      // TODO: Send password reset email
-      console.log(`Password reset token for ${email}: ${resetToken}`);
+      try {
+        console.log(`Importing email functions for password reset...`);
+        const { sendEmail, generatePasswordResetEmailHtml } = await import('./email');
+        console.log(`Email functions imported, generating HTML...`);
+        
+        const emailHtml = generatePasswordResetEmailHtml(resetToken, email);
+        console.log(`HTML generated, sending email to ${email}...`);
+        
+        await sendEmail({
+          to: email,
+          subject: 'Reset Your Password - Home Krypto Token',
+          html: emailHtml,
+        });
+        
+        console.log(`Password reset email sent successfully to ${email}`);
+      } catch (emailError) {
+        console.error('Failed to send password reset email:', emailError);
+        console.error('Email error stack:', emailError.stack);
+      }
     }
 
     res.json({ message: 'If the email exists, a password reset link has been sent' });
