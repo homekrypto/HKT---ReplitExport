@@ -8,7 +8,7 @@ interface EmailConfig {
     user: string;
     pass: string;
   };
-  tls?: {
+  tls?: 
     ciphers: string;
     rejectUnauthorized: boolean;
   };
