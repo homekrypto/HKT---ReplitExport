@@ -117,12 +117,19 @@ export default function Home() {
           <div className="grid md:grid-cols-3 gap-8 mb-12">
             {/* Cap Cana Pilot */}
             <Card className="bg-gray-800 border-gray-700">
-              <div className="aspect-video rounded-t-lg overflow-hidden">
+              <div className="aspect-video rounded-t-lg overflow-hidden bg-gray-200 dark:bg-gray-700">
                 <img 
-                  src="https://homekrypto.com/wp-content/uploads/2025/06/invest-in-dominican-republic.jpg"
+                  src="/attached_assets/invest-in-dominican-republic_1750519048069.jpg"
                   alt="Cap Cana Property - Luxury Dominican Republic Real Estate"
                   className="w-full h-full object-cover"
                   loading="lazy"
+                  onError={(e) => {
+                    // Fallback to external URL if local asset fails
+                    const target = e.target as HTMLImageElement;
+                    if (target.src.includes('attached_assets')) {
+                      target.src = 'https://homekrypto.com/wp-content/uploads/2025/06/invest-in-dominican-republic.jpg';
+                    }
+                  }}
                 />
               </div>
               <CardContent className="p-6">
