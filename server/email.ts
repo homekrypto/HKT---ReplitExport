@@ -1,4 +1,4 @@
-import nodemailer from 'nodemailer';
+import * as nodemailer from 'nodemailer';
 
 interface EmailConfig {
   host: string;
@@ -8,7 +8,7 @@ interface EmailConfig {
     user: string;
     pass: string;
   };
-  tls?: 
+  tls?: {
     ciphers: string;
     rejectUnauthorized: boolean;
   };
