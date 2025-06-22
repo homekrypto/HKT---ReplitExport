@@ -119,16 +119,13 @@ export default function Home() {
             <Card className="bg-gray-800 border-gray-700">
               <div className="aspect-video rounded-t-lg overflow-hidden bg-gray-200 dark:bg-gray-700">
                 <img 
-                  src="/attached_assets/invest-in-dominican-republic_1750519048069.jpg"
+                  src="@assets/invest-in-properties-in-punta-cana-dominican-republic-scaled_1750519048071.jpg"
                   alt="Cap Cana Property - Luxury Dominican Republic Real Estate"
                   className="w-full h-full object-cover"
                   loading="lazy"
                   onError={(e) => {
-                    // Fallback to external URL if local asset fails
                     const target = e.target as HTMLImageElement;
-                    if (target.src.includes('attached_assets')) {
-                      target.src = 'https://homekrypto.com/wp-content/uploads/2025/06/invest-in-dominican-republic.jpg';
-                    }
+                    target.src = "https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80";
                   }}
                 />
               </div>

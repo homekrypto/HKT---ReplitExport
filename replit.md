@@ -158,6 +158,7 @@ This is a full-stack web application for HKT (Home Krypto Token), a blockchain-b
 - June 22, 2025. Set dark theme as default startup theme - users now start with dark mode instead of light mode
 - June 22, 2025. Fixed homepage hero text visibility in light theme with text shadow, enhanced mobile property image display, created functional Join Waitlist page with comprehensive form, implemented working email signup systems for both newsletter and waitlist that send notifications to support@homekrypto.com with user confirmation emails
 - June 22, 2025. Applied comprehensive text visibility fix using semi-transparent background boxes with maximum contrast (pure black on white background), implemented robust property image loading with local asset fallback system for Cap Cana property display
+- June 22, 2025. Fixed Cap Cana property image visibility using reliable external image source for consistent display across all devices
 
 ## User Preferences
 
