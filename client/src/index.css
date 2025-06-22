@@ -53,6 +53,34 @@
   --radius: 0.5rem;
 }
 
+.crypto {
+  --background: hsl(230, 20%, 9%);
+  --foreground: hsl(40, 100%, 90%);
+  --muted: hsl(230, 15%, 15%);
+  --muted-foreground: hsl(40, 30%, 70%);
+  --popover: hsl(230, 20%, 12%);
+  --popover-foreground: hsl(40, 100%, 90%);
+  --card: hsl(230, 18%, 11%);
+  --card-foreground: hsl(40, 100%, 90%);
+  --border: hsl(45, 100%, 25%);
+  --input: hsl(230, 20%, 15%);
+  --primary: hsl(45, 100%, 60%);
+  --primary-foreground: hsl(230, 20%, 9%);
+  --secondary: hsl(120, 70%, 50%);
+  --secondary-foreground: hsl(230, 20%, 9%);
+  --accent: hsl(280, 80%, 65%);
+  --accent-foreground: hsl(0, 0%, 100%);
+  --destructive: hsl(0, 80%, 65%);
+  --destructive-foreground: hsl(0, 0%, 100%);
+  --ring: hsl(45, 100%, 60%);
+  --radius: 0.75rem;
+  --chart-1: hsl(45, 100%, 60%);
+  --chart-2: hsl(120, 70%, 50%);
+  --chart-3: hsl(280, 80%, 65%);
+  --chart-4: hsl(10, 90%, 65%);
+  --chart-5: hsl(180, 70%, 60%);
+}
+
 @layer base {
   * {
     @apply border-border;
@@ -102,6 +130,37 @@
 
 .hover\:bg-yellow-500:hover {
   background-color: hsl(45, 93%, 52%);
+}
+
+/* Crypto theme specific enhancements */
+.crypto .bg-gradient-crypto {
+  background: linear-gradient(135deg, hsl(230, 20%, 9%) 0%, hsl(230, 18%, 11%) 50%, hsl(45, 100%, 8%) 100%);
+}
+
+.crypto .text-crypto-gold {
+  color: hsl(45, 100%, 70%);
+}
+
+.crypto .border-crypto-accent {
+  border-color: hsl(45, 100%, 25%);
+}
+
+.crypto .shadow-crypto {
+  box-shadow: 0 4px 20px rgba(255, 215, 0, 0.1);
+}
+
+/* Investment-focused animations */
+@keyframes glow-pulse {
+  0%, 100% {
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
+  }
+}
+
+.crypto .glow-on-hover:hover {
+  animation: glow-pulse 2s ease-in-out infinite;
 }
 
 /* Smooth scrolling */

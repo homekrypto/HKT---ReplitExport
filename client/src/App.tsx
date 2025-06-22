@@ -39,6 +39,7 @@ import EmailVerificationSuccess from "@/pages/email-verification-success";
 import CrossChainWallets from "@/pages/cross-chain-wallets";
 import RegisterAsAgent from "@/pages/register-as-agent";
 import InvestmentGrowthProjection from "@/pages/investment-growth-projection";
+import ThemeSettings from "@/pages/theme-settings";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -68,6 +69,7 @@ function Router() {
       <Route path="/cross-chain-wallets" component={CrossChainWallets} />
       <Route path="/register-as-agent" component={RegisterAsAgent} />
       <Route path="/investment-growth-projection" component={InvestmentGrowthProjection} />
+      <Route path="/theme-settings" component={ThemeSettings} />
       <Route path="/login" component={Login} />
       <Route path="/register" component={Register} />
       <Route path="/forgot-password" component={ForgotPassword} />
