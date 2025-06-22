@@ -156,3 +156,4 @@ This is a full-stack web application for HKT (Home Krypto Token), a blockchain-b
 
 Preferred communication style: Simple, everyday language.
 Theme preference: Light theme should be crypto-inspired with gold accents (investment-focused), dark theme as secondary option, simple slider toggle preferred over dropdown menus.
+Navigation preference: Blog link should be in footer, not main navigation menu.
