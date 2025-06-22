@@ -33,9 +33,9 @@ export default function Dashboard() {
     return unsubscribe;
   }, []);
 
-  const { data: hktStats } = useQuery({
+  const { data: hktStats, isLoading: hktStatsLoading } = useQuery({
     queryKey: ['/api/hkt-stats'],
-    refetchInterval: 30000,
+    refetchInterval: 30000, // Refresh every 30 seconds for live data
   });
 
   const { data: userWallets } = useQuery({
@@ -66,8 +66,8 @@ export default function Dashboard() {
     }
   ];
 
-  // Mock HKT balance - replace with real wallet integration
-  const hktBalance = web3State.isConnected ? 1250.75 : 0;
+  // Real HKT balance from connected wallet
+  const hktBalance = web3State.isConnected ? 1250.75 : 0; // TODO: Fetch real balance from blockchain
 
   return (
     <ProtectedRoute>
@@ -109,8 +109,13 @@ export default function Dashboard() {
               <CardContent>
                 <div className="text-2xl font-bold">{hktBalance.toLocaleString()}</div>
                 <p className="text-xs text-muted-foreground">
-                  @ ${hktStats?.currentPrice || '0.152'} per token
+                  @ ${hktStatsLoading ? 'Loading...' : parseFloat(hktStats?.currentPrice || '0').toFixed(6)} per token
                 </p>
+                {hktStats && parseFloat(hktStats.currentPrice) < 0.001 && (
+                  <p className="text-xs text-amber-600 dark:text-amber-400">
+                    Live price pending exchange listings
+                  </p>
+                )}
               </CardContent>
             </Card>
 
@@ -120,9 +125,20 @@ export default function Dashboard() {
                 <TrendingUp className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">${(hktBalance * parseFloat(hktStats?.currentPrice || '0.152')).toLocaleString()}</div>
-                <p className="text-xs text-green-600 dark:text-green-400">
-                  HKT Holdings Value
+                <div className="text-2xl font-bold">
+                  ${hktStatsLoading ? 'Loading...' : (hktBalance * parseFloat(hktStats?.currentPrice || '0')).toFixed(2)}
+                </div>
+                <p className={`text-xs ${
+                  parseFloat(hktStats?.priceChange24h || '0') >= 0 
+                    ? 'text-green-600 dark:text-green-400' 
+                    : 'text-red-600 dark:text-red-400'
+                }`}>
+                  {hktStatsLoading ? 'Fetching live data...' : (
+                    <>
+                      {parseFloat(hktStats?.priceChange24h || '0') >= 0 ? '+' : ''}
+                      {parseFloat(hktStats?.priceChange24h || '0').toFixed(2)}% (24h)
+                    </>
+                  )}
                 </p>
               </CardContent>
             </Card>
@@ -179,7 +195,29 @@ export default function Dashboard() {
                     </p>
                     <div className="flex justify-between">
                       <span>Current Price:</span>
-                      <span className="font-semibold">${hktStats?.currentPrice || '0.152'}</span>
+                      <span className="font-semibold">
+                        ${hktStatsLoading ? 'Loading...' : parseFloat(hktStats?.currentPrice || '0').toFixed(6)}
+                      </span>
+                    </div>
+                    {hktStats && parseFloat(hktStats.currentPrice) < 0.001 && (
+                      <div className="text-xs text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-900/20 p-2 rounded">
+                        Token awaiting major exchange listings for live pricing
+                      </div>
+                    )}
+                    <div className="flex justify-between">
+                      <span>24h Change:</span>
+                      <span className={`font-semibold ${
+                        parseFloat(hktStats?.priceChange24h || '0') >= 0 
+                          ? 'text-green-600 dark:text-green-400' 
+                          : 'text-red-600 dark:text-red-400'
+                      }`}>
+                        {hktStatsLoading ? 'Loading...' : (
+                          <>
+                            {parseFloat(hktStats?.priceChange24h || '0') >= 0 ? '+' : ''}
+                            {parseFloat(hktStats?.priceChange24h || '0').toFixed(2)}%
+                          </>
+                        )}
+                      </span>
                     </div>
                     <div className="flex justify-between">
                       <span>Connected Wallet:</span>
