@@ -1,7 +1,7 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { Language, translations, Translation } from '@/lib/i18n';
 
-export type Theme = 'light' | 'dark' | 'crypto';
+export type Theme = 'light' | 'dark';
 
 interface AppContextType {
   language: Language;
@@ -33,7 +33,7 @@ export function AppProvider({ children }: AppProviderProps) {
 
   const [theme, setThemeState] = useState<Theme>(() => {
     const saved = localStorage.getItem('hkt-theme');
-    return (saved as Theme) || 'dark';
+    return (saved as Theme) || 'light';
   });
 
   const setLanguage = (lang: Language) => {
@@ -48,11 +48,10 @@ export function AppProvider({ children }: AppProviderProps) {
 
   useEffect(() => {
     // Apply theme to document
-    document.documentElement.classList.remove('dark', 'crypto');
     if (theme === 'dark') {
       document.documentElement.classList.add('dark');
-    } else if (theme === 'crypto') {
-      document.documentElement.classList.add('crypto');
+    } else {
+      document.documentElement.classList.remove('dark');
     }
   }, [theme]);
 

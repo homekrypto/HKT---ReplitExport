@@ -3,57 +3,6 @@
 @tailwind utilities;
 
 :root {
-  --background: hsl(0, 0%, 100%);
-  --foreground: hsl(20, 14.3%, 4.1%);
-  --muted: hsl(60, 4.8%, 95.9%);
-  --muted-foreground: hsl(25, 5.3%, 44.7%);
-  --popover: hsl(0, 0%, 100%);
-  --popover-foreground: hsl(20, 14.3%, 4.1%);
-  --card: hsl(0, 0%, 100%);
-  --card-foreground: hsl(20, 14.3%, 4.1%);
-  --border: hsl(20, 5.9%, 90%);
-  --input: hsl(20, 5.9%, 90%);
-  --primary: hsl(214, 84%, 56%);
-  --primary-foreground: hsl(0, 0%, 100%);
-  --secondary: hsl(142, 71%, 45%);
-  --secondary-foreground: hsl(0, 0%, 100%);
-  --accent: hsl(45, 93%, 47%);
-  --accent-foreground: hsl(0, 0%, 0%);
-  --destructive: hsl(0, 84.2%, 60.2%);
-  --destructive-foreground: hsl(60, 9.1%, 97.8%);
-  --ring: hsl(20, 14.3%, 4.1%);
-  --radius: 0.5rem;
-  --chart-1: hsl(214, 84%, 56%);
-  --chart-2: hsl(142, 71%, 45%);
-  --chart-3: hsl(45, 93%, 47%);
-  --chart-4: hsl(348, 91%, 67%);
-  --chart-5: hsl(197, 71%, 73%);
-}
-
-.dark {
-  --background: hsl(0, 0%, 0%);
-  --foreground: hsl(0, 0%, 100%);
-  --muted: hsl(0, 0%, 8%);
-  --muted-foreground: hsl(0, 0%, 85%);
-  --popover: hsl(0, 0%, 0%);
-  --popover-foreground: hsl(0, 0%, 100%);
-  --card: hsl(0, 0%, 0%);
-  --card-foreground: hsl(0, 0%, 100%);
-  --border: hsl(0, 0%, 15%);
-  --input: hsl(0, 0%, 10%);
-  --primary: hsl(214, 84%, 56%);
-  --primary-foreground: hsl(0, 0%, 100%);
-  --secondary: hsl(142, 71%, 45%);
-  --secondary-foreground: hsl(0, 0%, 100%);
-  --accent: hsl(45, 93%, 47%);
-  --accent-foreground: hsl(0, 0%, 0%);
-  --destructive: hsl(0, 84%, 60%);
-  --destructive-foreground: hsl(0, 0%, 100%);
-  --ring: hsl(0, 0%, 90%);
-  --radius: 0.5rem;
-}
-
-.crypto {
   --background: hsl(230, 20%, 9%);
   --foreground: hsl(40, 100%, 90%);
   --muted: hsl(230, 15%, 15%);
@@ -80,6 +29,31 @@
   --chart-4: hsl(10, 90%, 65%);
   --chart-5: hsl(180, 70%, 60%);
 }
+
+.dark {
+  --background: hsl(0, 0%, 0%);
+  --foreground: hsl(0, 0%, 100%);
+  --muted: hsl(0, 0%, 8%);
+  --muted-foreground: hsl(0, 0%, 85%);
+  --popover: hsl(0, 0%, 0%);
+  --popover-foreground: hsl(0, 0%, 100%);
+  --card: hsl(0, 0%, 0%);
+  --card-foreground: hsl(0, 0%, 100%);
+  --border: hsl(0, 0%, 15%);
+  --input: hsl(0, 0%, 10%);
+  --primary: hsl(214, 84%, 56%);
+  --primary-foreground: hsl(0, 0%, 100%);
+  --secondary: hsl(142, 71%, 45%);
+  --secondary-foreground: hsl(0, 0%, 100%);
+  --accent: hsl(45, 93%, 47%);
+  --accent-foreground: hsl(0, 0%, 0%);
+  --destructive: hsl(0, 84%, 60%);
+  --destructive-foreground: hsl(0, 0%, 100%);
+  --ring: hsl(0, 0%, 90%);
+  --radius: 0.5rem;
+}
+
+
 
 @layer base {
   * {
@@ -132,20 +106,20 @@
   background-color: hsl(45, 93%, 52%);
 }
 
-/* Crypto theme specific enhancements */
-.crypto .bg-gradient-crypto {
+/* Investment-focused enhancements */
+.bg-gradient-investment {
   background: linear-gradient(135deg, hsl(230, 20%, 9%) 0%, hsl(230, 18%, 11%) 50%, hsl(45, 100%, 8%) 100%);
 }
 
-.crypto .text-crypto-gold {
+.text-investment-gold {
   color: hsl(45, 100%, 70%);
 }
 
-.crypto .border-crypto-accent {
+.border-investment-accent {
   border-color: hsl(45, 100%, 25%);
 }
 
-.crypto .shadow-crypto {
+.shadow-investment {
   box-shadow: 0 4px 20px rgba(255, 215, 0, 0.1);
 }
 
@@ -159,7 +133,7 @@
   }
 }
 
-.crypto .glow-on-hover:hover {
+.glow-on-hover:hover {
   animation: glow-pulse 2s ease-in-out infinite;
 }
 

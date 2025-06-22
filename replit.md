@@ -145,8 +145,9 @@ This is a full-stack web application for HKT (Home Krypto Token), a blockchain-b
 - June 22, 2025. Fixed critical email system syntax error preventing verification emails from being sent - corrected TypeScript interface definition in email configuration
 - June 22, 2025. Fixed password reset email functionality - added missing email sending implementation to forgot-password endpoint, users now receive password reset emails
 - June 22, 2025. Fixed password reset 404 error - corrected email URL format from query parameter to path parameter, added token validation endpoint, improved frontend error handling
-- June 22, 2025. Implemented one-click investment theme customization - added crypto-inspired theme with gold accents, enhanced theme toggle dropdown, created dedicated theme settings page, optimized for investment tracking and trading interface
+- June 22, 2025. Implemented investment theme system - converted crypto-inspired theme to default light theme with gold accents, kept dark theme, restored simple slider toggle, optimized for investment tracking interface
 
 ## User Preferences
 
 Preferred communication style: Simple, everyday language.
+Theme preference: Light theme should be crypto-inspired with gold accents (investment-focused), dark theme as secondary option, simple slider toggle preferred over dropdown menus.
