@@ -1,0 +1,106 @@
+<!-- Section 5: Property Showcase - Pilot & Future Vision -->
+<section class="hk-section hk-example-properties-section" style="background-color: #1a1a1a;">
+    <div class="hk-dark-container">
+        <h2 class="hk-section-title">Affordable Property Shares: Real Examples, Future Potential</h2>
+        <p class="hk-section-paragraph" style="margin-bottom: 40px;">
+            Discover how Home Krypto is making desirable property ownership a reality. Our pilot focus is on high-yield vacation destinations like Cap Cana, with exciting city-based investments planned for key international hubs like Miami and Madrid.
+        </p>
+        <div class="hk-property-card-grid">
+
+            <!-- Card 1: Cap Cana Pilot -->
+            <div class="hk-property-card">
+                <img src="https://homekrypto.com/wp-content/uploads/2025/06/invest-in-dominican-republic.jpg" alt="Invest in Cap Cana, Dominican Republic with Home Krypto">
+                <div class="hk-property-card-content">
+                    <h3>Marvelous Cap Cana Condo (Our Pilot Focus)</h3>
+                    <p class="hk-property-description">Luxury 2-Bed/2-Bath condo in Ciudad Las Canas. High rental demand (80-85% occupancy) in a prime Dominican Republic tourist hub.</p>
+                    
+                    <div class="hk-investment-pathways">
+                        <h4>Investment Options (Illustrative):</h4>
+                        <div class="hk-pathway-item">
+                            <span class="hk-pathway-label">Own a "Week-Share":</span>
+                            <span class="hk-pathway-value">~$3,750 USD <span class="hkt-equivalent">(approx. 37,500 HKT @ $0.10)</span></span>
+                            <span class="hk-pathway-benefit">Your annual getaway + rental income.</span>
+                        </div>
+                        <div class="hk-pathway-item">
+                            <span class="hk-pathway-label">Start Investing Monthly with HKT:</span>
+                            <span class="hk-pathway-value">From ~$100 - $200 USD / month</span>
+                            <span class="hk-pathway-benefit">Accumulate HKT for your share.</span>
+                        </div>
+                        <div class="hk-pathway-item">
+                            <span class="hk-pathway-label">Micro-Share Entry:</span>
+                            <span class="hk-pathway-value">From ~$75 USD <span class="hkt-equivalent">(approx. 750 HKT @ $0.10)</span></span>
+                            <span class="hk-pathway-benefit">Begin your property investment.</span>
+                        </div>
+                    </div>
+                    <p class="hk-property-note"><em>Based on illustrative $195k property value. Live values will vary.</em></p>
+                </div>
+            </div>
+
+            <!-- Card 2: Miami, Florida, USA - Coming Soon -->
+            <div class="hk-property-card coming-soon miami-card">
+                <img src="https://homekrypto.com/wp-content/uploads/2025/06/property-warsaw-poland-with-crypto.jpeg" alt="Coming Soon: Miami Prime Rental Investment Opportunity with HKT"> 
+                <div class="hk-property-card-content">
+                    <h3>Vibrant Miami Condo (Coming Soon!)</h3>
+                    <p class="hk-property-description">
+                        <strong>Status: Under planning with developers.</strong>
+                        Experience the allure of Miami, Florida! This upcoming HKT opportunity targets properties ideal for the dynamic short-term rental market, in locations with strong year-round appeal and aiming for <strong>90-95% rental occupancy.</strong> A perfect gateway to high-yield returns in a world-class US city.
+                    </p>
+                    
+                    <div class="hk-investment-pathways">
+                        <h4>Anticipated Investment Options:</h4>
+                        <div class="hk-pathway-item">
+                            <span class="hk-pathway-label">Own a Full Share (Conceptual):</span>
+                            <span class="hk-pathway-value">~$3,846 USD <span class="hkt-equivalent">(Based on $200k value / 52 shares)</span></span>
+                            <span class="hk-pathway-benefit">Invest in Miami's thriving property scene.</span>
+                        </div>
+                        <div class="hk-pathway-item">
+                            <span class="hk-pathway-label">Express Interest (HKT Accumulation):</span>
+                            <span class="hk-pathway-value">Start with Monthly HKT</span>
+                            <span class="hk-pathway-benefit">Be first in line for this US investment opportunity.</span>
+                        </div>
+                    </div>
+                    <p class="hk-property-note"><em>Illustrative $200k property value. Details subject to finalization.</em></p>
+                </div>
+            </div>
+
+            <!-- Card 3: Madrid - Coming Soon -->
+            <div class="hk-property-card coming-soon madrid-card">
+                <img src="https://homekrypto.com/wp-content/uploads/2025/06/invest-in-properties-high-yeld-with-crypto.jpeg" alt="Coming Soon: Madrid City Residence High Yield Investment with HKT">
+                <div class="hk-property-card-content">
+                    <h3>Chic Madrid Residence (Coming Soon!)</h3>
+                    <p class="hk-property-description">
+                        <strong>Status: Under planning with developers.</strong>
+                        An elegant residence planned for a sought-after Madrid neighborhood. This property will be designed for both comfortable urban living and strong short-term rental appeal, targeting locations with high desirability and aiming for <strong>90-95% rental occupancy.</strong>
+                    </p>
+                    
+                    <div class="hk-investment-pathways">
+                        <h4>Anticipated Investment Options:</h4>
+                        <div class="hk-pathway-item">
+                            <span class="hk-pathway-label">Own a Full Share (Conceptual):</span>
+                            <span class="hk-pathway-value">~$3,846 USD <span class="hkt-equivalent">(Based on $200k value / 52 shares)</span></span>
+                            <span class="hk-pathway-benefit">Invest in Spain's vibrant capital lifestyle.</span>
+                        </div>
+                         <div class="hk-pathway-item">
+                            <span class="hk-pathway-label">Express Interest (HKT Accumulation):</span>
+                            <span class="hk-pathway-value">Start with Monthly HKT</span>
+                            <span class="hk-pathway-benefit">Position yourself for future Madrid opportunities.</span>
+                        </div>
+                    </div>
+                    <p class="hk-property-note"><em>Illustrative $200k property value. Details subject to finalization.</em></p>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="hk-future-vision-text" style="margin-top: 40px; text-align: center;">
+            <h3 style="font-size: 1.5em; color: #FFFFFF; margin-bottom: 15px;">Expanding to Global Prime Locations</h3>
+            <p class="hk-section-paragraph" style="max-width: 700px;">
+                While Cap Cana represents our exciting pilot, Home Krypto's vision extends worldwide. We are actively planning with developers to bring tokenized properties from major global cities like Miami (USA) and Madrid (Spain), and other sought-after destinations known for exceptional short-term rental potential, targeting locations with <strong>90-95% occupancy rates</strong> to maximize investor returns and property utility.
+            </p>
+        </div>
+
+        <div style="text-align: center; margin-top: 30px;">
+            <a href="/pilot-property-showcase/" class="hk-button hk-button-secondary">Learn More About Our Pilot & Future Plans</a>
+        </div>
+    </div>
+</section>
