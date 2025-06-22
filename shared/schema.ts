@@ -29,7 +29,7 @@ export const users = pgTable("users", {
   twoFactorSecret: varchar("two_factor_secret", { length: 32 }),
   profileImageUrl: varchar("profile_image_url", { length: 500 }),
   referralCode: varchar("referral_code", { length: 20 }).unique(),
-  referredBy: integer("referred_by").references(() => users.id),
+  referredBy: integer("referred_by"),
   loginAttempts: integer("login_attempts").default(0),
   lockoutUntil: timestamp("lockout_until"),
   lastLoginAt: timestamp("last_login_at"),

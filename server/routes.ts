@@ -67,6 +67,97 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Cross-chain wallet routes
   const crossChainWalletRoutes = (await import('./cross-chain-wallet')).default;
   app.use('/api/cross-chain-wallet', crossChainWalletRoutes);
+
+  // Investment routes
+  app.get("/api/investments/user/:userId", async (req, res) => {
+    try {
+      const userId = parseInt(req.params.userId);
+      const investment = await storage.getInvestmentByUserId(userId);
+      
+      if (!investment) {
+        // Return empty investment data if none exists
+        return res.json({
+          totalInvested: 0,
+          currentValue: 0,
+          profit: 0,
+          roi: 0,
+          hktTokens: 0,
+          monthlyAmount: 0,
+          startDate: null,
+          monthsInvested: 0
+        });
+      }
+
+      // Get latest HKT stats for current calculations
+      const hktStats = await storage.getLatestHktStats();
+      const currentPrice = parseFloat(hktStats?.currentPrice || '0.152');
+      
+      // Calculate current value based on tokens owned
+      const currentValue = investment.totalTokens * currentPrice;
+      const profit = currentValue - investment.totalInvested;
+      const roi = investment.totalInvested > 0 ? (profit / investment.totalInvested) * 100 : 0;
+
+      res.json({
+        totalInvested: investment.totalInvested,
+        currentValue,
+        profit,
+        roi,
+        hktTokens: investment.totalTokens,
+        monthlyAmount: investment.monthlyAmount,
+        startDate: investment.startDate,
+        monthsInvested: investment.monthsInvested
+      });
+    } catch (error) {
+      console.error('Error fetching user investment:', error);
+      res.status(500).json({ message: "Failed to fetch investment data" });
+    }
+  });
+
+  app.post("/api/investments/create", async (req, res) => {
+    try {
+      const { userId, monthlyAmount, totalInvested, totalTokens, monthsInvested } = req.body;
+      
+      if (!userId || !monthlyAmount || !totalInvested) {
+        return res.status(400).json({ message: "Required fields missing" });
+      }
+
+      const investment = await storage.createInvestment({
+        userId,
+        monthlyAmount,
+        totalInvested,
+        totalTokens: totalTokens || 0,
+        monthsInvested: monthsInvested || 0,
+        startDate: new Date(),
+        lastUpdated: new Date()
+      });
+
+      res.json(investment);
+    } catch (error) {
+      console.error('Error creating investment:', error);
+      res.status(500).json({ message: "Failed to create investment" });
+    }
+  });
+
+  app.put("/api/investments/user/:userId", async (req, res) => {
+    try {
+      const userId = parseInt(req.params.userId);
+      const updateData = req.body;
+      
+      const investment = await storage.updateInvestmentByUserId(userId, {
+        ...updateData,
+        lastUpdated: new Date()
+      });
+
+      if (!investment) {
+        return res.status(404).json({ message: "Investment not found" });
+      }
+
+      res.json(investment);
+    } catch (error) {
+      console.error('Error updating investment:', error);
+      res.status(500).json({ message: "Failed to update investment" });
+    }
+  });
   // HKT Stats endpoint
   app.get("/api/hkt-stats", async (req, res) => {
     try {

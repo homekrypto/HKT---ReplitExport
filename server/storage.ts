@@ -28,8 +28,10 @@ export interface IStorage {
   // Investments
   getInvestment(id: number): Promise<Investment | undefined>;
   getInvestmentByWallet(walletAddress: string): Promise<Investment | undefined>;
+  getInvestmentByUserId(userId: number): Promise<Investment | undefined>;
   createInvestment(investment: InsertInvestment): Promise<Investment>;
   updateInvestment(id: number, investment: Partial<Investment>): Promise<Investment | undefined>;
+  updateInvestmentByUserId(userId: number, investment: Partial<Investment>): Promise<Investment | undefined>;
   getAllInvestments(): Promise<Investment[]>;
 
   // Quarterly Data
@@ -97,6 +99,11 @@ export class DatabaseStorage implements IStorage {
     return investment || undefined;
   }
 
+  async getInvestmentByUserId(userId: number): Promise<Investment | undefined> {
+    const [investment] = await db.select().from(investments).where(eq(investments.userId, userId));
+    return investment || undefined;
+  }
+
   async createInvestment(insertInvestment: InsertInvestment): Promise<Investment> {
     const [investment] = await db
       .insert(investments)
@@ -110,6 +117,15 @@ export class DatabaseStorage implements IStorage {
       .update(investments)
       .set(updateData)
       .where(eq(investments.id, id))
+      .returning();
+    return investment || undefined;
+  }
+
+  async updateInvestmentByUserId(userId: number, updateData: Partial<Investment>): Promise<Investment | undefined> {
+    const [investment] = await db
+      .update(investments)
+      .set(updateData)
+      .where(eq(investments.userId, userId))
       .returning();
     return investment || undefined;
   }
