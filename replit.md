@@ -154,6 +154,7 @@ This is a full-stack web application for HKT (Home Krypto Token), a blockchain-b
 - June 22, 2025. Updated homepage investment calculator to property share model - calculates HKT tokens needed for 1 week property ownership based on $200k property value, 52 shares, $0.10 HKT price with monthly accumulation plans
 - June 22, 2025. Replaced homepage hero content with new messaging focusing on "Making Global Real Estate Investment Accessible to Everyone" - removed old investment stats and simplified call-to-action buttons
 - June 22, 2025. Added comprehensive homepage content sections: problem/solution comparison, HKT introduction, key benefits, property showcase with Cap Cana pilot and Miami/Madrid coming soon properties, HKT explanation, and waitlist call-to-action
+- June 22, 2025. Updated property showcase images - added real Cap Cana property photo, created professional "PHOTO COMING SOON" placeholders for Miami and Madrid with border frames
 
 ## User Preferences
 

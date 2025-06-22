@@ -117,7 +117,8 @@ export default function Home() {
           <div className="grid md:grid-cols-3 gap-8 mb-12">
             {/* Cap Cana Pilot */}
             <Card className="bg-gray-800 border-gray-700">
-              <div className="aspect-video bg-gradient-to-br from-blue-500 to-teal-500 rounded-t-lg"></div>
+              <div className="aspect-video bg-cover bg-center rounded-t-lg" 
+                   style={{backgroundImage: "url('https://homekrypto.com/wp-content/uploads/2025/06/invest-in-dominican-republic.jpg')"}}></div>
               <CardContent className="p-6">
                 <h3 className="text-xl font-semibold mb-2 text-white">Marvelous Cap Cana Condo (Our Pilot Focus)</h3>
                 <p className="text-gray-300 mb-4">Luxury 2-Bed/2-Bath condo in Ciudad Las Canas. High rental demand (80-85% occupancy) in a prime Dominican Republic tourist hub.</p>
@@ -148,8 +149,13 @@ export default function Home() {
 
             {/* Miami Coming Soon */}
             <Card className="bg-gray-800 border-gray-700 opacity-75">
-              <div className="aspect-video bg-gradient-to-br from-orange-500 to-pink-500 rounded-t-lg flex items-center justify-center">
-                <span className="text-white font-bold">Coming Soon!</span>
+              <div className="aspect-video bg-gray-600 rounded-t-lg flex items-center justify-center relative">
+                <div className="absolute inset-0 bg-gray-700 opacity-50"></div>
+                <div className="relative text-center">
+                  <div className="text-white font-bold text-2xl mb-2">PHOTO</div>
+                  <div className="text-white font-bold text-2xl">COMING SOON</div>
+                </div>
+                <div className="absolute top-2 right-2 bottom-2 left-2 border-4 border-white opacity-30 rounded"></div>
               </div>
               <CardContent className="p-6">
                 <h3 className="text-xl font-semibold mb-2 text-white">Vibrant Miami Condo (Coming Soon!)</h3>
@@ -173,8 +179,13 @@ export default function Home() {
 
             {/* Madrid Coming Soon */}
             <Card className="bg-gray-800 border-gray-700 opacity-75">
-              <div className="aspect-video bg-gradient-to-br from-purple-500 to-red-500 rounded-t-lg flex items-center justify-center">
-                <span className="text-white font-bold">Coming Soon!</span>
+              <div className="aspect-video bg-gray-600 rounded-t-lg flex items-center justify-center relative">
+                <div className="absolute inset-0 bg-gray-700 opacity-50"></div>
+                <div className="relative text-center">
+                  <div className="text-white font-bold text-2xl mb-2">PHOTO</div>
+                  <div className="text-white font-bold text-2xl">COMING SOON</div>
+                </div>
+                <div className="absolute top-2 right-2 bottom-2 left-2 border-4 border-white opacity-30 rounded"></div>
               </div>
               <CardContent className="p-6">
                 <h3 className="text-xl font-semibold mb-2 text-white">Chic Madrid Residence (Coming Soon!)</h3>
