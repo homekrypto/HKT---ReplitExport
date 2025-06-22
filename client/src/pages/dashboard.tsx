@@ -1,12 +1,11 @@
+import { useState, useEffect } from 'react';
 import { useAuth } from '@/hooks/useAuth';
 import ProtectedRoute from '@/components/protected-route';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Badge } from '@/components/ui/badge';
 import { useQuery } from '@tanstack/react-query';
-import CrossChainWalletManager from '@/components/cross-chain-wallet-manager';
-import OnboardingTrigger from '@/components/onboarding-trigger';
-import InvestmentSetupForm from '@/components/investment-setup-form';
+import { web3Service, type Web3State } from '@/lib/web3';
 import { 
   User,
   Mail,
@@ -18,23 +17,57 @@ import {
   PieChart,
   BarChart3,
   Activity,
-  Plus
+  Plus,
+  Home,
+  MapPin,
+  Users,
+  ShoppingCart
 } from 'lucide-react';
 
 export default function Dashboard() {
   const { user } = useAuth();
+  const [web3State, setWeb3State] = useState<Web3State>(web3Service.getState());
 
-  const { data: investmentData, isLoading: investmentLoading, refetch: refetchInvestment } = useQuery({
-    queryKey: ['/api/investments/user', user?.id],
-    enabled: !!user?.id,
-  });
+  useEffect(() => {
+    const unsubscribe = web3Service.subscribe(setWeb3State);
+    return unsubscribe;
+  }, []);
 
   const { data: hktStats } = useQuery({
     queryKey: ['/api/hkt-stats'],
     refetchInterval: 30000,
   });
 
-  const hasInvestment = investmentData && investmentData.totalInvested > 0;
+  const { data: userWallets } = useQuery({
+    queryKey: ['/api/cross-chain-wallet/user-wallets'],
+    enabled: !!user?.id,
+  });
+
+  const handleConnectWallet = async () => {
+    try {
+      await web3Service.connectWallet();
+    } catch (error) {
+      console.error('Failed to connect wallet:', error);
+    }
+  };
+
+  // Mock property data - replace with real API later
+  const availableProperties = [
+    {
+      id: 1,
+      name: "Luxury Beachfront Villa",
+      location: "Punta Cana, Dominican Republic",
+      totalValue: 195000,
+      sharePrice: 3750,
+      sharesAvailable: 52,
+      totalShares: 52,
+      expectedReturn: "12-15% annually",
+      image: "/api/placeholder/400/300"
+    }
+  ];
+
+  // Mock HKT balance - replace with real wallet integration
+  const hktBalance = web3State.isConnected ? 1250.75 : 0;
 
   return (
     <ProtectedRoute>
@@ -67,143 +100,180 @@ export default function Dashboard() {
           </div>
 
           {/* Quick Stats */}
-          {investmentLoading ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-              {[...Array(4)].map((_, i) => (
-                <Card key={i}>
-                  <CardContent className="p-6">
-                    <div className="animate-pulse">
-                      <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-24 mb-2"></div>
-                      <div className="h-8 bg-gray-200 dark:bg-gray-700 rounded w-32 mb-2"></div>
-                      <div className="h-3 bg-gray-200 dark:bg-gray-700 rounded w-20"></div>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          ) : hasInvestment ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-              <Card>
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">Total Invested</CardTitle>
-                  <DollarSign className="h-4 w-4 text-muted-foreground" />
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold">${investmentData.totalInvested.toLocaleString()}</div>
-                  <p className="text-xs text-muted-foreground">
-                    ${investmentData.monthlyAmount}/month
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">Current Value</CardTitle>
-                  <TrendingUp className="h-4 w-4 text-muted-foreground" />
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold">${investmentData.currentValue.toLocaleString()}</div>
-                  <p className={`text-xs ${investmentData.profit >= 0 ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`}>
-                    {investmentData.profit >= 0 ? '+' : ''}${investmentData.profit.toLocaleString()} ({investmentData.roi.toFixed(2)}%)
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">HKT Tokens</CardTitle>
-                  <Target className="h-4 w-4 text-muted-foreground" />
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold">{investmentData.hktTokens.toLocaleString()}</div>
-                  <p className="text-xs text-muted-foreground">
-                    @ ${hktStats?.currentPrice || '0.152'} per token
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">Investment Period</CardTitle>
-                  <Calendar className="h-4 w-4 text-muted-foreground" />
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold">{investmentData.monthsInvested} months</div>
-                  <p className="text-xs text-muted-foreground">
-                    {investmentData.startDate ? `Started ${new Date(investmentData.startDate).toLocaleDateString()}` : 'No start date'}
-                  </p>
-                </CardContent>
-              </Card>
-            </div>
-          ) : (
-            <Card className="mb-8">
-              <CardContent className="p-6 text-center">
-                <div className="mb-4">
-                  <Plus className="h-12 w-12 text-muted-foreground mx-auto mb-2" />
-                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Start Your Investment Journey</h3>
-                  <p className="text-gray-600 dark:text-gray-300">You haven't started investing in HKT tokens yet. Set up your first investment to begin tracking your portfolio.</p>
-                </div>
-                <InvestmentSetupForm onSuccess={() => refetchInvestment()} />
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">HKT Balance</CardTitle>
+                <Target className="h-4 w-4 text-muted-foreground" />
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold">{hktBalance.toLocaleString()}</div>
+                <p className="text-xs text-muted-foreground">
+                  @ ${hktStats?.currentPrice || '0.152'} per token
+                </p>
               </CardContent>
             </Card>
-          )}
+
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">Portfolio Value</CardTitle>
+                <TrendingUp className="h-4 w-4 text-muted-foreground" />
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold">${(hktBalance * parseFloat(hktStats?.currentPrice || '0.152')).toLocaleString()}</div>
+                <p className="text-xs text-green-600 dark:text-green-400">
+                  HKT Holdings Value
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">Wallet Status</CardTitle>
+                <Wallet className="h-4 w-4 text-muted-foreground" />
+              </CardHeader>
+              <CardContent>
+                {web3State.isConnected ? (
+                  <div>
+                    <div className="text-sm font-bold text-green-600 dark:text-green-400">Connected</div>
+                    <p className="text-xs text-muted-foreground truncate">
+                      {web3State.account?.slice(0, 6)}...{web3State.account?.slice(-4)}
+                    </p>
+                  </div>
+                ) : (
+                  <div>
+                    <div className="text-sm font-bold text-orange-600 dark:text-orange-400">Not Connected</div>
+                    <Button size="sm" variant="outline" className="mt-2 h-7 text-xs" onClick={handleConnectWallet}>
+                      Connect Wallet
+                    </Button>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">Property Shares</CardTitle>
+                <Home className="h-4 w-4 text-muted-foreground" />
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold">0</div>
+                <p className="text-xs text-muted-foreground">
+                  Properties owned
+                </p>
+              </CardContent>
+            </Card>
+          </div>
 
           {/* Main Content */}
-          {hasInvestment && (
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Investment Portfolio</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-gray-600 dark:text-gray-300 mb-4">
-                    Your real estate investment portfolio performance summary.
-                  </p>
-                  <div className="space-y-3">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+            <Card>
+              <CardHeader>
+                <CardTitle>Buy HKT Tokens</CardTitle>
+              </CardHeader>
+              <CardContent>
+                {web3State.isConnected ? (
+                  <div className="space-y-4">
+                    <p className="text-gray-600 dark:text-gray-300">
+                      Purchase HKT tokens directly with your connected wallet.
+                    </p>
                     <div className="flex justify-between">
-                      <span>Investment Period:</span>
-                      <span className="font-semibold">{investmentData.monthsInvested} months</span>
+                      <span>Current Price:</span>
+                      <span className="font-semibold">${hktStats?.currentPrice || '0.152'}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span>Monthly Contribution:</span>
-                      <span className="font-semibold">${investmentData.monthlyAmount}</span>
+                      <span>Connected Wallet:</span>
+                      <span className="font-semibold text-xs">{web3State.account?.slice(0, 6)}...{web3State.account?.slice(-4)}</span>
                     </div>
-                    <div className="flex justify-between">
-                      <span>Total Contributions:</span>
-                      <span className="font-semibold">${investmentData.totalInvested.toLocaleString()}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>Current Portfolio Value:</span>
-                      <span className="font-semibold text-primary">${investmentData.currentValue.toLocaleString()}</span>
-                    </div>
+                    <Button className="w-full">
+                      <ShoppingCart className="h-4 w-4 mr-2" />
+                      Buy HKT Tokens
+                    </Button>
                   </div>
-                  <div className="mt-4">
-                    <Button>View Investment Details</Button>
+                ) : (
+                  <div className="text-center space-y-4">
+                    <p className="text-gray-600 dark:text-gray-300">
+                      Connect your wallet to purchase HKT tokens directly.
+                    </p>
+                    <Button onClick={handleConnectWallet} className="w-full">
+                      <Wallet className="h-4 w-4 mr-2" />
+                      Connect Wallet to Buy HKT
+                    </Button>
                   </div>
-                </CardContent>
-              </Card>
+                )}
+              </CardContent>
+            </Card>
 
-              <Card>
-                <CardHeader>
-                  <CardTitle>Quick Actions</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-3">
-                  <Button className="w-full justify-start" variant="outline">
-                    <Plus className="h-4 w-4 mr-2" />
-                    Add Monthly Investment
-                  </Button>
-                  <Button className="w-full justify-start" variant="outline">
-                    <BarChart3 className="h-4 w-4 mr-2" />
-                    View Analytics
-                  </Button>
-                  <Button className="w-full justify-start" variant="outline">
-                    <Activity className="h-4 w-4 mr-2" />
-                    Investment History
-                  </Button>
-                </CardContent>
-              </Card>
-            </div>
-          )}
+            <Card>
+              <CardHeader>
+                <CardTitle>Quick Actions</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                <Button className="w-full justify-start" variant="outline">
+                  <BarChart3 className="h-4 w-4 mr-2" />
+                  View Analytics
+                </Button>
+                <Button className="w-full justify-start" variant="outline">
+                  <Activity className="h-4 w-4 mr-2" />
+                  Transaction History
+                </Button>
+                <Button className="w-full justify-start" variant="outline">
+                  <Users className="h-4 w-4 mr-2" />
+                  Connect Multiple Wallets
+                </Button>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Available Properties */}
+          <Card>
+            <CardHeader>
+              <CardTitle>Available Property Shares</CardTitle>
+              <p className="text-gray-600 dark:text-gray-300">
+                Purchase fractional ownership in premium real estate properties
+              </p>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {availableProperties.map((property) => (
+                  <Card key={property.id} className="overflow-hidden">
+                    <div className="h-48 bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
+                      <Home className="h-12 w-12 text-gray-400" />
+                    </div>
+                    <CardContent className="p-4">
+                      <h3 className="font-semibold text-lg mb-2">{property.name}</h3>
+                      <div className="flex items-center text-sm text-gray-600 dark:text-gray-300 mb-3">
+                        <MapPin className="h-4 w-4 mr-1" />
+                        {property.location}
+                      </div>
+                      <div className="space-y-2 text-sm">
+                        <div className="flex justify-between">
+                          <span>Property Value:</span>
+                          <span className="font-semibold">${property.totalValue.toLocaleString()}</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span>Share Price:</span>
+                          <span className="font-semibold">${property.sharePrice.toLocaleString()}</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span>Shares Available:</span>
+                          <span className="font-semibold">{property.sharesAvailable}/{property.totalShares}</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span>Expected Return:</span>
+                          <span className="font-semibold text-green-600">{property.expectedReturn}</span>
+                        </div>
+                      </div>
+                      <Button className="w-full mt-4" variant="outline">
+                        <Plus className="h-4 w-4 mr-2" />
+                        Purchase Shares
+                      </Button>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
         </div>
       </div>
     </ProtectedRoute>
