@@ -156,6 +156,7 @@ This is a full-stack web application for HKT (Home Krypto Token), a blockchain-b
 - June 22, 2025. Added comprehensive homepage content sections: problem/solution comparison, HKT introduction, key benefits, property showcase with Cap Cana pilot and Miami/Madrid coming soon properties, HKT explanation, and waitlist call-to-action
 - June 22, 2025. Updated property showcase images - added real Cap Cana property photo, created professional "PHOTO COMING SOON" placeholders for Miami and Madrid with border frames
 - June 22, 2025. Set dark theme as default startup theme - users now start with dark mode instead of light mode
+- June 22, 2025. Fixed homepage hero text visibility in light theme with text shadow, enhanced mobile property image display, created functional Join Waitlist page with comprehensive form, implemented working email signup systems for both newsletter and waitlist that send notifications to support@homekrypto.com with user confirmation emails
 
 ## User Preferences
 

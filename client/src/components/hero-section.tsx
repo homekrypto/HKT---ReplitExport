@@ -10,7 +10,7 @@ export default function HeroSection() {
         <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-4xl md:text-6xl font-bold text-gray-900 dark:text-white mb-6">
+            <h1 className="text-4xl md:text-6xl font-bold text-gray-900 dark:text-white mb-6 [text-shadow:_0_2px_4px_rgb(255_255_255_/_50%)] dark:[text-shadow:_0_2px_4px_rgb(0_0_0_/_50%)]">
               Home Krypto: Making Global Real Estate Investment Accessible to Everyone, Starting with Shares You Can Afford.
             </h1>
             <p className="text-xl md:text-2xl text-gray-600 dark:text-gray-300 mb-8 max-w-3xl mx-auto">

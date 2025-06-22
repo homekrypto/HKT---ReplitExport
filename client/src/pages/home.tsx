@@ -118,7 +118,9 @@ export default function Home() {
             {/* Cap Cana Pilot */}
             <Card className="bg-gray-800 border-gray-700">
               <div className="aspect-video bg-cover bg-center rounded-t-lg" 
-                   style={{backgroundImage: "url('https://homekrypto.com/wp-content/uploads/2025/06/invest-in-dominican-republic.jpg')"}}></div>
+                   style={{backgroundImage: "url('https://homekrypto.com/wp-content/uploads/2025/06/invest-in-dominican-republic.jpg')"}}
+                   role="img" 
+                   aria-label="Cap Cana Property"></div>
               <CardContent className="p-6">
                 <h3 className="text-xl font-semibold mb-2 text-white">Marvelous Cap Cana Condo (Our Pilot Focus)</h3>
                 <p className="text-gray-300 mb-4">Luxury 2-Bed/2-Bath condo in Ciudad Las Canas. High rental demand (80-85% occupancy) in a prime Dominican Republic tourist hub.</p>

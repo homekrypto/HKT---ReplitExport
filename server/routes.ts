@@ -323,6 +323,50 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
 
       const subscriber = await storage.createSubscriber({ email });
+      
+      // Send notification email to support
+      try {
+        const { sendEmail } = await import('./email');
+        await sendEmail({
+          to: 'support@homekrypto.com',
+          subject: 'New Newsletter Subscription - Home Krypto',
+          html: `
+            <h2>New Newsletter Subscription</h2>
+            <p><strong>Email:</strong> ${email}</p>
+            <p><strong>Subscribed:</strong> ${new Date().toLocaleString()}</p>
+            <p><strong>Source:</strong> Footer Newsletter Signup</p>
+          `,
+          text: `New Newsletter Subscription: ${email} subscribed at ${new Date().toLocaleString()}`
+        });
+
+        // Send confirmation email to subscriber
+        await sendEmail({
+          to: email,
+          subject: 'Welcome to Home Krypto Newsletter!',
+          html: `
+            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+              <h1 style="color: #2563eb;">Welcome to Home Krypto!</h1>
+              <p>Thank you for subscribing to our newsletter. You'll now receive:</p>
+              <ul>
+                <li>Latest HKT token updates</li>
+                <li>Property investment opportunities</li>
+                <li>Platform development news</li>
+                <li>Educational content about tokenized real estate</li>
+              </ul>
+              <p>Stay tuned for exciting updates!</p>
+              <p>Best regards,<br>The Home Krypto Team</p>
+              <hr>
+              <p style="font-size: 12px; color: #666;">
+                You received this email because you subscribed to our newsletter at homekrypto.com
+              </p>
+            </div>
+          `,
+          text: `Welcome to Home Krypto! Thank you for subscribing to our newsletter. You'll receive updates about HKT tokens, property investments, and platform news.`
+        });
+      } catch (emailError) {
+        console.error('Failed to send subscription emails:', emailError);
+      }
+      
       res.status(201).json({ 
         message: "Successfully subscribed to our newsletter!",
         subscriber: { id: subscriber.id, email: subscriber.email }
@@ -332,6 +376,86 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ message: "Invalid email address", errors: error.errors });
       }
       res.status(500).json({ message: "Failed to subscribe. Please try again." });
+    }
+  });
+
+  // Waitlist signup
+  app.post("/api/waitlist", async (req, res) => {
+    try {
+      const { email, firstName, lastName, interests } = req.body;
+      
+      if (!email || !email.trim()) {
+        return res.status(400).json({ message: "Email is required" });
+      }
+
+      // Validate email format
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        return res.status(400).json({ message: "Invalid email format" });
+      }
+
+      // Check if already on waitlist
+      const existingSubscriber = await storage.getSubscriberByEmail(email);
+      if (existingSubscriber) {
+        return res.status(409).json({ message: "Email already on waitlist" });
+      }
+
+      const subscriber = await storage.createSubscriber({ email });
+
+      // Send notification email to support
+      try {
+        const { sendEmail } = await import('./email');
+        await sendEmail({
+          to: 'support@homekrypto.com',
+          subject: 'New Waitlist Signup - Home Krypto',
+          html: `
+            <h2>New Waitlist Signup</h2>
+            <p><strong>Email:</strong> ${email}</p>
+            <p><strong>First Name:</strong> ${firstName || 'Not provided'}</p>
+            <p><strong>Last Name:</strong> ${lastName || 'Not provided'}</p>
+            <p><strong>Interests:</strong> ${interests || 'Not provided'}</p>
+            <p><strong>Signed up:</strong> ${new Date().toLocaleString()}</p>
+            <p><strong>Source:</strong> Waitlist Page</p>
+          `,
+          text: `New Waitlist Signup: ${email} (${firstName} ${lastName}) joined the waitlist at ${new Date().toLocaleString()}`
+        });
+
+        // Send confirmation email to subscriber
+        await sendEmail({
+          to: email,
+          subject: 'Welcome to the Home Krypto Waitlist!',
+          html: `
+            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+              <h1 style="color: #2563eb;">Welcome to the Home Krypto Waitlist!</h1>
+              <p>Hi${firstName ? ` ${firstName}` : ''},</p>
+              <p>Thank you for joining our exclusive waitlist! You're now among the first to know about:</p>
+              <ul>
+                <li>Platform development updates</li>
+                <li>Cap Cana pilot property launch</li>
+                <li>HKT token news and opportunities</li>
+                <li>Early access to new features</li>
+              </ul>
+              <p>We're working hard to make global real estate investment accessible to everyone, and we can't wait to share this journey with you.</p>
+              <p>Best regards,<br>The Home Krypto Team</p>
+              <hr>
+              <p style="font-size: 12px; color: #666;">
+                You received this email because you joined our waitlist at homekrypto.com
+              </p>
+            </div>
+          `,
+          text: `Welcome to the Home Krypto Waitlist! Thank you for joining. You'll receive exclusive updates about our platform development, property launches, and early access opportunities.`
+        });
+      } catch (emailError) {
+        console.error('Failed to send waitlist emails:', emailError);
+      }
+
+      res.status(201).json({ 
+        message: "Successfully joined the waitlist!",
+        subscriber: { id: subscriber.id, email: subscriber.email }
+      });
+    } catch (error) {
+      console.error('Waitlist signup error:', error);
+      res.status(500).json({ message: "Failed to join waitlist. Please try again." });
     }
   });
 
