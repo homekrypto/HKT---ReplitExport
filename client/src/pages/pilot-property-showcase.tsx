@@ -82,7 +82,7 @@ export default function PilotPropertyShowcase() {
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6">
             Pilot Property Showcase
           </h1>
-          <p className="text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-4xl mx-auto">
+          <p className="text-xl text-gray-700 dark:text-gray-300 mb-8 max-w-4xl mx-auto font-medium">
             Discover our carefully selected portfolio of short-term rental properties in the world's most popular tourist destinations. 
             Each property is optimized for maximum occupancy and returns through our innovative tokenized investment model.
           </p>
@@ -102,7 +102,7 @@ export default function PilotPropertyShowcase() {
                 <div className="text-sm font-medium text-gray-900 dark:text-white mb-1">
                   {stat.title}
                 </div>
-                <div className="text-xs text-gray-500 dark:text-gray-400">
+                <div className="text-xs text-gray-600 dark:text-gray-400 font-medium">
                   {stat.description}
                 </div>
               </CardContent>
@@ -140,7 +140,7 @@ export default function PilotPropertyShowcase() {
                     <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
                       {property.title}
                     </h2>
-                    <div className="flex items-center text-gray-500 dark:text-gray-400 mb-4">
+                    <div className="flex items-center text-gray-700 dark:text-gray-400 mb-4 font-medium">
                       <MapPin className="h-4 w-4 mr-1" />
                       {property.location}
                     </div>
@@ -152,42 +152,42 @@ export default function PilotPropertyShowcase() {
                     <div className="text-lg text-blue-600 dark:text-blue-400 mt-2">
                       Share (1 Week): {property.sharePrice}
                     </div>
-                    <div className="text-sm text-gray-500 dark:text-gray-400">
+                    <div className="text-sm text-gray-600 dark:text-gray-400 font-medium">
                       ~{property.shareTokens} @ $0.10 HKT/USD
                     </div>
                   </div>
                 </div>
                 
-                <p className="text-gray-600 dark:text-gray-300 mb-6">
+                <p className="text-gray-700 dark:text-gray-300 mb-6 font-medium">
                   {property.description}
                 </p>
                 
                 {/* Property Details */}
                 <div className="grid grid-cols-3 gap-4 mb-6">
                   <div className="flex items-center">
-                    <Bed className="h-5 w-5 mr-2 text-gray-500" />
-                    <span className="text-sm">{property.bedrooms} Bedrooms</span>
+                    <Bed className="h-5 w-5 mr-2 text-gray-600 dark:text-gray-400" />
+                    <span className="text-sm text-gray-700 dark:text-gray-300 font-medium">{property.bedrooms} Bedrooms</span>
                   </div>
                   <div className="flex items-center">
-                    <Bath className="h-5 w-5 mr-2 text-gray-500" />
-                    <span className="text-sm">{property.bathrooms} Bathrooms</span>
+                    <Bath className="h-5 w-5 mr-2 text-gray-600 dark:text-gray-400" />
+                    <span className="text-sm text-gray-700 dark:text-gray-300 font-medium">{property.bathrooms} Bathrooms</span>
                   </div>
                   <div className="flex items-center">
-                    <Square className="h-5 w-5 mr-2 text-gray-500" />
-                    <span className="text-sm">{property.sqft} sqft</span>
+                    <Square className="h-5 w-5 mr-2 text-gray-600 dark:text-gray-400" />
+                    <span className="text-sm text-gray-700 dark:text-gray-300 font-medium">{property.sqft} sqft</span>
                   </div>
                 </div>
 
                 {/* Performance Metrics */}
                 <div className="grid grid-cols-2 gap-4 mb-6">
                   <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
-                    <div className="text-sm text-gray-500 dark:text-gray-400">Yearly Return</div>
+                    <div className="text-sm text-gray-600 dark:text-gray-400 font-medium">Yearly Return</div>
                     <div className="text-2xl font-semibold text-green-600 dark:text-green-400">
                       {property.yearlyReturn}
                     </div>
                   </div>
                   <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
-                    <div className="text-sm text-gray-500 dark:text-gray-400">Occupancy Rate</div>
+                    <div className="text-sm text-gray-600 dark:text-gray-400 font-medium">Occupancy Rate</div>
                     <div className="text-2xl font-semibold text-blue-600 dark:text-blue-400">
                       {property.occupancyRate}
                     </div>
@@ -226,7 +226,7 @@ export default function PilotPropertyShowcase() {
                   <MapPin className="h-8 w-8 text-blue-600 dark:text-blue-400" />
                 </div>
                 <h3 className="text-lg font-semibold mb-2">Prime Locations</h3>
-                <p className="text-gray-600 dark:text-gray-300">
+                <p className="text-gray-700 dark:text-gray-300 font-medium">
                   Strategically located in the world's most sought-after tourist destinations with year-round demand.
                 </p>
               </div>
@@ -235,7 +235,7 @@ export default function PilotPropertyShowcase() {
                   <TrendingUp className="h-8 w-8 text-green-600 dark:text-green-400" />
                 </div>
                 <h3 className="text-lg font-semibold mb-2">Proven Performance</h3>
-                <p className="text-gray-600 dark:text-gray-300">
+                <p className="text-gray-700 dark:text-gray-300 font-medium">
                   Each property has demonstrated consistent high occupancy rates and strong rental yields.
                 </p>
               </div>
@@ -244,7 +244,7 @@ export default function PilotPropertyShowcase() {
                   <Star className="h-8 w-8 text-purple-600 dark:text-purple-400" />
                 </div>
                 <h3 className="text-lg font-semibold mb-2">Premium Amenities</h3>
-                <p className="text-gray-600 dark:text-gray-300">
+                <p className="text-gray-700 dark:text-gray-300 font-medium">
                   Fully equipped with luxury amenities that command premium rates and attract discerning travelers.
                 </p>
               </div>
@@ -258,7 +258,7 @@ export default function PilotPropertyShowcase() {
             <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
               Ready to Invest in This Property?
             </h2>
-            <p className="text-lg text-gray-600 dark:text-gray-300 mb-6 max-w-2xl mx-auto">
+            <p className="text-lg text-gray-700 dark:text-gray-300 mb-6 max-w-2xl mx-auto font-medium">
               Start with just $3,750 USD for a 1-week share in this luxury resort complex. 
               Get fractional ownership through 37,500 HKT tokens at $0.10 per token and earn returns from short-term rentals.
             </p>

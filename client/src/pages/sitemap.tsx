@@ -123,7 +123,7 @@ export default function Sitemap() {
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6">
             HKT Platform Sitemap
           </h1>
-          <p className="text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-4xl mx-auto">
+          <p className="text-xl text-gray-700 dark:text-gray-300 mb-8 max-w-4xl mx-auto font-medium">
             Complete overview of all pages, features, and functionality available in the Home Krypto Token platform.
           </p>
           
@@ -131,11 +131,11 @@ export default function Sitemap() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-2xl mx-auto">
             <div className="text-center">
               <div className="text-3xl font-bold text-blue-600 dark:text-blue-400">{totalPages}</div>
-              <div className="text-sm text-gray-500 dark:text-gray-400">Total Pages</div>
+              <div className="text-sm text-gray-600 dark:text-gray-400 font-medium">Total Pages</div>
             </div>
             <div className="text-center">
               <div className="text-3xl font-bold text-green-600 dark:text-green-400">{protectedPages}</div>
-              <div className="text-sm text-gray-500 dark:text-gray-400">Protected Pages</div>
+              <div className="text-sm text-gray-600 dark:text-gray-400 font-medium">Protected Pages</div>
             </div>
             <div className="text-center">
               <div className="text-3xl font-bold text-purple-600 dark:text-purple-400">6</div>

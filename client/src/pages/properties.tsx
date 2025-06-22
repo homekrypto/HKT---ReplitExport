@@ -113,7 +113,7 @@ export default function Properties() {
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6">
             Our Properties
           </h1>
-          <p className="text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-4xl mx-auto">
+          <p className="text-xl text-gray-700 dark:text-gray-300 mb-8 max-w-4xl mx-auto font-medium">
             Discover our carefully curated portfolio of short-term rental properties in the world's most popular tourist destinations. 
             Each property is optimized for maximum occupancy and returns through our innovative tokenized investment model.
           </p>
@@ -133,7 +133,7 @@ export default function Properties() {
                 <div className="text-sm font-medium text-gray-900 dark:text-white mb-1">
                   {stat.title}
                 </div>
-                <div className="text-xs text-gray-500 dark:text-gray-400">
+                <div className="text-xs text-gray-600 dark:text-gray-400 font-medium">
                   {stat.description}
                 </div>
               </CardContent>
@@ -152,18 +152,18 @@ export default function Properties() {
                 <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
                   Luxury Resort Complex - Punta Cana
                 </h2>
-                <p className="text-lg text-gray-600 dark:text-gray-300 mb-6">
+                <p className="text-lg text-gray-700 dark:text-gray-300 mb-6 font-medium">
                   Our flagship property showcasing the potential of tokenized real estate investment. 
                   Located in one of the Caribbean's premier destinations with exceptional rental performance.
                 </p>
                 <div className="grid grid-cols-2 gap-4 mb-6">
                   <div>
                     <div className="text-2xl font-bold text-gray-900 dark:text-white">$195,000</div>
-                    <div className="text-sm text-gray-500 dark:text-gray-400">Property Value</div>
+                    <div className="text-sm text-gray-600 dark:text-gray-400 font-medium">Property Value</div>
                   </div>
                   <div>
                     <div className="text-2xl font-bold text-green-600 dark:text-green-400">18.5%</div>
-                    <div className="text-sm text-gray-500 dark:text-gray-400">Annual Return</div>
+                    <div className="text-sm text-gray-600 dark:text-gray-400 font-medium">Annual Return</div>
                   </div>
                 </div>
                 <Link href="/pilot-property-showcase">

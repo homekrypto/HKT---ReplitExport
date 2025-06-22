@@ -85,7 +85,7 @@ export default function HowItWorks() {
                     <IconComponent className="text-white" size={32} />
                   </div>
                   <h3 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">{step.title}</h3>
-                  <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
+                  <p className="text-gray-700 dark:text-gray-300 leading-relaxed font-medium">
                     {step.description}
                   </p>
                 </CardContent>
@@ -121,7 +121,7 @@ export default function HowItWorks() {
                 <CardContent className="p-0">
                   <div className="flex justify-between items-center mb-2">
                     <h4 className="font-semibold">Year {quarter.year} Q{quarter.quarter}</h4>
-                    <span className="text-sm text-gray-500">${quarter.hktPrice.toFixed(3)}</span>
+                    <span className="text-sm text-gray-600 dark:text-gray-400 font-medium">${quarter.hktPrice.toFixed(3)}</span>
                   </div>
                   <div className="text-sm text-gray-600 space-y-1">
                     <div>Purchased: {quarter.hktPurchased.toLocaleString()} HKT</div>

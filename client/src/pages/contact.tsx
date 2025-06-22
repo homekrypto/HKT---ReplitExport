@@ -108,7 +108,7 @@ export default function Contact() {
           <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-6">
             Contact Us
           </h1>
-          <p className="text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-3xl mx-auto">
+          <p className="text-xl text-gray-700 dark:text-gray-300 mb-8 max-w-3xl mx-auto font-medium">
             Have questions about HKT investment opportunities? Need technical support? 
             Want to explore partnerships? We're here to help.
           </p>
