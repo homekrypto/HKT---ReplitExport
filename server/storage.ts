@@ -4,6 +4,7 @@ import {
   quarterlyData, 
   hktStats,
   subscribers,
+  blogPosts,
   type User, 
   type InsertUser, 
   type Investment, 
@@ -13,10 +14,12 @@ import {
   type HktStats,
   type InsertHktStats,
   type Subscriber,
-  type InsertSubscriber
+  type InsertSubscriber,
+  type BlogPost,
+  type InsertBlogPost
 } from "@shared/schema";
 import { db } from "./db";
-import { eq } from "drizzle-orm";
+import { eq, desc, and, or, ilike } from "drizzle-orm";
 
 export interface IStorage {
   // Users
@@ -46,6 +49,16 @@ export interface IStorage {
   createSubscriber(subscriber: InsertSubscriber): Promise<Subscriber>;
   getSubscriberByEmail(email: string): Promise<Subscriber | undefined>;
   getAllSubscribers(): Promise<Subscriber[]>;
+
+  // Blog Posts
+  getBlogPost(id: number): Promise<BlogPost | undefined>;
+  getBlogPostBySlug(slug: string): Promise<BlogPost | undefined>;
+  getAllBlogPosts(status?: string, limit?: number, offset?: number): Promise<BlogPost[]>;
+  getPublishedBlogPosts(limit?: number, offset?: number): Promise<BlogPost[]>;
+  createBlogPost(post: InsertBlogPost): Promise<BlogPost>;
+  updateBlogPost(id: number, post: Partial<BlogPost>): Promise<BlogPost | undefined>;
+  deleteBlogPost(id: number): Promise<boolean>;
+  searchBlogPosts(query: string, limit?: number, offset?: number): Promise<BlogPost[]>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -174,6 +187,138 @@ export class DatabaseStorage implements IStorage {
 
   async getAllSubscribers(): Promise<Subscriber[]> {
     return await db.select().from(subscribers);
+  }
+
+  // Blog Posts
+  async getBlogPost(id: number): Promise<BlogPost | undefined> {
+    try {
+      const [post] = await db.select().from(blogPosts).where(eq(blogPosts.id, id));
+      return post || undefined;
+    } catch (error) {
+      console.error('Error getting blog post:', error);
+      return undefined;
+    }
+  }
+
+  async getBlogPostBySlug(slug: string): Promise<BlogPost | undefined> {
+    try {
+      const [post] = await db.select().from(blogPosts).where(eq(blogPosts.slug, slug));
+      return post || undefined;
+    } catch (error) {
+      console.error('Error getting blog post by slug:', error);
+      return undefined;
+    }
+  }
+
+  async getAllBlogPosts(status?: string, limit = 50, offset = 0): Promise<BlogPost[]> {
+    try {
+      let query = db.select().from(blogPosts);
+      
+      if (status) {
+        query = query.where(eq(blogPosts.status, status));
+      }
+      
+      return await query
+        .orderBy(desc(blogPosts.createdAt))
+        .limit(limit)
+        .offset(offset);
+    } catch (error) {
+      console.error('Error getting all blog posts:', error);
+      return [];
+    }
+  }
+
+  async getPublishedBlogPosts(limit = 10, offset = 0): Promise<BlogPost[]> {
+    try {
+      return await db.select().from(blogPosts)
+        .where(eq(blogPosts.status, 'published'))
+        .orderBy(desc(blogPosts.publishedAt))
+        .limit(limit)
+        .offset(offset);
+    } catch (error) {
+      console.error('Error getting published blog posts:', error);
+      return [];
+    }
+  }
+
+  async createBlogPost(insertPost: InsertBlogPost): Promise<BlogPost> {
+    try {
+      // Generate slug if not provided
+      if (!insertPost.slug) {
+        insertPost.slug = insertPost.title
+          .toLowerCase()
+          .replace(/[^a-z0-9]+/g, '-')
+          .replace(/(^-|-$)/g, '');
+      }
+
+      // Set publishedAt if status is published and no publishedAt is set
+      if (insertPost.status === 'published' && !insertPost.publishedAt) {
+        insertPost.publishedAt = new Date();
+      }
+
+      const [post] = await db.insert(blogPosts).values(insertPost).returning();
+      return post;
+    } catch (error) {
+      console.error('Error creating blog post:', error);
+      throw error;
+    }
+  }
+
+  async updateBlogPost(id: number, updateData: Partial<BlogPost>): Promise<BlogPost | undefined> {
+    try {
+      // Update the updatedAt timestamp
+      updateData.updatedAt = new Date();
+
+      // Set publishedAt if status changed to published and no publishedAt is set
+      if (updateData.status === 'published' && !updateData.publishedAt) {
+        const currentPost = await this.getBlogPost(id);
+        if (currentPost && !currentPost.publishedAt) {
+          updateData.publishedAt = new Date();
+        }
+      }
+
+      const [post] = await db.update(blogPosts)
+        .set(updateData)
+        .where(eq(blogPosts.id, id))
+        .returning();
+      
+      return post || undefined;
+    } catch (error) {
+      console.error('Error updating blog post:', error);
+      return undefined;
+    }
+  }
+
+  async deleteBlogPost(id: number): Promise<boolean> {
+    try {
+      await db.delete(blogPosts).where(eq(blogPosts.id, id));
+      return true;
+    } catch (error) {
+      console.error('Error deleting blog post:', error);
+      return false;
+    }
+  }
+
+  async searchBlogPosts(query: string, limit = 10, offset = 0): Promise<BlogPost[]> {
+    try {
+      return await db.select().from(blogPosts)
+        .where(
+          and(
+            eq(blogPosts.status, 'published'),
+            or(
+              ilike(blogPosts.title, `%${query}%`),
+              ilike(blogPosts.content, `%${query}%`),
+              ilike(blogPosts.excerpt, `%${query}%`)
+            )
+          )
+        )
+        .orderBy(desc(blogPosts.publishedAt))
+        .limit(limit)
+        .offset(offset);
+    } catch (error) {
+      console.error('Error searching blog posts:', error);
+      return [];
+    }
   }
 }
 

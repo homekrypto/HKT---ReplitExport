@@ -49,6 +49,7 @@ export default function Footer() {
       links: [
         { label: t.footer.howItWorks, href: '/how-it-works' },
         { label: t.footer.investmentPlans, href: '/buy-hkt' },
+        { label: 'Blog', href: '/blog' },
         { label: 'Properties', href: '/properties' },
         { label: 'Secondary Market', href: '/secondary-market' }
       ]

@@ -28,6 +28,8 @@ import FAQ from "@/pages/faq";
 import WorkWithUs from "@/pages/work-with-us";
 import Contact from "@/pages/contact";
 import ForDevelopers from "@/pages/for-developers";
+import Blog from "@/pages/blog";
+import BlogPost from "@/pages/blog-post";
 import PilotPropertyShowcase from "@/pages/pilot-property-showcase";
 import Properties from "@/pages/properties";
 import PropertyDetails from "@/pages/property-details";
@@ -75,6 +77,8 @@ function Router() {
       <Route path="/verify-email" component={EmailVerified} />
       <Route path="/email-verification-success" component={EmailVerificationSuccess} />
       <Route path="/buy-hkt" component={BuyHKT} />
+      <Route path="/blog" component={Blog} />
+      <Route path="/blog/:slug" component={BlogPost} />
       <Route path="/dashboard" component={Dashboard} />
       <Route path="/profile" component={Profile} />
       <Route component={NotFound} />

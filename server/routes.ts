@@ -72,6 +72,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
   const swapRoutes = (await import('./swap-routes')).default;
   app.use('/api/swap', swapRoutes);
 
+  // Blog routes
+  const blogRoutes = (await import('./blog-routes')).default;
+  app.use('/api/blog', blogRoutes);
+
   // Investment routes
   app.get("/api/investments/user/:userId", async (req, res) => {
     try {

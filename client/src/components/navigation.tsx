@@ -12,6 +12,7 @@ export default function Navigation() {
   const navLinks = [
     { href: '/how-it-works', label: 'How It Works' },
     { href: '/our-mission', label: 'Our Mission' },
+    { href: '/blog', label: 'Blog' },
     { href: '/work-with-us', label: 'Careers' },
     { href: '/buy-hkt', label: 'Buy HKT' },
     { href: '/dashboard', label: 'Dashboard' }

@@ -272,3 +272,36 @@ export const insertWalletVerificationChallengeSchema = createInsertSchema(wallet
   challenge: true,
   expiresAt: true,
 });
+
+// Blog Posts Schema
+export const blogPosts = pgTable("blog_posts", {
+  id: serial("id").primaryKey(),
+  title: varchar("title", { length: 255 }).notNull(),
+  slug: varchar("slug", { length: 255 }).notNull().unique(),
+  content: text("content").notNull(),
+  excerpt: varchar("excerpt", { length: 500 }),
+  author: varchar("author", { length: 100 }).default("HomeKrypto Team"),
+  status: varchar("status", { length: 20 }).default("draft"), // draft, published, archived
+  publishedAt: timestamp("published_at"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+  metaTitle: varchar("meta_title", { length: 255 }),
+  metaDescription: varchar("meta_description", { length: 500 }),
+  featuredImageUrl: varchar("featured_image_url", { length: 500 }),
+});
+
+export const insertBlogPostSchema = createInsertSchema(blogPosts).pick({
+  title: true,
+  slug: true,
+  content: true,
+  excerpt: true,
+  author: true,
+  status: true,
+  publishedAt: true,
+  metaTitle: true,
+  metaDescription: true,
+  featuredImageUrl: true
+});
+
+export type BlogPost = typeof blogPosts.$inferSelect;
+export type InsertBlogPost = z.infer<typeof insertBlogPostSchema>;
