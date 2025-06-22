@@ -144,6 +144,7 @@ This is a full-stack web application for HKT (Home Krypto Token), a blockchain-b
 - June 22, 2025. Fixed Investment Timeline visibility in dark theme on How It Works page - enhanced text contrast and background colors for better readability
 - June 22, 2025. Fixed critical email system syntax error preventing verification emails from being sent - corrected TypeScript interface definition in email configuration
 - June 22, 2025. Fixed password reset email functionality - added missing email sending implementation to forgot-password endpoint, users now receive password reset emails
+- June 22, 2025. Fixed password reset 404 error - corrected email URL format from query parameter to path parameter, added token validation endpoint, improved frontend error handling
 
 ## User Preferences
 

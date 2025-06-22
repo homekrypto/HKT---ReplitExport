@@ -140,7 +140,7 @@ export function generatePasswordResetEmailHtml(token: string, email: string): st
   const baseUrl = process.env.REPLIT_DOMAINS ? 
     `https://${process.env.REPLIT_DOMAINS.split(',')[0]}` : 
     'http://localhost:5000';
-  const resetUrl = `${baseUrl}/reset-password?token=${token}`;
+  const resetUrl = `${baseUrl}/reset-password/${token}`;
   
   return `
     <!DOCTYPE html>
