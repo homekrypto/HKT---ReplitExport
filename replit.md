@@ -151,6 +151,7 @@ This is a full-stack web application for HKT (Home Krypto Token), a blockchain-b
 - June 22, 2025. Implemented live HKT price monitoring system with multiple API sources (CoinGecko, DexScreener), automatic fallback for unlisted tokens, and real-time price updates every 30 seconds
 - June 22, 2025. Created comprehensive one-click HKT token swap interface with DEX integration, real-time quotes, slippage protection, swap execution, and transaction history - replaces basic buy button with full trading functionality
 - June 22, 2025. Implemented complete blog system with SEO-optimized pages, CRUD API for Make.com integration, content management, search functionality, and professional blog layout integrated into navigation and footer
+- June 22, 2025. Updated homepage investment calculator to property share model - calculates HKT tokens needed for 1 week property ownership based on $200k property value, 52 shares, $0.10 HKT price with monthly accumulation plans
 
 ## User Preferences
 
