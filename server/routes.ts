@@ -68,6 +68,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
   const crossChainWalletRoutes = (await import('./cross-chain-wallet')).default;
   app.use('/api/cross-chain-wallet', crossChainWalletRoutes);
 
+  // Swap routes
+  const swapRoutes = (await import('./swap-routes')).default;
+  app.use('/api/swap', swapRoutes);
+
   // Investment routes
   app.get("/api/investments/user/:userId", async (req, res) => {
     try {

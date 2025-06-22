@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { useQuery } from '@tanstack/react-query';
 import { web3Service, type Web3State } from '@/lib/web3';
+import HKTSwapInterface from '@/components/hkt-swap-interface';
 import { 
   User,
   Mail,
@@ -183,82 +184,74 @@ export default function Dashboard() {
 
           {/* Main Content */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-            <Card>
-              <CardHeader>
-                <CardTitle>Buy HKT Tokens</CardTitle>
-              </CardHeader>
-              <CardContent>
-                {web3State.isConnected ? (
-                  <div className="space-y-4">
-                    <p className="text-gray-600 dark:text-gray-300">
-                      Purchase HKT tokens directly with your connected wallet.
-                    </p>
-                    <div className="flex justify-between">
-                      <span>Current Price:</span>
-                      <span className="font-semibold">
-                        ${hktStatsLoading ? 'Loading...' : parseFloat(hktStats?.currentPrice || '0').toFixed(6)}
-                      </span>
-                    </div>
-                    {hktStats && parseFloat(hktStats.currentPrice) < 0.001 && (
-                      <div className="text-xs text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-900/20 p-2 rounded">
-                        Token awaiting major exchange listings for live pricing
-                      </div>
-                    )}
-                    <div className="flex justify-between">
-                      <span>24h Change:</span>
-                      <span className={`font-semibold ${
-                        parseFloat(hktStats?.priceChange24h || '0') >= 0 
-                          ? 'text-green-600 dark:text-green-400' 
-                          : 'text-red-600 dark:text-red-400'
-                      }`}>
-                        {hktStatsLoading ? 'Loading...' : (
-                          <>
-                            {parseFloat(hktStats?.priceChange24h || '0') >= 0 ? '+' : ''}
-                            {parseFloat(hktStats?.priceChange24h || '0').toFixed(2)}%
-                          </>
-                        )}
-                      </span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>Connected Wallet:</span>
-                      <span className="font-semibold text-xs">{web3State.account?.slice(0, 6)}...{web3State.account?.slice(-4)}</span>
-                    </div>
-                    <Button className="w-full">
-                      <ShoppingCart className="h-4 w-4 mr-2" />
-                      Buy HKT Tokens
-                    </Button>
-                  </div>
-                ) : (
-                  <div className="text-center space-y-4">
-                    <p className="text-gray-600 dark:text-gray-300">
-                      Connect your wallet to purchase HKT tokens directly.
-                    </p>
-                    <Button onClick={handleConnectWallet} className="w-full">
-                      <Wallet className="h-4 w-4 mr-2" />
-                      Connect Wallet to Buy HKT
-                    </Button>
-                  </div>
-                )}
-              </CardContent>
-            </Card>
+            <div>
+              <HKTSwapInterface />
+            </div>
 
             <Card>
               <CardHeader>
-                <CardTitle>Quick Actions</CardTitle>
+                <CardTitle>Market Information</CardTitle>
               </CardHeader>
-              <CardContent className="space-y-3">
-                <Button className="w-full justify-start" variant="outline">
-                  <BarChart3 className="h-4 w-4 mr-2" />
-                  View Analytics
-                </Button>
-                <Button className="w-full justify-start" variant="outline">
-                  <Activity className="h-4 w-4 mr-2" />
-                  Transaction History
-                </Button>
-                <Button className="w-full justify-start" variant="outline">
-                  <Users className="h-4 w-4 mr-2" />
-                  Connect Multiple Wallets
-                </Button>
+              <CardContent className="space-y-4">
+                <div className="space-y-3">
+                  <div className="flex justify-between">
+                    <span>Current Price:</span>
+                    <span className="font-semibold">
+                      ${hktStatsLoading ? 'Loading...' : parseFloat(hktStats?.currentPrice || '0').toFixed(6)}
+                    </span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>24h Change:</span>
+                    <span className={`font-semibold ${
+                      parseFloat(hktStats?.priceChange24h || '0') >= 0 
+                        ? 'text-green-600 dark:text-green-400' 
+                        : 'text-red-600 dark:text-red-400'
+                    }`}>
+                      {hktStatsLoading ? 'Loading...' : (
+                        <>
+                          {parseFloat(hktStats?.priceChange24h || '0') >= 0 ? '+' : ''}
+                          {parseFloat(hktStats?.priceChange24h || '0').toFixed(2)}%
+                        </>
+                      )}
+                    </span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Market Cap:</span>
+                    <span className="font-semibold">
+                      ${hktStats ? parseFloat(hktStats.marketCap || '0').toLocaleString() : 'Loading...'}
+                    </span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>24h Volume:</span>
+                    <span className="font-semibold">
+                      ${hktStats ? parseFloat(hktStats.volume24h || '0').toLocaleString() : 'Loading...'}
+                    </span>
+                  </div>
+                </div>
+                
+                {hktStats && parseFloat(hktStats.currentPrice) < 0.001 && (
+                  <div className="text-xs text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-900/20 p-3 rounded">
+                    <strong>Pre-Market Token:</strong> HKT is awaiting major exchange listings. Current data reflects estimated values until live trading begins.
+                  </div>
+                )}
+
+                <div className="space-y-2 pt-4 border-t">
+                  <h4 className="font-semibold text-sm">Quick Actions</h4>
+                  <div className="space-y-2">
+                    <Button className="w-full justify-start" variant="outline" size="sm">
+                      <BarChart3 className="h-4 w-4 mr-2" />
+                      View Analytics
+                    </Button>
+                    <Button className="w-full justify-start" variant="outline" size="sm">
+                      <Activity className="h-4 w-4 mr-2" />
+                      Transaction History
+                    </Button>
+                    <Button className="w-full justify-start" variant="outline" size="sm">
+                      <Users className="h-4 w-4 mr-2" />
+                      Connect Multiple Wallets
+                    </Button>
+                  </div>
+                </div>
               </CardContent>
             </Card>
           </div>
