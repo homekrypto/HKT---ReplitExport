@@ -1,0 +1,332 @@
+# Serverless Framework Configuration for HKT Platform
+service: hkt-platform
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: ${opt:region, 'us-east-1'}
+  stage: ${opt:stage, 'prod'}
+  memorySize: 512
+  timeout: 30
+  
+  environment:
+    TABLE_NAME: ${self:custom.tableName}
+    JWT_SECRET: ${env:JWT_SECRET}
+    AWS_REGION: ${self:provider.region}
+    NODE_ENV: ${self:provider.stage}
+    
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - dynamodb:Query
+            - dynamodb:Scan
+            - dynamodb:GetItem
+            - dynamodb:PutItem
+            - dynamodb:UpdateItem
+            - dynamodb:DeleteItem
+            - dynamodb:BatchGetItem
+            - dynamodb:BatchWriteItem
+          Resource:
+            - "arn:aws:dynamodb:${self:provider.region}:*:table/${self:custom.tableName}"
+            - "arn:aws:dynamodb:${self:provider.region}:*:table/${self:custom.tableName}/index/*"
+        - Effect: Allow
+          Action:
+            - ses:SendEmail
+            - ses:SendRawEmail
+          Resource: "*"
+        - Effect: Allow
+          Action:
+            - events:PutEvents
+          Resource: "*"
+
+custom:
+  tableName: hkt-platform-data-${self:provider.stage}
+  
+  # Webpack configuration for TypeScript
+  webpack:
+    webpackConfig: 'webpack.config.js'
+    includeModules: true
+    packager: 'npm'
+
+plugins:
+  - serverless-webpack
+  - serverless-offline
+
+functions:
+  # Authentication functions
+  register:
+    handler: auth-lambda.register
+    events:
+      - http:
+          path: auth/register
+          method: post
+          cors: true
+
+  login:
+    handler: auth-lambda.login
+    events:
+      - http:
+          path: auth/login
+          method: post
+          cors: true
+
+  me:
+    handler: auth-lambda.me
+    events:
+      - http:
+          path: auth/me
+          method: get
+          cors: true
+
+  logout:
+    handler: auth-lambda.logout
+    events:
+      - http:
+          path: auth/logout
+          method: post
+          cors: true
+
+  # Investment functions
+  createInvestment:
+    handler: investment-lambda.createInvestment
+    events:
+      - http:
+          path: investments
+          method: post
+          cors: true
+
+  getUserInvestments:
+    handler: investment-lambda.getUserInvestments
+    events:
+      - http:
+          path: investments
+          method: get
+          cors: true
+
+  updateInvestment:
+    handler: investment-lambda.updateInvestment
+    events:
+      - http:
+          path: investments/{investmentId}
+          method: put
+          cors: true
+
+  calculateProjections:
+    handler: investment-lambda.calculateProjections
+    events:
+      - http:
+          path: investments/projections
+          method: get
+          cors: true
+
+  getDashboardData:
+    handler: investment-lambda.getDashboardData
+    events:
+      - http:
+          path: dashboard
+          method: get
+          cors: true
+
+  # HKT Price monitoring
+  updateHktPrice:
+    handler: price-lambda.updateHktPrice
+    events:
+      - schedule: rate(5 minutes)
+    environment:
+      COINGECKO_API_KEY: ${env:COINGECKO_API_KEY}
+
+  getHktPrice:
+    handler: price-lambda.getHktPrice
+    events:
+      - http:
+          path: hkt/price
+          method: get
+          cors: true
+
+  # Blog functions
+  getBlogPosts:
+    handler: blog-lambda.getBlogPosts
+    events:
+      - http:
+          path: blog
+          method: get
+          cors: true
+
+  getBlogPost:
+    handler: blog-lambda.getBlogPost
+    events:
+      - http:
+          path: blog/{slug}
+          method: get
+          cors: true
+
+  createBlogPost:
+    handler: blog-lambda.createBlogPost
+    events:
+      - http:
+          path: blog
+          method: post
+          cors: true
+
+  # Subscriber functions
+  subscribe:
+    handler: subscriber-lambda.subscribe
+    events:
+      - http:
+          path: subscribe
+          method: post
+          cors: true
+
+resources:
+  Resources:
+    # DynamoDB Table
+    HktPlatformTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:custom.tableName}
+        BillingMode: PAY_PER_REQUEST
+        AttributeDefinitions:
+          - AttributeName: PK
+            AttributeType: S
+          - AttributeName: SK
+            AttributeType: S
+          - AttributeName: GSI1PK
+            AttributeType: S
+          - AttributeName: GSI1SK
+            AttributeType: S
+          - AttributeName: GSI2PK
+            AttributeType: S
+          - AttributeName: GSI2SK
+            AttributeType: S
+          - AttributeName: GSI3PK
+            AttributeType: S
+          - AttributeName: GSI3SK
+            AttributeType: S
+          - AttributeName: GSI4PK
+            AttributeType: S
+          - AttributeName: GSI4SK
+            AttributeType: S
+        KeySchema:
+          - AttributeName: PK
+            KeyType: HASH
+          - AttributeName: SK
+            KeyType: RANGE
+        GlobalSecondaryIndexes:
+          - IndexName: EmailIndex
+            KeySchema:
+              - AttributeName: GSI1PK
+                KeyType: HASH
+              - AttributeName: GSI1SK
+                KeyType: RANGE
+            Projection:
+              ProjectionType: ALL
+          - IndexName: WalletIndex
+            KeySchema:
+              - AttributeName: GSI2PK
+                KeyType: HASH
+              - AttributeName: GSI2SK
+                KeyType: RANGE
+            Projection:
+              ProjectionType: ALL
+          - IndexName: InvestmentIndex
+            KeySchema:
+              - AttributeName: GSI3PK
+                KeyType: HASH
+              - AttributeName: GSI3SK
+                KeyType: RANGE
+            Projection:
+              ProjectionType: ALL
+          - IndexName: BlogIndex
+            KeySchema:
+              - AttributeName: GSI4PK
+                KeyType: HASH
+              - AttributeName: GSI4SK
+                KeyType: RANGE
+            Projection:
+              ProjectionType: ALL
+        StreamSpecification:
+          StreamEnabled: true
+          StreamViewType: NEW_AND_OLD_IMAGES
+        PointInTimeRecoverySpecification:
+          PointInTimeRecoveryEnabled: true
+        Tags:
+          - Key: Project
+            Value: HKT-Platform
+          - Key: Environment
+            Value: ${self:provider.stage}
+
+    # S3 Bucket for static assets
+    HktAssetsBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: hkt-platform-assets-${self:provider.stage}
+        PublicAccessBlockConfiguration:
+          BlockPublicAcls: false
+          BlockPublicPolicy: false
+          IgnorePublicAcls: false
+          RestrictPublicBuckets: false
+        WebsiteConfiguration:
+          IndexDocument: index.html
+          ErrorDocument: error.html
+
+    # CloudFront Distribution
+    HktCloudFrontDistribution:
+      Type: AWS::CloudFront::Distribution
+      Properties:
+        DistributionConfig:
+          Enabled: true
+          DefaultRootObject: index.html
+          Origins:
+            - DomainName: !GetAtt HktAssetsBucket.RegionalDomainName
+              Id: S3Origin
+              S3OriginConfig:
+                OriginAccessIdentity: ""
+          DefaultCacheBehavior:
+            TargetOriginId: S3Origin
+            ViewerProtocolPolicy: redirect-to-https
+            AllowedMethods:
+              - GET
+              - HEAD
+              - OPTIONS
+            CachedMethods:
+              - GET
+              - HEAD
+            Compress: true
+            ForwardedValues:
+              QueryString: false
+              Cookies:
+                Forward: none
+          PriceClass: PriceClass_100
+          ViewerCertificate:
+            CloudFrontDefaultCertificate: true
+
+  Outputs:
+    ApiEndpoint:
+      Description: "API Gateway endpoint URL"
+      Value:
+        Fn::Join:
+          - ""
+          - - "https://"
+            - Ref: "ApiGatewayRestApi"
+            - ".execute-api."
+            - ${self:provider.region}
+            - ".amazonaws.com/"
+            - ${self:provider.stage}
+    
+    DynamoDBTableName:
+      Description: "DynamoDB table name"
+      Value: ${self:custom.tableName}
+    
+    S3BucketName:
+      Description: "S3 bucket for static assets"
+      Value: !Ref HktAssetsBucket
+    
+    CloudFrontDistributionId:
+      Description: "CloudFront distribution ID"
+      Value: !Ref HktCloudFrontDistribution
+    
+    CloudFrontDomainName:
+      Description: "CloudFront domain name"
+      Value: !GetAtt HktCloudFrontDistribution.DomainName
