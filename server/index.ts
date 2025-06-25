@@ -68,14 +68,19 @@ app.use((req, res, next) => {
   }
 
   // Serve download files
-  app.get("/homekrypto-source-code.tar.gz", (req, res) => {
-    const filePath = join(__dirname, "../homekrypto-source-code.tar.gz");
-    res.download(filePath, "homekrypto-source-code.tar.gz");
+  app.get("/download-complete", (req, res) => {
+    const filePath = join(__dirname, "../homekrypto-complete-project.tar.gz");
+    res.download(filePath, "homekrypto-complete-project.tar.gz");
   });
 
-  app.get("/download", (req, res) => {
-    const filePath = join(__dirname, "../download-project.html");
-    res.sendFile(filePath);
+  app.get("/download-complete-zip", (req, res) => {
+    const filePath = join(__dirname, "../homekrypto-complete-project.zip");
+    res.download(filePath, "homekrypto-complete-project.zip");
+  });
+
+  app.get("/download-source", (req, res) => {
+    const filePath = join(__dirname, "../homekrypto-source-code.tar.gz");
+    res.download(filePath, "homekrypto-source-code.tar.gz");
   });
 
   // ALWAYS serve the app on port 5000
