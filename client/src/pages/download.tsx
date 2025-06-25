@@ -17,15 +17,16 @@ export default function DownloadPage() {
             </p>
           </div>
 
-          {/* Warning Alert */}
-          <Card className="mb-6 border-amber-200 bg-amber-50 dark:bg-amber-950/20 dark:border-amber-800">
+          {/* Important Instructions */}
+          <Card className="mb-6 border-blue-200 bg-blue-50 dark:bg-blue-950/20 dark:border-blue-800">
             <CardContent className="pt-6">
               <div className="flex items-start gap-3">
-                <AlertTriangle className="h-5 w-5 text-amber-600 mt-0.5" />
+                <AlertTriangle className="h-5 w-5 text-blue-600 mt-0.5" />
                 <div>
-                  <h3 className="font-semibold text-amber-800 dark:text-amber-200">Alternative Download Method</h3>
-                  <p className="text-amber-700 dark:text-amber-300 mt-1">
-                    If the direct download links below don't work, please use the Replit file manager to download the files directly from your project directory.
+                  <h3 className="font-semibold text-blue-800 dark:text-blue-200">Download Instructions</h3>
+                  <p className="text-blue-700 dark:text-blue-300 mt-1">
+                    <strong>Access via HTTP:</strong> Use <code>http://homekrypto.com/download</code> (not HTTPS) to avoid SSL certificate issues. 
+                    If buttons don't work, download directly from the Replit file manager.
                   </p>
                 </div>
               </div>
@@ -47,7 +48,7 @@ export default function DownloadPage() {
               <CardContent>
                 <Button 
                   className="w-full mb-4" 
-                  onClick={() => window.open('/download-complete', '_blank')}
+                  onClick={() => window.open('/api/download-complete', '_blank')}
                 >
                   <Download className="h-4 w-4 mr-2" />
                   Download TAR.GZ (71MB)
@@ -72,7 +73,7 @@ export default function DownloadPage() {
                 <Button 
                   variant="outline" 
                   className="w-full mb-4"
-                  onClick={() => window.open('/download-source', '_blank')}
+                  onClick={() => window.open('/api/download-source', '_blank')}
                 >
                   <Download className="h-4 w-4 mr-2" />
                   Download Source (328KB)
@@ -178,6 +179,20 @@ export default function DownloadPage() {
                 <li>3. Right-click on the file you want</li>
                 <li>4. Select "Download" from the context menu</li>
               </ol>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-red-50 dark:bg-red-950/20 border-red-200 dark:border-red-800">
+            <CardContent className="pt-6">
+              <h3 className="font-semibold text-red-800 dark:text-red-200 mb-3">Current SSL Issue Notice</h3>
+              <p className="text-red-700 dark:text-red-300 text-sm mb-3">
+                The domain has SSL certificate issues. For the best experience:
+              </p>
+              <ul className="text-red-700 dark:text-red-300 text-sm space-y-1">
+                <li>• Access via: <code className="bg-red-100 dark:bg-red-900 px-2 py-1 rounded">http://homekrypto.com/download</code></li>
+                <li>• Use Replit file manager as backup download method</li>
+                <li>• Files are ready: homekrypto-complete-project.tar.gz (71MB)</li>
+              </ul>
             </CardContent>
           </Card>
 

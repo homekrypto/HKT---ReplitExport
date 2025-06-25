@@ -9,11 +9,11 @@
 
 ## Download Methods
 
-### Method 1: Direct Download Links (Recommended)
-Visit your website and use these direct links:
-- Complete Project ZIP: `http://homekrypto.com/download-complete-zip`
-- Complete Project TAR.GZ: `http://homekrypto.com/download-complete`
-- Download Page: `http://homekrypto.com/download.html`
+### Method 1: Direct Download Links (HTTP Only)
+**IMPORTANT:** Use HTTP, not HTTPS due to SSL certificate issues
+- Download Page: `http://homekrypto.com/download` (NOT https://)
+- Complete Project TAR.GZ: `http://homekrypto.com/api/download-complete`
+- Source Code Only: `http://homekrypto.com/api/download-source`
 
 ### Method 2: Replit File Manager
 1. In your Replit file explorer, look for:

@@ -67,20 +67,38 @@ app.use((req, res, next) => {
     serveStatic(app);
   }
 
-  // Serve download files
-  app.get("/download-complete", (req, res) => {
-    const filePath = join(__dirname, "../homekrypto-complete-project.tar.gz");
-    res.download(filePath, "homekrypto-complete-project.tar.gz");
+  // Serve download files - these need to be before the catch-all route
+  app.get("/api/download-complete", (req, res) => {
+    try {
+      const filePath = join(__dirname, "../homekrypto-complete-project.tar.gz");
+      res.setHeader('Content-Disposition', 'attachment; filename="homekrypto-complete-project.tar.gz"');
+      res.setHeader('Content-Type', 'application/gzip');
+      res.download(filePath, "homekrypto-complete-project.tar.gz");
+    } catch (error) {
+      res.status(404).json({ error: "File not found" });
+    }
   });
 
-  app.get("/download-complete-zip", (req, res) => {
-    const filePath = join(__dirname, "../homekrypto-complete-project.zip");
-    res.download(filePath, "homekrypto-complete-project.zip");
+  app.get("/api/download-complete-zip", (req, res) => {
+    try {
+      const filePath = join(__dirname, "../homekrypto-complete-project.zip");
+      res.setHeader('Content-Disposition', 'attachment; filename="homekrypto-complete-project.zip"');
+      res.setHeader('Content-Type', 'application/zip');
+      res.download(filePath, "homekrypto-complete-project.zip");
+    } catch (error) {
+      res.status(404).json({ error: "File not found" });
+    }
   });
 
-  app.get("/download-source", (req, res) => {
-    const filePath = join(__dirname, "../homekrypto-source-code.tar.gz");
-    res.download(filePath, "homekrypto-source-code.tar.gz");
+  app.get("/api/download-source", (req, res) => {
+    try {
+      const filePath = join(__dirname, "../homekrypto-source-code.tar.gz");
+      res.setHeader('Content-Disposition', 'attachment; filename="homekrypto-source-code.tar.gz"');
+      res.setHeader('Content-Type', 'application/gzip');
+      res.download(filePath, "homekrypto-source-code.tar.gz");
+    } catch (error) {
+      res.status(404).json({ error: "File not found" });
+    }
   });
 
   // ALWAYS serve the app on port 5000
