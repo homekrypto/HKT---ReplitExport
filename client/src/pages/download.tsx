@@ -63,10 +63,10 @@ export default function DownloadPage() {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Package className="h-5 w-5" />
-                  Everything Included Package
+                  Clean Project Package
                 </CardTitle>
                 <CardDescription>
-                  Complete project with ALL files, dependencies, assets, and configurations
+                  Complete source code ready for npm install and immediate setup
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -76,10 +76,10 @@ export default function DownloadPage() {
                   onClick={() => window.open('/api/download-complete-zip', '_blank')}
                 >
                   <Download className="h-4 w-4 mr-2" />
-                  Download Everything (TAR.GZ)
+                  Download Clean Project
                 </Button>
                 <p className="text-sm text-muted-foreground">
-                  Complete project with ALL files ready to extract and run immediately.
+                  Clean source code package. Run npm install after extraction.
                 </p>
               </CardContent>
             </Card>
