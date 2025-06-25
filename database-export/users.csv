@@ -1,0 +1,5 @@
+id,email,username,first_name,last_name,password_hash,primary_wallet_address,is_email_verified,two_factor_enabled,two_factor_secret,profile_image_url,referral_code,referred_by,login_attempts,lockout_until,last_login_at,created_at,updated_at
+1,support@homekrypto.com,,michal,babula,$2b$12$8a8i/XzJaur.VSYcsJV8v.91NzTe5uHBbCDM/vhU2UQ50twxHXCB2,,f,f,,,B03B9E1F283C,,0,,,2025-06-22 10:07:18.409099,2025-06-22 10:07:18.409099
+2,test@example.com,,Test,User,$2b$12$mAUrwwdaLUJWhflmIh0Jl.XKcKjrSbyoTWeh541zNNLMM6EP1hT6O,,f,f,,,B1CD39E191ED,,0,,,2025-06-22 10:10:49.299838,2025-06-22 10:10:49.299838
+3,testuser@gmail.com,,John,Doe,$2b$12$VyPhG8EW3RRFpg9E0Vo5OeCxMBilOaIWWCUDExaaBkvzgy4ublp9S,,f,f,,,80A1AAE352B1,,0,,,2025-06-22 10:11:22.367963,2025-06-22 10:11:22.367963
+4,info@babulashots.pl,,,,$2b$12$WEt4eUApjbQJsth.09/yzewOVicjnDAqNlrFskYXpDyalMkSOR2.e,,t,f,,,403330D6BC23,,0,,2025-06-22 10:57:01.199,2025-06-22 10:12:23.08572,2025-06-22 10:12:23.08572
