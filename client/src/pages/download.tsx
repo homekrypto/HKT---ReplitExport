@@ -63,23 +63,23 @@ export default function DownloadPage() {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Package className="h-5 w-5" />
-                  Source Code Only
+                  Everything Included Package
                 </CardTitle>
                 <CardDescription>
-                  Smaller package with source code excluding node_modules
+                  Complete project with ALL files, dependencies, assets, and configurations
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 <Button 
                   variant="outline" 
                   className="w-full mb-4"
-                  onClick={() => window.open('/api/download-source', '_blank')}
+                  onClick={() => window.open('/api/download-complete-zip', '_blank')}
                 >
                   <Download className="h-4 w-4 mr-2" />
-                  Download Source (328KB)
+                  Download Everything (TAR.GZ)
                 </Button>
                 <p className="text-sm text-muted-foreground">
-                  Requires npm install after extraction. Lighter download.
+                  Complete project with ALL files ready to extract and run immediately.
                 </p>
               </CardContent>
             </Card>
