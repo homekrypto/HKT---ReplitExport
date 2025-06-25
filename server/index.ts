@@ -3,6 +3,11 @@ import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 import { seedSupportedChains } from "./seed-chains";
 import { startPriceUpdateService } from "./price-feed";
+import { fileURLToPath } from "url";
+import { dirname, join } from "path";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const app = express();
 app.set('trust proxy', 1);
@@ -61,6 +66,17 @@ app.use((req, res, next) => {
   } else {
     serveStatic(app);
   }
+
+  // Serve download files
+  app.get("/homekrypto-source-code.tar.gz", (req, res) => {
+    const filePath = join(__dirname, "../homekrypto-source-code.tar.gz");
+    res.download(filePath, "homekrypto-source-code.tar.gz");
+  });
+
+  app.get("/download", (req, res) => {
+    const filePath = join(__dirname, "../download-project.html");
+    res.sendFile(filePath);
+  });
 
   // ALWAYS serve the app on port 5000
   // this serves both the API and the client.

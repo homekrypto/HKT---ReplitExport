@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Download HKT Project</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 50px auto; padding: 20px; }
+        .download-link { background: #007bff; color: white; padding: 15px 30px; text-decoration: none; border-radius: 5px; display: inline-block; margin: 10px 0; }
+        .download-link:hover { background: #0056b3; }
+        .file-info { background: #f8f9fa; padding: 15px; border-radius: 5px; margin: 10px 0; }
+        .instructions { background: #e7f3ff; padding: 15px; border-left: 4px solid #007bff; margin: 20px 0; }
+    </style>
+</head>
+<body>
+    <h1>Home Krypto Token (HKT) Project Download</h1>
+    
+    <div class="file-info">
+        <h3>Project Source Code</h3>
+        <p><strong>File:</strong> homekrypto-source-code.tar.gz</p>
+        <p><strong>Size:</strong> Compressed source code without node_modules</p>
+        <p><strong>Contents:</strong> Complete React frontend, Node.js backend, database schema, and configuration files</p>
+    </div>
+    
+    <a href="/homekrypto-source-code.tar.gz" class="download-link" download>Download Project Source Code</a>
+    
+    <div class="instructions">
+        <h3>Setup Instructions</h3>
+        <ol>
+            <li>Extract the tar.gz file</li>
+            <li>Run <code>npm install</code> to install dependencies</li>
+            <li>Create <code>.env</code> file with your DATABASE_URL</li>
+            <li>Run <code>npm run db:push</code> to set up the database</li>
+            <li>Run <code>npm run dev</code> to start development server</li>
+        </ol>
+    </div>
+    
+    <div class="file-info">
+        <h3>What's Included</h3>
+        <ul>
+            <li><strong>Frontend:</strong> Complete React app with 23 pages</li>
+            <li><strong>Backend:</strong> Express.js API with authentication</li>
+            <li><strong>Database:</strong> PostgreSQL schema with Drizzle ORM</li>
+            <li><strong>Features:</strong> Investment tracking, wallet integration, blog system</li>
+            <li><strong>Styling:</strong> Tailwind CSS with dark/light themes</li>
+        </ul>
+    </div>
+</body>
+</html>
