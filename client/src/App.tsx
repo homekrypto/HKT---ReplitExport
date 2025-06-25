@@ -42,6 +42,7 @@ import CrossChainWallets from "@/pages/cross-chain-wallets";
 import RegisterAsAgent from "@/pages/register-as-agent";
 import InvestmentGrowthProjection from "@/pages/investment-growth-projection";
 import JoinWaitlist from "@/pages/join-waitlist";
+import DownloadPage from "@/pages/download";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -83,6 +84,7 @@ function Router() {
       <Route path="/blog/:slug" component={BlogPost} />
       <Route path="/dashboard" component={Dashboard} />
       <Route path="/profile" component={Profile} />
+      <Route path="/download" component={DownloadPage} />
       <Route component={NotFound} />
     </Switch>
   );
