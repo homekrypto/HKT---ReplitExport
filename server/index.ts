@@ -81,10 +81,10 @@ app.use((req, res, next) => {
 
   app.get("/api/download-complete-zip", (req, res) => {
     try {
-      const filePath = join(__dirname, "../homekrypto-clean-project.tar.gz");
-      res.setHeader('Content-Disposition', 'attachment; filename="homekrypto-clean-project.tar.gz"');
+      const filePath = join(__dirname, "../homekrypto-FULL-SOURCE.tar.gz");
+      res.setHeader('Content-Disposition', 'attachment; filename="homekrypto-FULL-SOURCE.tar.gz"');
       res.setHeader('Content-Type', 'application/gzip');
-      res.download(filePath, "homekrypto-clean-project.tar.gz");
+      res.download(filePath, "homekrypto-FULL-SOURCE.tar.gz");
     } catch (error) {
       res.status(404).json({ error: "File not found" });
     }
