@@ -83,19 +83,19 @@ export default function Footer() {
   ];
 
   return (
-    <footer className="bg-gray-900 dark:bg-gray-950 text-white py-16">
+    <footer className="bg-gray-100 dark:bg-gray-950 text-gray-900 dark:text-white py-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="space-y-4">
-            <h3 className="text-2xl font-bold">HKT</h3>
-            <p className="text-gray-300 dark:text-gray-400">
+            <h3 className="text-2xl font-bold text-gray-900 dark:text-white">HKT</h3>
+            <p className="text-gray-600 dark:text-gray-400">
               Democratizing real estate investment through blockchain technology
             </p>
             
             {/* Newsletter Subscription */}
             <div className="space-y-3">
-              <h4 className="text-lg font-semibold">Stay Updated</h4>
-              <p className="text-sm text-gray-400 dark:text-gray-500">
+              <h4 className="text-lg font-semibold text-gray-900 dark:text-white">Stay Updated</h4>
+              <p className="text-sm text-gray-600 dark:text-gray-500">
                 Get the latest HKT news and investment opportunities.
               </p>
               <form onSubmit={handleSubscribe} className="space-y-2">
@@ -105,7 +105,7 @@ export default function Footer() {
                     placeholder="Enter your email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="bg-gray-800 dark:bg-gray-900 border-gray-600 dark:border-gray-700 text-white placeholder-gray-400 flex-1"
+                    className="bg-white dark:bg-gray-900 border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 flex-1"
                     required
                   />
                   <Button 
@@ -130,7 +130,7 @@ export default function Footer() {
                 <a
                   key={index}
                   href={social.href}
-                  className="text-gray-400 hover:text-white transition-colors"
+                  className="text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
                   aria-label={social.label}
                 >
                   <i className={`${social.icon} text-xl`}></i>
@@ -141,16 +141,16 @@ export default function Footer() {
           
           {footerSections.map((section, index) => (
             <div key={index}>
-              <h4 className="text-lg font-semibold mb-4">{section.title}</h4>
-              <ul className="space-y-2 text-gray-300">
+              <h4 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">{section.title}</h4>
+              <ul className="space-y-2 text-gray-600 dark:text-gray-300">
                 {section.links.map((link, linkIndex) => (
                   <li key={linkIndex}>
                     {link.href.startsWith('#') ? (
-                      <a href={link.href} className="hover:text-white transition-colors">
+                      <a href={link.href} className="hover:text-gray-900 dark:hover:text-white transition-colors">
                         {link.label}
                       </a>
                     ) : (
-                      <Link href={link.href} className="hover:text-white transition-colors">
+                      <Link href={link.href} className="hover:text-gray-900 dark:hover:text-white transition-colors">
                         {link.label}
                       </Link>
                     )}
@@ -161,7 +161,7 @@ export default function Footer() {
           ))}
         </div>
         
-        <div className="border-t border-gray-700 dark:border-gray-800 mt-12 pt-8 text-center text-gray-400 dark:text-gray-500">
+        <div className="border-t border-gray-300 dark:border-gray-800 mt-12 pt-8 text-center text-gray-600 dark:text-gray-500">
           <p>&copy; 2025 Home Krypto Token. All rights reserved.</p>
           <p className="mt-2 text-sm">
             Contract: 0x0de50324B6960B15A5ceD3D076aE314ac174Da2e

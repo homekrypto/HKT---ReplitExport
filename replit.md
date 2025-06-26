@@ -180,6 +180,7 @@ This is a full-stack web application for HKT (Home Krypto Token), a blockchain-b
 - June 26, 2025. PASSWORD RESET ROUTING FIXED - resolved 404 errors on password reset links by fixing client-side routing in development mode, complete password reset flow operational with working Replit domain URLs, verified email delivery and token validation, updated credentials: michael55@interia.pl / newpassword123
 - June 26, 2025. COMPLETE SERVER-SIDE PASSWORD RESET SYSTEM - implemented 100% working server-side rendered password reset solution bypassing all client-side routing issues, professional HTML forms with validation, success pages, error handling, works independently of React Router, eliminates all 404 errors permanently
 - June 26, 2025. CONTACT AND SUBSCRIBE FORMS FIXED - resolved both "Send us a Message" contact form and newsletter subscription form issues, eliminated "unexpected token" errors, implemented database-free solutions using Hostinger SMTP, both forms now send emails successfully and provide proper JSON responses
+- June 26, 2025. FOOTER THEME SWITCHING FIXED - resolved footer not changing to light theme properly, updated all footer colors to respond correctly to theme changes with proper contrast (light gray background in light theme, dark background in dark theme)
 
 ## User Preferences
 
