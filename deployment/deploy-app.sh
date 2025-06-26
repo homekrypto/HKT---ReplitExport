@@ -33,9 +33,8 @@ SESSION_SECRET=$(openssl rand -base64 32)
 FRONTEND_URL=http://localhost:5000
 EOF
 
-# Build the application
-echo "Building application..."
-npm run build 2>/dev/null || echo "Build script not found, skipping..."
+# Skip build for now - use development server in production
+echo "Skipping build - using development server..."
 
 # Setup database schema
 echo "Setting up database schema..."
@@ -47,8 +46,8 @@ cat > ecosystem.config.js << EOF
 module.exports = {
   apps: [{
     name: 'hkt-platform',
-    script: 'npm',
-    args: 'run dev',
+    script: 'node_modules/.bin/tsx',
+    args: 'server/index.ts',
     cwd: '/home/ubuntu/apps/hkt-platform',
     instances: 1,
     autorestart: true,

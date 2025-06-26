@@ -21,9 +21,8 @@ git pull origin main
 echo "Updating dependencies..."
 npm install
 
-# Build application (if build script exists)
-echo "Building application..."
-npm run build 2>/dev/null || echo "Build script not found, skipping..."
+# Skip build - use development server
+echo "Skipping build - using development server..."
 
 # Run database migrations (if needed)
 echo "Updating database schema..."
