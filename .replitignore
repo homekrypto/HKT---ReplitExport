@@ -1,0 +1,63 @@
+# Replit ignore file for HKT Platform export
+
+# Node modules
+node_modules/
+
+# Build outputs
+dist/
+build/
+
+# Environment files (will be auto-configured)
+.env
+.env.local
+.env.production
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Runtime data
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage/
+
+# Database files (auto-provisioned)
+*.db
+*.sqlite
+
+# Cache
+.cache/
+.parcel-cache/
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+
+# Temporary files
+.tmp/
+temp/
+
+# Git (not needed in Replit)
+.git/
+.gitignore
+
+# Backup files
+*.backup
+*.bak
+*.old
