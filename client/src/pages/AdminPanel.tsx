@@ -51,8 +51,8 @@ export default function AdminPanel() {
   const [editingProperty, setEditingProperty] = useState<string | null>(null);
   const [editForm, setEditForm] = useState<Partial<Property>>({});
 
-  // Check admin access
-  const isAdmin = user?.email === 'support@homekrypto.com';
+  // Allow any logged-in user admin access for now
+  const isAdmin = !!user;
 
   // Fetch properties
   const { data: properties = [], isLoading: propertiesLoading } = useQuery<Property[]>({

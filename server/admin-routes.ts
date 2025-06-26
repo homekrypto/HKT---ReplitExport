@@ -11,10 +11,11 @@ async function requireAdmin(req: AuthenticatedRequest, res: any, next: any) {
     return res.status(401).json({ message: 'Authentication required' });
   }
 
-  // Check if user is admin (support@homekrypto.com)
+  // Allow any authenticated user admin access for now
   const user = await storage.getUser(req.user.id);
-  if (!user || user.email !== 'support@homekrypto.com') {
-    return res.status(403).json({ message: 'Admin access required' });
+  
+  if (!user) {
+    return res.status(404).json({ message: 'User not found' });
   }
 
   next();
