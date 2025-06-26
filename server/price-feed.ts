@@ -155,19 +155,34 @@ export async function updateHktPriceData(): Promise<void> {
       marketCap = priceData.price * supplyData.totalSupply;
     }
     
-    // Update database with live data
-    await storage.updateHktStats({
-      currentPrice: priceData.price.toString(),
-      priceChange24h: priceData.priceChange24h.toString(),
-      marketCap: marketCap?.toString() || '0',
-      volume24h: priceData.volume24h?.toString() || '0',
-      totalSupply: supplyData?.totalSupply?.toString() || '1000000000', // fallback
+    // Try to update database, but continue with cache if it fails
+    try {
+      await storage.updateHktStats({
+        currentPrice: priceData.price.toString(),
+        priceChange24h: priceData.priceChange24h.toString(),
+        marketCap: marketCap?.toString() || '0',
+        volume24h: priceData.volume24h?.toString() || '0',
+        totalSupply: supplyData?.totalSupply?.toString() || '1000000000',
+      });
+      console.log(`Updated HKT price in database: $${priceData.price}`);
+    } catch (dbError) {
+      console.log('Database update failed, using cache only');
+    }
+    
+    // Always update cache for immediate availability
+    const { priceCache } = await import('./price-cache');
+    priceCache.updatePrice({
+      price: priceData.price,
+      priceChange24h: priceData.priceChange24h,
+      marketCap: marketCap || 0,
+      volume24h: priceData.volume24h || 0,
+      totalSupply: supplyData?.totalSupply || 1000000000
     });
     
-    console.log(`Updated HKT price: $${priceData.price}`);
+    console.log(`HKT price updated: $${priceData.price}`);
     
   } catch (error) {
-    console.error('Error updating HKT price data:', error);
+    console.error('Error fetching HKT price data:', error);
   }
 }
 

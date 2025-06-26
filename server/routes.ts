@@ -264,6 +264,64 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Get HKT price endpoint with cache fallback
+  app.get("/api/hkt/price", async (req, res) => {
+    try {
+      // First try to get from database
+      let hktStats = null;
+      try {
+        hktStats = await storage.getLatestHktStats();
+      } catch (dbError) {
+        console.log('Database unavailable for HKT stats, using cache');
+      }
+
+      // If database fails, use cache
+      if (!hktStats) {
+        const { priceCache } = await import('./price-cache');
+        const cachedData = priceCache.getPrice();
+        
+        if (cachedData) {
+          return res.json({
+            currentPrice: cachedData.price,
+            priceChange24h: cachedData.priceChange24h,
+            marketCap: cachedData.marketCap,
+            volume24h: cachedData.volume24h,
+            totalSupply: cachedData.totalSupply,
+            lastUpdated: cachedData.lastUpdated,
+            source: 'cache'
+          });
+        }
+      }
+
+      if (hktStats) {
+        return res.json({
+          currentPrice: parseFloat(hktStats.currentPrice),
+          priceChange24h: parseFloat(hktStats.priceChange24h),
+          marketCap: parseFloat(hktStats.marketCap),
+          volume24h: parseFloat(hktStats.volume24h),
+          totalSupply: parseFloat(hktStats.totalSupply),
+          lastUpdated: hktStats.updatedAt,
+          source: 'database'
+        });
+      }
+
+      // Fallback to default values
+      res.json({
+        currentPrice: 0.10,
+        priceChange24h: 0,
+        marketCap: 100000000,
+        volume24h: 1000000,
+        totalSupply: 1000000000,
+        lastUpdated: new Date(),
+        source: 'default'
+      });
+
+    } catch (error) {
+      console.error('Error fetching HKT price:', error);
+      res.status(500).json({ message: "Failed to fetch HKT price" });
+    }
+  });
+
   // Generate quarterly breakdown
   app.post("/api/generate-quarterly-data", async (req, res) => {
     try {
