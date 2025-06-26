@@ -1,0 +1,61 @@
+# Run these commands on your Hostinger VPS to fix the deployment
+
+# Navigate to your project directory
+cd "/root/vps hostinger"
+
+# Stop any running processes
+pkill -f "node" 2>/dev/null || true
+pm2 kill 2>/dev/null || true
+
+# Install PM2 if not present
+npm install -g pm2
+
+# Create optimized PM2 configuration
+cat > ecosystem.config.js << 'EOF'
+module.exports = {
+  apps: [{
+    name: 'hkt-platform',
+    script: 'npx',
+    args: 'tsx server/index.ts',
+    cwd: process.cwd(),
+    instances: 1,
+    autorestart: true,
+    watch: false,
+    max_memory_restart: '512M',
+    env: {
+      NODE_ENV: 'production',
+      PORT: 5000
+    },
+    error_file: './logs/error.log',
+    out_file: './logs/out.log',
+    log_file: './logs/combined.log',
+    time: true
+  }]
+};
+EOF
+
+# Create logs directory
+mkdir -p logs
+
+# Set environment variables
+export NODE_ENV=production
+export PORT=5000
+
+# Install dependencies if needed
+npm install
+
+# Remove problematic dist directory
+rm -rf dist/
+
+# Start application with PM2
+pm2 start ecosystem.config.js
+
+# Setup PM2 for automatic startup
+pm2 startup
+pm2 save
+
+# Configure firewall for port 5000
+ufw allow 5000 || iptables -A INPUT -p tcp --dport 5000 -j ACCEPT
+
+# Check status
+pm2 status
