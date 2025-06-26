@@ -49,11 +49,14 @@ export default function InvestmentCalculator() {
               <div className="space-y-2">
                 <Label className="text-sm font-medium text-gray-700 dark:text-gray-300">Property Value ($)</Label>
                 <Input
-                  type="number"
-                  value={customPropertyValue}
-                  onChange={(e) => setCustomPropertyValue(Number(e.target.value))}
-                  min="50000"
-                  step="1000"
+                  type="text"
+                  value={customPropertyValue.toLocaleString('de-DE')}
+                  onChange={(e) => {
+                    const numericValue = Number(e.target.value.replace(/\./g, ''));
+                    if (!isNaN(numericValue)) {
+                      setCustomPropertyValue(numericValue);
+                    }
+                  }}
                   className="bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white"
                 />
               </div>

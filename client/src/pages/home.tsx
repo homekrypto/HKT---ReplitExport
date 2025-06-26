@@ -146,11 +146,7 @@ export default function Home() {
                       <div className="text-green-400 font-semibold">From ~$100 - $200 USD / month</div>
                       <div className="text-gray-300">Accumulate HKT for your share.</div>
                     </div>
-                    <div>
-                      <span className="text-gray-400">Micro-Share Entry:</span>
-                      <div className="text-green-400 font-semibold">From ~$75 USD (approx. 750 HKT @ $0.10)</div>
-                      <div className="text-gray-300">Begin your property investment.</div>
-                    </div>
+
                   </div>
                 </div>
                 <p className="text-xs text-gray-400 mt-4 italic">Based on illustrative $195k property value. Live values will vary.</p>
