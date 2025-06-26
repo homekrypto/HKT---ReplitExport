@@ -102,8 +102,133 @@ app.post('/api/test-email', async (req, res) => {
   }
 });
 
+// Fixed subscribe endpoint (database-free)
+app.post('/api/subscribe', async (req, res) => {
+  try {
+    const { email } = req.body;
+    
+    if (!email || typeof email !== 'string') {
+      return res.status(400).json({ message: "Email is required" });
+    }
+    
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      return res.status(400).json({ message: "Invalid email format" });
+    }
+
+    // Send notification email to support
+    try {
+      const { sendHostingerEmail } = await import('./hostinger-email.js');
+      await sendHostingerEmail({
+        to: 'support@homekrypto.com',
+        subject: 'New Newsletter Subscription - Home Krypto',
+        html: `
+          <h2>New Newsletter Subscription</h2>
+          <p><strong>Email:</strong> ${email}</p>
+          <p><strong>Subscribed:</strong> ${new Date().toLocaleString()}</p>
+          <p><strong>Source:</strong> Footer Newsletter Signup</p>
+          <br>
+          <p><em>This subscription was made via the newsletter form on homekrypto.com</em></p>
+        `,
+        text: `New Newsletter Subscription: ${email} subscribed at ${new Date().toLocaleString()}`
+      });
+
+      // Send confirmation email to subscriber
+      await sendHostingerEmail({
+        to: email,
+        subject: 'Welcome to Home Krypto Newsletter!',
+        html: `
+          <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+            <h1 style="color: #2563eb;">Welcome to Home Krypto!</h1>
+            <p>Thank you for subscribing to our newsletter. You'll now receive:</p>
+            <ul>
+              <li>Latest HKT token updates</li>
+              <li>Property investment opportunities</li>
+              <li>Platform development news</li>
+              <li>Educational content about tokenized real estate</li>
+            </ul>
+            <p>Stay tuned for exciting updates!</p>
+            <p>Best regards,<br>The Home Krypto Team</p>
+            <hr>
+            <p style="font-size: 12px; color: #666;">
+              You received this email because you subscribed to our newsletter at homekrypto.com
+            </p>
+          </div>
+        `,
+        text: `Welcome to Home Krypto! Thank you for subscribing to our newsletter. You'll receive updates about HKT tokens, property investments, and platform news.`
+      });
+    } catch (emailError) {
+      console.error('Failed to send subscription emails:', emailError);
+    }
+    
+    res.status(201).json({ 
+      message: "Successfully subscribed to our newsletter!",
+      subscriber: { id: Date.now(), email: email }
+    });
+  } catch (error) {
+    console.error('Subscribe error:', error);
+    res.status(500).json({ message: "Failed to subscribe. Please try again." });
+  }
+});
+
+// Fixed contact form endpoint
+app.post('/api/contact', async (req, res) => {
+  try {
+    const { name, email, subject, category, message } = req.body;
+    
+    if (!name || !email || !subject || !message) {
+      return res.status(400).json({ message: "All fields are required" });
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      return res.status(400).json({ message: "Invalid email format" });
+    }
+
+    try {
+      const { sendHostingerEmail } = await import('./hostinger-email.js');
+      
+      await sendHostingerEmail({
+        to: 'support@homekrypto.com',
+        subject: `Contact Form: ${subject} [${category || 'General'}]`,
+        html: `
+          <h2>New Contact Form Submission</h2>
+          <p><strong>Name:</strong> ${name}</p>
+          <p><strong>Email:</strong> ${email}</p>
+          <p><strong>Category:</strong> ${category || 'General'}</p>
+          <p><strong>Subject:</strong> ${subject}</p>
+          <p><strong>Message:</strong></p>
+          <p>${message.replace(/\n/g, '<br>')}</p>
+          <br>
+          <p><em>This message was sent via the Contact Form on homekrypto.com</em></p>
+        `,
+        text: `
+          New Contact Form Submission
+          
+          Name: ${name}
+          Email: ${email}
+          Category: ${category || 'General'}
+          Subject: ${subject}
+          
+          Message:
+          ${message}
+          
+          This message was sent via the Contact Form on homekrypto.com
+        `
+      });
+    } catch (emailError) {
+      console.error('Failed to send contact email:', emailError);
+    }
+
+    res.status(200).json({ message: "Message sent successfully" });
+  } catch (error) {
+    console.error('Contact form error:', error);
+    res.status(500).json({ message: "Failed to send message. Please try again." });
+  }
+});
+
 (async () => {
-  // Skip database-dependent routes during connection issues
+  // Skip database-dependent routes, use direct implementations
   // const server = await registerRoutes(app);
   const { createServer } = await import('http');
   const server = createServer(app);

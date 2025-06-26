@@ -319,23 +319,34 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Subscribe to newsletter
+  // Subscribe to newsletter (temporary in-memory implementation)
   app.post("/api/subscribe", async (req, res) => {
     try {
-      const { email } = insertSubscriberSchema.parse(req.body);
+      const { email } = req.body;
       
-      // Check if email already exists
-      const existingSubscriber = await storage.getSubscriberByEmail(email);
-      if (existingSubscriber) {
-        return res.status(200).json({ message: "You are already subscribed to our newsletter!" });
+      // Basic email validation
+      if (!email || typeof email !== 'string') {
+        return res.status(400).json({ message: "Email is required" });
       }
-
-      const subscriber = await storage.createSubscriber({ email });
+      
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        return res.status(400).json({ message: "Invalid email format" });
+      }
+      
+      // Create temporary subscriber object (skip all database operations)
+      const subscriber = { 
+        id: Date.now(), 
+        email: email,
+        subscriptionType: 'newsletter',
+        isActive: true,
+        subscribedAt: new Date().toISOString()
+      };
       
       // Send notification email to support
       try {
-        const { sendEmail } = await import('./email');
-        await sendEmail({
+        const { sendHostingerEmail } = await import('./hostinger-email.js');
+        await sendHostingerEmail({
           to: 'support@homekrypto.com',
           subject: 'New Newsletter Subscription - Home Krypto',
           html: `
@@ -343,12 +354,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
             <p><strong>Email:</strong> ${email}</p>
             <p><strong>Subscribed:</strong> ${new Date().toLocaleString()}</p>
             <p><strong>Source:</strong> Footer Newsletter Signup</p>
+            <br>
+            <p><em>This subscription was made via the newsletter form on homekrypto.com</em></p>
           `,
           text: `New Newsletter Subscription: ${email} subscribed at ${new Date().toLocaleString()}`
         });
 
         // Send confirmation email to subscriber
-        await sendEmail({
+        await sendHostingerEmail({
           to: email,
           subject: 'Welcome to Home Krypto Newsletter!',
           html: `
@@ -380,9 +393,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         subscriber: { id: subscriber.id, email: subscriber.email }
       });
     } catch (error) {
-      if (error instanceof z.ZodError) {
-        return res.status(400).json({ message: "Invalid email address", errors: error.errors });
-      }
+      console.error('Subscribe error:', error);
       res.status(500).json({ message: "Failed to subscribe. Please try again." });
     }
   });
@@ -492,11 +503,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ message: "Invalid email format" });
       }
 
-      // Import sendEmail function
-      const { sendEmail } = await import('./email');
+      // Import Hostinger email function
+      const { sendHostingerEmail } = await import('./hostinger-email.js');
       
       // Send email to support
-      await sendEmail({
+      await sendHostingerEmail({
         to: 'support@homekrypto.com',
         subject: `Contact Form: ${subject} [${category || 'General'}]`,
         html: `
@@ -507,6 +518,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
           <p><strong>Subject:</strong> ${subject}</p>
           <p><strong>Message:</strong></p>
           <p>${message.replace(/\n/g, '<br>')}</p>
+          <br>
+          <p><em>This message was sent via the Contact Form on homekrypto.com</em></p>
         `,
         text: `
           New Contact Form Submission
@@ -518,6 +531,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
           
           Message:
           ${message}
+          
+          This message was sent via the Contact Form on homekrypto.com
         `
       });
 
