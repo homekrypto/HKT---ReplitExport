@@ -1,4 +1,5 @@
 import express, { type Request, Response, NextFunction } from "express";
+import cookieParser from "cookie-parser";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 import { seedSupportedChains } from "./seed-chains";
@@ -11,6 +12,7 @@ const __dirname = dirname(__filename);
 
 const app = express();
 app.set('trust proxy', 1);
+app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
@@ -46,11 +48,11 @@ app.use((req, res, next) => {
 
 // Add temporary routes for admin panel testing
 import tempAdminRoutes from './temp-admin-routes';
-import tempAuthRoutes from './temp-auth-routes';
+import completeAuthRoutes from './complete-auth-routes';
 
 // Use temporary routes to bypass database connection issues
 app.use('/api/temp-admin', tempAdminRoutes);
-app.use('/api/auth', tempAuthRoutes);
+app.use('/api/auth', completeAuthRoutes);
 
 // Import temporary user routes
 import tempBookingRoutes from './temp-booking-routes.js';
