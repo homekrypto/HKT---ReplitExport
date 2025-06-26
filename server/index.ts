@@ -50,10 +50,13 @@ import tempAuthRoutes from './temp-auth-routes';
 
 // Use temporary routes to bypass database connection issues
 app.use('/api/temp-admin', tempAdminRoutes);
-app.use('/api/temp-auth', tempAuthRoutes);
+app.use('/api/auth', tempAuthRoutes);
 
 (async () => {
-  const server = await registerRoutes(app);
+  // Skip database-dependent routes during connection issues
+  // const server = await registerRoutes(app);
+  const { createServer } = await import('http');
+  const server = createServer(app);
 
   // Initialize price feed service
   startPriceUpdateService();
