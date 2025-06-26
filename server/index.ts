@@ -44,6 +44,14 @@ app.use((req, res, next) => {
   next();
 });
 
+// Add temporary routes for admin panel testing
+import tempAdminRoutes from './temp-admin-routes';
+import tempAuthRoutes from './temp-auth-routes';
+
+// Use temporary routes to bypass database connection issues
+app.use('/api/temp-admin', tempAdminRoutes);
+app.use('/api/temp-auth', tempAuthRoutes);
+
 (async () => {
   const server = await registerRoutes(app);
 
