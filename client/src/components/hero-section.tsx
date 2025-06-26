@@ -16,7 +16,7 @@ export default function HeroSection() {
             {/* Pre-headline - Creates anticipation */}
             <div className="mb-4">
               <span className="inline-block px-4 py-2 bg-gradient-to-r from-blue-600 to-green-600 text-white text-sm font-medium rounded-full shadow-lg">
-                The Future of Real Estate Investment
+                Premium Properties Made Accessible
               </span>
             </div>
 
