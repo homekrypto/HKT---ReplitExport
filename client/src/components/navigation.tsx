@@ -1,13 +1,32 @@
 import { useState } from 'react';
-import { Link } from 'wouter';
+import { Link, useLocation } from 'wouter';
 import { Button } from '@/components/ui/button';
-import { Menu } from 'lucide-react';
+import { Menu, LogOut, User } from 'lucide-react';
+import { useAuth } from '@/hooks/useAuth';
 import ThemeToggle from './theme-toggle';
 import LanguageSelector from './language-selector';
 import WalletConnectDropdown from './wallet-connect-dropdown';
 
 export default function Navigation() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { user, isAuthenticated, isLoading } = useAuth();
+  const [, setLocation] = useLocation();
+
+  const handleLogout = async () => {
+    try {
+      const response = await fetch('/api/auth/logout', {
+        method: 'POST',
+        credentials: 'include'
+      });
+      
+      if (response.ok) {
+        setLocation('/');
+        window.location.reload(); // Force refresh to clear auth state
+      }
+    } catch (error) {
+      console.error('Logout failed:', error);
+    }
+  };
 
   const navLinks = [
     { href: '/how-it-works', label: 'How It Works' },
@@ -49,12 +68,34 @@ export default function Navigation() {
             </div>
             <div className="flex items-center space-x-4">
               <WalletConnectDropdown />
-              <Link href="/login">
-                <Button variant="outline" size="sm">Log In</Button>
-              </Link>
-              <Link href="/register">
-                <Button size="sm">Register</Button>
-              </Link>
+              {!isLoading && (
+                isAuthenticated ? (
+                  <div className="flex items-center space-x-3">
+                    <div className="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-300">
+                      <User className="h-4 w-4" />
+                      <span>{user?.firstName || user?.email}</span>
+                    </div>
+                    <Button 
+                      variant="outline" 
+                      size="sm"
+                      onClick={handleLogout}
+                      className="flex items-center space-x-1"
+                    >
+                      <LogOut className="h-4 w-4" />
+                      <span>Logout</span>
+                    </Button>
+                  </div>
+                ) : (
+                  <div className="flex items-center space-x-2">
+                    <Link href="/login">
+                      <Button variant="outline" size="sm">Log In</Button>
+                    </Link>
+                    <Link href="/register">
+                      <Button size="sm">Register</Button>
+                    </Link>
+                  </div>
+                )
+              )}
             </div>
           </div>
         </div>
@@ -78,12 +119,34 @@ export default function Navigation() {
           {/* Mobile: Action buttons on separate line */}
           <div className="flex justify-center space-x-3 py-3 border-t border-gray-100 dark:border-gray-800">
             <WalletConnectDropdown />
-            <Link href="/login">
-              <Button variant="outline" size="sm">Log In</Button>
-            </Link>
-            <Link href="/register">
-              <Button size="sm">Register</Button>
-            </Link>
+            {!isLoading && (
+              isAuthenticated ? (
+                <div className="flex items-center space-x-2">
+                  <div className="flex items-center space-x-1 text-xs text-gray-600 dark:text-gray-300">
+                    <User className="h-3 w-3" />
+                    <span className="truncate max-w-20">{user?.firstName || user?.email}</span>
+                  </div>
+                  <Button 
+                    variant="outline" 
+                    size="sm"
+                    onClick={handleLogout}
+                    className="flex items-center space-x-1"
+                  >
+                    <LogOut className="h-3 w-3" />
+                    <span>Logout</span>
+                  </Button>
+                </div>
+              ) : (
+                <div className="flex items-center space-x-2">
+                  <Link href="/login">
+                    <Button variant="outline" size="sm">Log In</Button>
+                  </Link>
+                  <Link href="/register">
+                    <Button size="sm">Register</Button>
+                  </Link>
+                </div>
+              )
+            )}
           </div>
         </div>
 
