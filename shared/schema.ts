@@ -11,6 +11,7 @@ import {
   boolean,
   uuid,
   unique,
+  date,
 } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
@@ -195,6 +196,52 @@ export const insertInvestmentSchema = createInsertSchema(investments).pick({
   roi: true,
 });
 
+// Booking system tables
+export const bookings = pgTable("bookings", {
+  id: serial("id").primaryKey(),
+  userId: integer("user_id").references(() => users.id).notNull(),
+  propertyId: text("property_id").notNull(),
+  checkIn: date("check_in").notNull(),
+  checkOut: date("check_out").notNull(),
+  nights: integer("nights").notNull(),
+  totalUsd: decimal("total_usd", { precision: 10, scale: 2 }),
+  totalHkt: decimal("total_hkt", { precision: 18, scale: 8 }),
+  currency: text("currency").notNull(), // 'USD' or 'HKT'
+  cleaningFee: decimal("cleaning_fee", { precision: 10, scale: 2 }).notNull(),
+  isFreeWeek: boolean("is_free_week").default(false),
+  status: text("status").default("confirmed"), // confirmed, canceled, completed
+  stripeSessionId: text("stripe_session_id"),
+  transactionHash: text("transaction_hash"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const propertyShares = pgTable("property_shares", {
+  id: serial("id").primaryKey(),
+  userId: integer("user_id").references(() => users.id).notNull(),
+  userWallet: text("user_wallet").notNull(),
+  propertyId: text("property_id").notNull(),
+  sharesOwned: integer("shares_owned").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const properties = pgTable("properties", {
+  id: text("id").primaryKey(),
+  name: text("name").notNull(),
+  location: text("location").notNull(),
+  description: text("description").notNull(),
+  pricePerNight: decimal("price_per_night", { precision: 10, scale: 2 }).notNull(),
+  totalShares: integer("total_shares").notNull(),
+  sharePrice: decimal("share_price", { precision: 10, scale: 2 }).notNull(),
+  images: text("images").array(),
+  amenities: text("amenities").array(),
+  maxGuests: integer("max_guests").notNull(),
+  bedrooms: integer("bedrooms").notNull(),
+  bathrooms: integer("bathrooms").notNull(),
+  isActive: boolean("is_active").default(true),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
 export const insertQuarterlyDataSchema = createInsertSchema(quarterlyData).pick({
   investmentId: true,
   year: true,
@@ -244,6 +291,30 @@ export type UserWallet = typeof userWallets.$inferSelect;
 export type InsertUserWallet = typeof userWallets.$inferInsert;
 export type WalletVerificationChallenge = typeof walletVerificationChallenges.$inferSelect;
 export type InsertWalletVerificationChallenge = typeof walletVerificationChallenges.$inferInsert;
+
+// Booking system types
+export type Booking = typeof bookings.$inferSelect;
+export type InsertBooking = typeof bookings.$inferInsert;
+export type PropertyShare = typeof propertyShares.$inferSelect;
+export type InsertPropertyShare = typeof propertyShares.$inferInsert;
+export type Property = typeof properties.$inferSelect;
+export type InsertProperty = typeof properties.$inferInsert;
+
+// Booking system schemas
+export const insertBookingSchema = createInsertSchema(bookings).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export const insertPropertyShareSchema = createInsertSchema(propertyShares).omit({
+  id: true,
+  createdAt: true,
+});
+
+export const insertPropertySchema = createInsertSchema(properties).omit({
+  createdAt: true,
+});
 
 // Create insert schemas for cross-chain wallet tables  
 export const insertSupportedChainSchema = createInsertSchema(supportedChains).pick({

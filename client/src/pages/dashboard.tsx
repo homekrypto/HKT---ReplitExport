@@ -7,6 +7,7 @@ import { Badge } from '@/components/ui/badge';
 import { useQuery } from '@tanstack/react-query';
 import { web3Service, type Web3State } from '@/lib/web3';
 import HKTSwapInterface from '@/components/hkt-swap-interface';
+import BookingManagement from '@/components/BookingManagement';
 import { 
   User,
   Mail,
@@ -305,6 +306,9 @@ export default function Dashboard() {
               </div>
             </CardContent>
           </Card>
+
+          {/* Booking Management Section */}
+          <BookingManagement />
         </div>
       </div>
     </ProtectedRoute>

@@ -43,6 +43,7 @@ import RegisterAsAgent from "@/pages/register-as-agent";
 import InvestmentGrowthProjection from "@/pages/investment-growth-projection";
 import JoinWaitlist from "@/pages/join-waitlist";
 import DownloadPage from "@/pages/download";
+import SimpleBookingPage from "@/pages/SimpleBookingPage";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -65,6 +66,7 @@ function Router() {
       <Route path="/pilot-property-showcase" component={PilotPropertyShowcase} />
       <Route path="/properties" component={Properties} />
       <Route path="/property-details/:id" component={PropertyDetails} />
+      <Route path="/booking/:propertyId?" component={SimpleBookingPage} />
       <Route path="/secondary-market" component={SecondaryMarket} />
       <Route path="/sitemap" component={Sitemap} />
       <Route path="/job-application/:position?" component={JobApplication} />
