@@ -131,12 +131,17 @@ router.post('/register', async (req, res) => {
       expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000)
     });
 
+    // Get the correct base URL for email links
+    const baseUrl = process.env.REPLIT_DOMAINS ? 
+      `https://${process.env.REPLIT_DOMAINS.split(',')[0]}` : 
+      `${req.protocol}://${req.get('host')}`;
+
     // Send verification email
     try {
       await sendHostingerEmail({
         to: emailLower,
         subject: 'Verify Your Email - Home Krypto Platform',
-        html: generateVerificationEmailHtml(verificationToken, emailLower)
+        html: generateVerificationEmailHtml(verificationToken, emailLower, baseUrl)
       });
       console.log(`Verification email sent to: ${emailLower}`);
     } catch (error) {
@@ -236,26 +241,31 @@ router.post('/forgot-password', async (req, res) => {
       expiresAt: new Date(Date.now() + 60 * 60 * 1000) // 1 hour
     });
 
+    // Get the correct base URL
+    const baseUrl = process.env.REPLIT_DOMAINS ? 
+      `https://${process.env.REPLIT_DOMAINS.split(',')[0]}` : 
+      `${req.protocol}://${req.get('host')}`;
+    
     // Try to send email, provide fallback
     try {
       await sendHostingerEmail({
         to: email.toLowerCase(),
         subject: 'Password Reset - Home Krypto Platform',
-        html: generatePasswordResetEmailHtml(resetToken, email.toLowerCase())
+        html: generatePasswordResetEmailHtml(resetToken, email.toLowerCase(), baseUrl)
       });
       console.log(`Password reset email sent to: ${email}`);
       
       res.json({ 
         message: 'Password reset instructions have been sent to your email address.',
         resetToken: resetToken,
-        resetLink: `${req.protocol}://${req.get('host')}/reset-password?token=${resetToken}`
+        resetLink: `${baseUrl}/reset-password?token=${resetToken}`
       });
     } catch (error) {
       console.error('Failed to send password reset email:', error);
       res.json({ 
         message: 'Email delivery unavailable. Use this direct reset:',
         resetToken: resetToken,
-        resetLink: `${req.protocol}://${req.get('host')}/reset-password?token=${resetToken}`,
+        resetLink: `${baseUrl}/reset-password?token=${resetToken}`,
         instructions: 'Use the resetToken above to reset your password'
       });
     }
@@ -331,12 +341,17 @@ router.post('/resend-verification', async (req, res) => {
       expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000)
     });
 
+    // Get the correct base URL for email links
+    const baseUrl = process.env.REPLIT_DOMAINS ? 
+      `https://${process.env.REPLIT_DOMAINS.split(',')[0]}` : 
+      `${req.protocol}://${req.get('host')}`;
+
     // Send verification email
     try {
       await sendHostingerEmail({
         to: email.toLowerCase(),
         subject: 'Verify Your Email - Home Krypto Platform',
-        html: generateVerificationEmailHtml(verificationToken, email.toLowerCase())
+        html: generateVerificationEmailHtml(verificationToken, email.toLowerCase(), baseUrl)
       });
       console.log(`Verification email resent to: ${email}`);
       

@@ -47,7 +47,8 @@ export async function sendHostingerEmail(options: EmailOptions): Promise<boolean
   }
 }
 
-export function generateVerificationEmailHtml(token: string, email: string): string {
+export function generateVerificationEmailHtml(token: string, email: string, baseUrl?: string): string {
+  const verifyUrl = baseUrl || 'http://localhost:5000';
   return `
     <!DOCTYPE html>
     <html>
@@ -75,10 +76,10 @@ export function generateVerificationEmailHtml(token: string, email: string): str
           
           <p><strong>Your email:</strong> ${email}</p>
           
-          <a href="http://localhost:5000/api/auth/verify-email/${token}" class="button">Verify Email Address</a>
+          <a href="${verifyUrl}/api/auth/verify-email/${token}" class="button">Verify Email Address</a>
           
           <p>Or copy and paste this link in your browser:</p>
-          <p>http://localhost:5000/api/auth/verify-email/${token}</p>
+          <p>${verifyUrl}/api/auth/verify-email/${token}</p>
           
           <p>This verification link will expire in 24 hours for security reasons.</p>
           
@@ -94,7 +95,8 @@ export function generateVerificationEmailHtml(token: string, email: string): str
   `;
 }
 
-export function generatePasswordResetEmailHtml(token: string, email: string): string {
+export function generatePasswordResetEmailHtml(token: string, email: string, baseUrl?: string): string {
+  const resetUrl = baseUrl || 'http://localhost:5000';
   return `
     <!DOCTYPE html>
     <html>
@@ -127,10 +129,10 @@ export function generatePasswordResetEmailHtml(token: string, email: string): st
             <strong>Security Notice:</strong> If you didn't request this password reset, please ignore this email. Your account is still secure.
           </div>
           
-          <a href="http://localhost:5000/reset-password?token=${token}" class="button">Reset Password</a>
+          <a href="${resetUrl}/reset-password?token=${token}" class="button">Reset Password</a>
           
           <p>Or copy and paste this link in your browser:</p>
-          <p>http://localhost:5000/reset-password?token=${token}</p>
+          <p>${resetUrl}/reset-password?token=${token}</p>
           
           <p>This reset link will expire in 1 hour for security reasons.</p>
         </div>
