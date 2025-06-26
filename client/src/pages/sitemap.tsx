@@ -139,7 +139,7 @@ export default function Sitemap() {
             </div>
             <div className="text-center">
               <div className="text-3xl font-bold text-purple-600 dark:text-purple-400">6</div>
-              <div className="text-sm text-gray-500 dark:text-gray-400">Categories</div>
+              <div className="text-sm text-gray-700 dark:text-gray-400 font-medium">Categories</div>
             </div>
           </div>
         </div>

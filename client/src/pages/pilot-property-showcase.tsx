@@ -91,7 +91,7 @@ export default function PilotPropertyShowcase() {
         {/* Statistics */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
           {stats.map((stat, index) => (
-            <Card key={index} className="text-center">
+            <Card key={index} className="text-center bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700">
               <CardContent className="pt-6">
                 <div className="flex justify-center mb-4">
                   <stat.icon className="h-8 w-8 text-blue-600 dark:text-blue-400" />
@@ -99,10 +99,10 @@ export default function PilotPropertyShowcase() {
                 <div className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
                   {stat.value}
                 </div>
-                <div className="text-sm font-medium text-gray-900 dark:text-white mb-1">
+                <div className="text-sm font-semibold text-gray-900 dark:text-white mb-1">
                   {stat.title}
                 </div>
-                <div className="text-xs text-gray-600 dark:text-gray-400 font-medium">
+                <div className="text-xs text-gray-700 dark:text-gray-400 font-medium">
                   {stat.description}
                 </div>
               </CardContent>

@@ -388,7 +388,7 @@ export default function SimpleBookingPage() {
                      `Reserve & Pay ${pricing.totalHkt.toFixed(0)} HKT`}
                   </Button>
                   
-                  <p className="text-xs text-gray-500 dark:text-gray-400 text-center">
+                  <p className="text-xs text-gray-700 dark:text-gray-400 text-center font-medium">
                     You can cancel for a 50% refund before your check-in date.
                   </p>
                 </CardContent>

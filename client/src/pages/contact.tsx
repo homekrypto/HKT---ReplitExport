@@ -225,7 +225,7 @@ export default function Contact() {
                     <div>
                       <h3 className="font-semibold text-gray-900 dark:text-white">{info.title}</h3>
                       <p className="text-gray-700 dark:text-gray-300 whitespace-pre-line">{info.content}</p>
-                      <p className="text-sm text-gray-500 dark:text-gray-400">{info.description}</p>
+                      <p className="text-sm text-gray-700 dark:text-gray-400 font-medium">{info.description}</p>
                     </div>
                   </div>
                 ))}

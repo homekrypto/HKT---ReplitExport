@@ -87,12 +87,12 @@ export default function Dashboard() {
                 </p>
               </div>
               <div className="text-right">
-                <div className="flex items-center space-x-2 text-sm text-gray-500 dark:text-gray-400">
+                <div className="flex items-center space-x-2 text-sm text-gray-700 dark:text-gray-400 font-medium">
                   <Mail className="h-4 w-4" />
                   <span>{user?.email}</span>
                 </div>
                 {user?.lastLoginAt && (
-                  <div className="flex items-center space-x-2 text-sm text-gray-500 dark:text-gray-400 mt-1">
+                  <div className="flex items-center space-x-2 text-sm text-gray-700 dark:text-gray-400 font-medium mt-1">
                     <Calendar className="h-4 w-4" />
                     <span>Last login: {new Date(user.lastLoginAt).toLocaleDateString()}</span>
                   </div>
