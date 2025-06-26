@@ -14,7 +14,7 @@ export default function HeroSection() {
           <div className="max-w-5xl mx-auto text-center">
             
             {/* Main headline - Bold and direct */}
-            <h1 className="text-5xl md:text-7xl lg:text-8xl font-light mb-8 text-gray-900 dark:text-white leading-tight tracking-tight">
+            <h1 className="text-3xl md:text-5xl lg:text-6xl font-light mb-8 text-gray-900 dark:text-white leading-tight tracking-tight">
               <span className="bg-gradient-to-r from-gray-900 to-gray-700 dark:from-white dark:to-gray-300 bg-clip-text text-transparent">
                 INVESTING IN REAL ESTATE
               </span>
