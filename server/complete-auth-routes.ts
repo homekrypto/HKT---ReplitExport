@@ -394,11 +394,30 @@ router.get('/verify-email/:token', async (req, res) => {
     user.emailVerified = true;
     users.set(user.email, user);
 
+    // Create login session automatically after verification
+    const sessionToken = generateToken();
+    sessions.set(sessionToken, {
+      userId: user.id,
+      email: user.email,
+      createdAt: new Date(),
+      expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days
+      userAgent: req.get('User-Agent'),
+      ipAddress: req.ip
+    });
+
+    // Set auth cookie
+    res.cookie('auth_token', sessionToken, {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'strict',
+      maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
+    });
+
     // Clean up verification token
     verificationTokens.delete(token);
 
-    console.log(`Email verified for user: ${user.email}`);
-    res.redirect('/?verified=true');
+    console.log(`Email verified and user logged in: ${user.email}`);
+    res.redirect('/dashboard?verified=true');
   } catch (error) {
     console.error('Email verification error:', error);
     res.redirect('/?verified=false&reason=error');
