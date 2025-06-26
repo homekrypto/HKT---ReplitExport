@@ -20,18 +20,26 @@ export default function ResetPassword() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [resetSuccess, setResetSuccess] = useState(false);
+  const [token, setToken] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   const { resetPassword, resetPasswordError, isResettingPassword } = useAuth();
   const { toast } = useToast();
 
-  // Get token from query parameter
-  const token = new URLSearchParams(window.location.search).get('token');
-
   useEffect(() => {
-    if (!match || !token) {
-      setLocation('/forgot-password');
+    // Get token from query parameter on component mount
+    const urlParams = new URLSearchParams(window.location.search);
+    const tokenParam = urlParams.get('token');
+    
+    console.log('Reset password page loaded with token:', tokenParam);
+    setToken(tokenParam);
+    setIsLoading(false);
+    
+    if (!tokenParam) {
+      console.log('No token found, redirecting to forgot-password');
+      setTimeout(() => setLocation('/forgot-password'), 2000);
     }
-  }, [match, token, setLocation]);
+  }, [setLocation]);
 
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
@@ -119,8 +127,45 @@ export default function ResetPassword() {
     );
   }
 
-  if (!match || !token) {
-    return null;
+  // Show loading state while checking for token
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+        <Card className="w-full max-w-md">
+          <CardContent className="flex flex-col items-center justify-center py-8">
+            <Loader2 className="h-8 w-8 animate-spin mb-4" />
+            <p className="text-sm text-muted-foreground">Loading reset page...</p>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
+  // Show error if no token found
+  if (!token) {
+    return (
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+        <Card className="w-full max-w-md">
+          <CardHeader className="text-center">
+            <CardTitle className="text-2xl font-bold">Invalid Reset Link</CardTitle>
+            <CardDescription>
+              The password reset link is invalid or has expired
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <p className="text-sm text-muted-foreground text-center">
+              Redirecting to forgot password page...
+            </p>
+            <Button
+              onClick={() => setLocation('/forgot-password')}
+              className="w-full"
+            >
+              Request New Reset Link
+            </Button>
+          </CardContent>
+        </Card>
+      </div>
+    );
   }
 
   return (
