@@ -162,34 +162,7 @@ app.post('/api/test-email', async (req, res) => {
     }
   });
 
-  // Add catch-all route for client-side routing (must be after all API routes)
-  app.get('*', (req, res) => {
-    // Skip API routes
-    if (req.path.startsWith('/api/')) {
-      return res.status(404).json({ error: 'API endpoint not found' });
-    }
-    
-    // For all other routes, serve the React app
-    if (app.get("env") === "development") {
-      // In development, let Vite handle this route by not interfering
-      // The Vite middleware should have already handled this, but if it gets here,
-      // we need to manually serve the index.html for client-side routing
-      const indexPath = join(__dirname, "..", "client", "index.html");
-      if (fs.existsSync(indexPath)) {
-        res.sendFile(indexPath);
-      } else {
-        res.status(404).send('Development server issue - client/index.html not found');
-      }
-    } else {
-      // In production, serve the built React app
-      const indexPath = join(__dirname, "..", "public", "index.html");
-      if (fs.existsSync(indexPath)) {
-        res.sendFile(indexPath);
-      } else {
-        res.status(404).send('React app not built');
-      }
-    }
-  });
+
 
   // ALWAYS serve the app on port 5000
   // this serves both the API and the client.
