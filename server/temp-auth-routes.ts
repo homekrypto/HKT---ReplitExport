@@ -76,6 +76,16 @@ router.post('/login', async (req, res) => {
       expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000) // 24 hours
     });
 
+    // Set cookie for frontend compatibility
+    const cookieOptions = {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      maxAge: 24 * 60 * 60 * 1000, // 24 hours
+      sameSite: 'strict' as const,
+    };
+
+    res.cookie('sessionToken', token, cookieOptions);
+
     res.json({
       message: 'Login successful',
       user: {
@@ -84,8 +94,7 @@ router.post('/login', async (req, res) => {
         firstName: user.firstName,
         lastName: user.lastName,
         emailVerified: user.emailVerified
-      },
-      token
+      }
     });
   } catch (error) {
     console.error('Temp login error:', error);
@@ -139,7 +148,7 @@ router.post('/register', async (req, res) => {
 // Temporary user info (bypasses database)
 router.get('/me', async (req, res) => {
   try {
-    const token = req.headers.authorization?.replace('Bearer ', '');
+    const token = req.cookies.sessionToken;
     
     if (!token) {
       return res.status(401).json({ message: 'No token provided' });
@@ -171,12 +180,13 @@ router.get('/me', async (req, res) => {
 // Temporary logout (bypasses database)
 router.post('/logout', async (req, res) => {
   try {
-    const token = req.headers.authorization?.replace('Bearer ', '');
+    const token = req.cookies.sessionToken;
     
     if (token) {
       tempSessions.delete(token);
     }
 
+    res.clearCookie('sessionToken');
     res.json({ message: 'Logout successful' });
   } catch (error) {
     console.error('Temp logout error:', error);
@@ -202,10 +212,51 @@ router.post('/forgot-password', async (req, res) => {
     console.log(`[TEMP] Password reset requested for: ${email}`);
     console.log(`[TEMP] Reset link: http://localhost:5000/reset-password?token=temp-reset-${user.id}`);
 
-    res.json({ message: 'If the email exists, a reset link has been sent' });
+    // Since email delivery is disabled, provide alternative solution
+    res.json({ 
+      message: 'Due to email system maintenance, please contact support at support@homekrypto.com or use the direct reset link provided in the browser console.',
+      resetToken: `temp-reset-${user.id}`,
+      resetLink: `${req.protocol}://${req.get('host')}/reset-password?token=temp-reset-${user.id}`
+    });
   } catch (error) {
     console.error('Temp forgot password error:', error);
     res.status(500).json({ message: 'Failed to process password reset request' });
+  }
+});
+
+// Password reset endpoint
+router.post('/reset-password', async (req, res) => {
+  try {
+    const { token, password } = req.body;
+
+    if (!token || !password) {
+      return res.status(400).json({ message: 'Token and password are required' });
+    }
+
+    // Extract user ID from token (format: temp-reset-{userId})
+    const userIdMatch = token.match(/temp-reset-(\d+)/);
+    if (!userIdMatch) {
+      return res.status(400).json({ message: 'Invalid reset token' });
+    }
+
+    const userId = parseInt(userIdMatch[1]);
+    const user = Array.from(tempUsers.values()).find(u => u.id === userId);
+    
+    if (!user) {
+      return res.status(400).json({ message: 'Invalid reset token' });
+    }
+
+    // Update password
+    const passwordHash = await bcrypt.hash(password, 10);
+    user.passwordHash = passwordHash;
+    tempUsers.set(user.email, user);
+
+    console.log(`[TEMP] Password reset completed for user: ${user.email}`);
+
+    res.json({ message: 'Password reset successful. You can now log in with your new password.' });
+  } catch (error) {
+    console.error('Temp password reset error:', error);
+    res.status(500).json({ message: 'Password reset failed' });
   }
 });
 
