@@ -59,6 +59,21 @@ export interface IStorage {
   updateBlogPost(id: number, post: Partial<BlogPost>): Promise<BlogPost | undefined>;
   deleteBlogPost(id: number): Promise<boolean>;
   searchBlogPosts(query: string, limit?: number, offset?: number): Promise<BlogPost[]>;
+
+  // Admin - Properties Management
+  getAllProperties(): Promise<any[]>;
+  getProperty(id: string): Promise<any | undefined>;
+  createProperty(property: any): Promise<any>;
+  updateProperty(id: string, updates: any): Promise<any>;
+  getPropertyBookings(propertyId: string): Promise<any[]>;
+  getActivePropertyBookings(propertyId: string): Promise<any[]>;
+  
+  // Admin - Bookings Management
+  getAllBookings(filters?: any): Promise<any[]>;
+  
+  // Admin - Global Settings
+  updateGlobalHktPrice(priceUsd: number): Promise<void>;
+  getAdminStats(): Promise<any>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -319,6 +334,103 @@ export class DatabaseStorage implements IStorage {
       console.error('Error searching blog posts:', error);
       return [];
     }
+  }
+
+  // Admin - Properties Management
+  async getAllProperties(): Promise<any[]> {
+    // Mock data for properties - will be replaced with database implementation
+    return [
+      {
+        id: 'cap-cana-villa',
+        name: 'Luxury Beachfront Villa',
+        location: 'Cap Cana, Dominican Republic',
+        description: 'Stunning oceanfront villa with private pool and beach access',
+        pricePerNightUsd: 450,
+        maxGuests: 8,
+        bedrooms: 4,
+        bathrooms: 3,
+        amenities: ['Pool', 'Beach Access', 'WiFi', 'Kitchen', 'Parking'],
+        images: ['https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1080&q=80'],
+        hktPriceOverride: 0.10,
+        isActive: true,
+        createdAt: new Date().toISOString()
+      }
+    ];
+  }
+
+  async getProperty(id: string): Promise<any | undefined> {
+    const properties = await this.getAllProperties();
+    return properties.find(p => p.id === id);
+  }
+
+  async createProperty(property: any): Promise<any> {
+    // Mock implementation - will be replaced with database
+    const newProperty = {
+      ...property,
+      createdAt: new Date().toISOString(),
+      isActive: true
+    };
+    return newProperty;
+  }
+
+  async updateProperty(id: string, updates: any): Promise<any> {
+    // Mock implementation - will be replaced with database
+    const property = await this.getProperty(id);
+    if (!property) throw new Error('Property not found');
+    
+    return {
+      ...property,
+      ...updates,
+      updatedAt: new Date().toISOString()
+    };
+  }
+
+  async getPropertyBookings(propertyId: string): Promise<any[]> {
+    // Mock implementation - will be replaced with database query
+    return [];
+  }
+
+  async getActivePropertyBookings(propertyId: string): Promise<any[]> {
+    const bookings = await this.getPropertyBookings(propertyId);
+    return bookings.filter(b => b.status === 'confirmed');
+  }
+
+  // Admin - Bookings Management
+  async getAllBookings(filters?: any): Promise<any[]> {
+    // Mock implementation - will be replaced with database query
+    return [];
+  }
+
+  // Admin - Global Settings
+  async updateGlobalHktPrice(priceUsd: number): Promise<void> {
+    // Update HKT stats with new price
+    await this.updateHktStats({
+      price: priceUsd,
+      priceChange24h: 0,
+      lastUpdated: new Date().toISOString(),
+      dataSource: 'admin_override'
+    });
+  }
+
+  async getAdminStats(): Promise<any> {
+    const users = await db.select().from(users);
+    const investments = await this.getAllInvestments();
+    const subscribers = await this.getAllSubscribers();
+    const blogPosts = await this.getAllBlogPosts();
+
+    return {
+      totalUsers: users.length,
+      totalInvestments: investments.length,
+      totalSubscribers: subscribers.length,
+      totalBlogPosts: blogPosts.length,
+      totalInvestedAmount: investments.reduce((sum, inv) => sum + parseFloat(inv.totalInvested || '0'), 0),
+      activeUsers: users.filter(u => u.emailVerified).length,
+      platformStats: {
+        totalProperties: 1, // Will be dynamic when database is implemented
+        totalBookings: 0,
+        totalRevenue: 0
+      }
+    };
   }
 }
 

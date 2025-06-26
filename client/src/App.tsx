@@ -44,6 +44,7 @@ import InvestmentGrowthProjection from "@/pages/investment-growth-projection";
 import JoinWaitlist from "@/pages/join-waitlist";
 import DownloadPage from "@/pages/download";
 import SimpleBookingPage from "@/pages/SimpleBookingPage";
+import AdminPanel from "@/pages/AdminPanel";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -86,6 +87,7 @@ function Router() {
       <Route path="/blog/:slug" component={BlogPost} />
       <Route path="/dashboard" component={Dashboard} />
       <Route path="/profile" component={Profile} />
+      <Route path="/admin" component={AdminPanel} />
       <Route path="/download" component={DownloadPage} />
       <Route component={NotFound} />
     </Switch>
