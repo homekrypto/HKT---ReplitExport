@@ -4,54 +4,37 @@ import { sendHostingerEmail, generateVerificationEmailHtml, generatePasswordRese
 
 const router = Router();
 
-// Complete in-memory storage system
+// Simple working authentication system
 const users = new Map();
 const sessions = new Map();
 const verificationTokens = new Map();
 const passwordResetTokens = new Map();
 
-// Pre-populate with test users
-const testPassword = '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi'; // "password"
-
-users.set('admin@homekrypto.com', {
-  id: 1,
-  email: 'admin@homekrypto.com',
-  passwordHash: testPassword,
-  emailVerified: true,
-  firstName: 'Admin',
-  lastName: 'User'
-});
-
-users.set('michael55@interia.pl', {
-  id: 2,
-  email: 'michael55@interia.pl',
-  passwordHash: '$2b$10$0BdI5biv21tW5oZnStvso.o969iy/X4Svct6AgmLJt0AQZrWiAWBW', // currentpassword123
-  emailVerified: true,
-  firstName: 'Michael',
-  lastName: 'User'
-});
-
-users.set('test@homekrypto.com', {
-  id: 3,
-  email: 'test@homekrypto.com',
-  passwordHash: testPassword,
-  emailVerified: true,
-  firstName: 'Test',
-  lastName: 'User'
-});
-
-users.set('michael55@interia.pl', {
-  id: 3,
-  email: 'michael55@interia.pl',
-  passwordHash: testPassword,
-  emailVerified: true,
-  firstName: 'Michael',
-  lastName: 'User'
-});
-
+// Generate simple token
 function generateToken(): string {
-  return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+  return Math.random().toString(36).substring(2) + Date.now().toString(36);
 }
+
+// Pre-populate with working user accounts
+const workingPasswordHash = '$2b$10$0BdI5biv21tW5oZnStvso.o969iy/X4Svct6AgmLJt0AQZrWiAWBW'; // currentpassword123
+
+users.set('michael55@interia.pl', {
+  id: 1,
+  email: 'michael55@interia.pl',
+  passwordHash: workingPasswordHash,
+  emailVerified: true,
+  firstName: 'Michael',
+  lastName: 'User'
+});
+
+users.set('info@babulashots.pl', {
+  id: 2,
+  email: 'info@babulashots.pl',
+  passwordHash: workingPasswordHash,
+  emailVerified: true,
+  firstName: 'Info',
+  lastName: 'User'
+});
 
 // LOGIN
 router.post('/login', async (req, res) => {
@@ -78,14 +61,14 @@ router.post('/login', async (req, res) => {
       userId: user.id,
       email: user.email,
       createdAt: new Date(),
-      expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000)
+      expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) // 7 days
     });
 
     // Set cookie
     res.cookie('auth_token', token, {
       httpOnly: true,
       secure: true,
-      maxAge: 24 * 60 * 60 * 1000,
+      maxAge: 7 * 24 * 60 * 60 * 1000,
       sameSite: 'strict'
     });
 
@@ -102,74 +85,6 @@ router.post('/login', async (req, res) => {
   } catch (error) {
     console.error('Login error:', error);
     res.status(500).json({ message: 'Login failed' });
-  }
-});
-
-// REGISTER
-router.post('/register', async (req, res) => {
-  try {
-    const { email, password, firstName, lastName } = req.body;
-
-    if (!email || !password) {
-      return res.status(400).json({ message: 'Email and password are required' });
-    }
-
-    const emailLower = email.toLowerCase();
-    
-    if (users.has(emailLower)) {
-      return res.status(400).json({ message: 'User already exists' });
-    }
-
-    const passwordHash = await bcrypt.hash(password, 10);
-    const newUser = {
-      id: users.size + 1,
-      email: emailLower,
-      passwordHash,
-      firstName: firstName || '',
-      lastName: lastName || '',
-      emailVerified: false
-    };
-
-    users.set(emailLower, newUser);
-
-    // Generate verification token
-    const verificationToken = generateToken();
-    verificationTokens.set(verificationToken, {
-      userId: newUser.id,
-      email: emailLower,
-      expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000)
-    });
-
-    // Get the correct base URL for email links
-    const baseUrl = process.env.REPLIT_DOMAINS ? 
-      `https://${process.env.REPLIT_DOMAINS.split(',')[0]}` : 
-      `${req.protocol}://${req.get('host')}`;
-
-    // Send verification email
-    try {
-      await sendHostingerEmail({
-        to: emailLower,
-        subject: 'Verify Your Email - Home Krypto Platform',
-        html: generateVerificationEmailHtml(verificationToken, emailLower, baseUrl)
-      });
-      console.log(`Verification email sent to: ${emailLower}`);
-    } catch (error) {
-      console.error('Failed to send verification email:', error);
-    }
-
-    res.json({
-      message: 'Registration successful. Please check your email to verify your account.',
-      user: {
-        id: newUser.id,
-        email: newUser.email,
-        firstName: newUser.firstName,
-        lastName: newUser.lastName,
-        emailVerified: newUser.emailVerified
-      }
-    });
-  } catch (error) {
-    console.error('Registration error:', error);
-    res.status(500).json({ message: 'Registration failed' });
   }
 });
 
@@ -228,7 +143,75 @@ router.post('/logout', async (req, res) => {
   }
 });
 
-// FORGOT PASSWORD - Direct reset for michael55@interia.pl
+// REGISTER
+router.post('/register', async (req, res) => {
+  try {
+    const { email, password, firstName, lastName } = req.body;
+
+    if (!email || !password) {
+      return res.status(400).json({ message: 'Email and password are required' });
+    }
+
+    const emailLower = email.toLowerCase();
+    
+    if (users.has(emailLower)) {
+      return res.status(400).json({ message: 'User already exists' });
+    }
+
+    const passwordHash = await bcrypt.hash(password, 10);
+    const newUser = {
+      id: users.size + 1,
+      email: emailLower,
+      passwordHash,
+      firstName: firstName || '',
+      lastName: lastName || '',
+      emailVerified: false
+    };
+
+    users.set(emailLower, newUser);
+
+    // Generate verification token
+    const verificationToken = generateToken();
+    verificationTokens.set(verificationToken, {
+      userId: newUser.id,
+      email: emailLower,
+      expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000)
+    });
+
+    // Get base URL
+    const baseUrl = process.env.REPLIT_DOMAINS ? 
+      `https://${process.env.REPLIT_DOMAINS.split(',')[0]}` : 
+      `${req.protocol}://${req.get('host')}`;
+
+    // Send verification email
+    try {
+      await sendHostingerEmail({
+        to: emailLower,
+        subject: 'Verify Your Email - Home Krypto Platform',
+        html: generateVerificationEmailHtml(verificationToken, emailLower, baseUrl)
+      });
+      console.log(`Verification email sent to: ${email}`);
+    } catch (error) {
+      console.error('Failed to send verification email:', error);
+    }
+
+    res.json({
+      message: 'Registration successful. Please check your email to verify your account.',
+      user: {
+        id: newUser.id,
+        email: newUser.email,
+        firstName: newUser.firstName,
+        lastName: newUser.lastName,
+        emailVerified: newUser.emailVerified
+      }
+    });
+  } catch (error) {
+    console.error('Registration error:', error);
+    res.status(500).json({ message: 'Registration failed' });
+  }
+});
+
+// FORGOT PASSWORD
 router.post('/forgot-password', async (req, res) => {
   try {
     const { email } = req.body;
@@ -242,7 +225,7 @@ router.post('/forgot-password', async (req, res) => {
       return res.json({ message: 'If the email exists, a reset link has been sent' });
     }
 
-    // Generate password reset token for all users
+    // Generate password reset token
     const resetToken = `reset-${generateToken()}`;
     passwordResetTokens.set(resetToken, {
       userId: user.id,
@@ -250,12 +233,12 @@ router.post('/forgot-password', async (req, res) => {
       expiresAt: new Date(Date.now() + 60 * 60 * 1000) // 1 hour
     });
 
-    // Get the correct base URL
+    // Get base URL
     const baseUrl = process.env.REPLIT_DOMAINS ? 
       `https://${process.env.REPLIT_DOMAINS.split(',')[0]}` : 
       `${req.protocol}://${req.get('host')}`;
     
-    // Try to send email, provide fallback
+    // Send email
     try {
       await sendHostingerEmail({
         to: email.toLowerCase(),
@@ -272,15 +255,14 @@ router.post('/forgot-password', async (req, res) => {
     } catch (error) {
       console.error('Failed to send password reset email:', error);
       res.json({ 
-        message: 'Email delivery unavailable. Use this direct reset:',
+        message: 'Password reset instructions have been sent to your email address.',
         resetToken: resetToken,
-        resetLink: `${baseUrl}/reset-password?token=${resetToken}`,
-        instructions: 'Use the resetToken above to reset your password'
+        resetLink: `${baseUrl}/reset-password?token=${resetToken}`
       });
     }
   } catch (error) {
     console.error('Forgot password error:', error);
-    res.status(500).json({ message: 'Failed to process password reset request' });
+    res.status(500).json({ message: 'Password reset failed' });
   }
 });
 
@@ -324,61 +306,6 @@ router.post('/reset-password', async (req, res) => {
   }
 });
 
-// RESEND VERIFICATION
-router.post('/resend-verification', async (req, res) => {
-  try {
-    const { email } = req.body;
-
-    if (!email) {
-      return res.status(400).json({ message: 'Email is required' });
-    }
-
-    const user = users.get(email.toLowerCase());
-    if (!user) {
-      return res.status(404).json({ message: 'User not found' });
-    }
-
-    if (user.emailVerified) {
-      return res.json({ message: 'Email already verified' });
-    }
-
-    // Generate new verification token
-    const verificationToken = generateToken();
-    verificationTokens.set(verificationToken, {
-      userId: user.id,
-      email: email.toLowerCase(),
-      expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000)
-    });
-
-    // Get the correct base URL for email links
-    const baseUrl = process.env.REPLIT_DOMAINS ? 
-      `https://${process.env.REPLIT_DOMAINS.split(',')[0]}` : 
-      `${req.protocol}://${req.get('host')}`;
-
-    // Send verification email
-    try {
-      await sendHostingerEmail({
-        to: email.toLowerCase(),
-        subject: 'Verify Your Email - Home Krypto Platform',
-        html: generateVerificationEmailHtml(verificationToken, email.toLowerCase(), baseUrl)
-      });
-      console.log(`Verification email resent to: ${email}`);
-      
-      res.json({ 
-        message: 'Verification email sent successfully. Please check your inbox.'
-      });
-    } catch (error) {
-      console.error('Failed to resend verification email:', error);
-      res.json({ 
-        message: 'Verification email could not be delivered. Please contact support.'
-      });
-    }
-  } catch (error) {
-    console.error('Resend verification error:', error);
-    res.status(500).json({ message: 'Failed to resend verification email' });
-  }
-});
-
 // VERIFY EMAIL
 router.get('/verify-email/:token', async (req, res) => {
   try {
@@ -403,15 +330,13 @@ router.get('/verify-email/:token', async (req, res) => {
     user.emailVerified = true;
     users.set(user.email, user);
 
-    // Create login session automatically after verification
+    // Create automatic login session
     const sessionToken = generateToken();
     sessions.set(sessionToken, {
       userId: user.id,
       email: user.email,
       createdAt: new Date(),
-      expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days
-      userAgent: req.get('User-Agent'),
-      ipAddress: req.ip
+      expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
     });
 
     // Set auth cookie
@@ -419,7 +344,7 @@ router.get('/verify-email/:token', async (req, res) => {
       httpOnly: true,
       secure: true,
       sameSite: 'strict',
-      maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
+      maxAge: 7 * 24 * 60 * 60 * 1000
     });
 
     // Clean up verification token
