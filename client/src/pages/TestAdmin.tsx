@@ -189,17 +189,24 @@ export default function TestAdmin() {
                           />
                         </div>
                         <div>
-                          <Label htmlFor="hktPrice">HKT Price Override (USD)</Label>
-                          <Input
-                            id="hktPrice"
-                            type="number"
-                            step="0.01"
-                            value={editForm.hktPriceOverride || ''}
-                            onChange={(e) => setEditForm(prev => ({ 
-                              ...prev, 
-                              hktPriceOverride: parseFloat(e.target.value) 
-                            }))}
-                          />
+                          <Label htmlFor="hktPrice">HKT Price Override</Label>
+                          <div className="relative">
+                            <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">$</span>
+                            <Input
+                              id="hktPrice"
+                              type="number"
+                              step="0.01"
+                              min="0"
+                              placeholder="0.10"
+                              className="pl-8"
+                              value={editForm.hktPriceOverride || ''}
+                              onChange={(e) => setEditForm(prev => ({ 
+                                ...prev, 
+                                hktPriceOverride: parseFloat(e.target.value) 
+                              }))}
+                            />
+                          </div>
+                          <p className="text-xs text-gray-500 mt-1">Price per HKT token in USD only</p>
                         </div>
                       </div>
                     ) : (
@@ -213,8 +220,8 @@ export default function TestAdmin() {
                           <div>{property.maxGuests}</div>
                         </div>
                         <div>
-                          <span className="font-medium">HKT Price:</span>
-                          <div>${property.hktPriceOverride}</div>
+                          <span className="font-medium">HKT Price (USD):</span>
+                          <div>${property.hktPriceOverride.toFixed(2)}</div>
                         </div>
                         <div>
                           <span className="font-medium">Status:</span>
