@@ -61,6 +61,7 @@ import tempSimpleBookingRoutes from './temp-simple-booking-routes.js';
 
 // Import temporary blog routes
 import tempBlogRoutes from './temp-blog-routes.js';
+import { testEmailDelivery } from './test-email';
 
 // Register temporary user functionality routes
 app.use('/api/bookings', tempBookingRoutes);
@@ -69,6 +70,35 @@ app.use('/api/simple-booking', tempSimpleBookingRoutes);
 app.use('/api/swap', tempUserRoutes); // Swap routes are in temp-user-routes
 app.use('/api/cross-chain-wallet', tempUserRoutes); // Wallet routes are in temp-user-routes
 app.use('/api/blog', tempBlogRoutes);
+
+// Add email test endpoint
+app.post('/api/test-email', async (req, res) => {
+  try {
+    const { email } = req.body;
+    if (!email) {
+      return res.status(400).json({ message: 'Email address required' });
+    }
+    
+    const result = await testEmailDelivery(email);
+    
+    if (result) {
+      res.json({ 
+        message: 'Test email sent successfully', 
+        email: email,
+        status: 'delivered'
+      });
+    } else {
+      res.status(500).json({ 
+        message: 'Test email failed to send', 
+        email: email,
+        status: 'failed'
+      });
+    }
+  } catch (error) {
+    console.error('Email test endpoint error:', error);
+    res.status(500).json({ message: 'Email test failed' });
+  }
+});
 
 (async () => {
   // Skip database-dependent routes during connection issues

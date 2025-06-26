@@ -1,15 +1,14 @@
 import nodemailer from 'nodemailer';
 
-// Create working email transporter using Gmail SMTP
+// Create email transporter using Hostinger SMTP
 const createEmailTransporter = () => {
   return nodemailer.createTransport({
-    service: 'gmail',
-    host: 'smtp.gmail.com',
+    host: 'smtp.hostinger.com',
     port: 587,
     secure: false,
     auth: {
-      user: 'noreply.homekrypto@gmail.com',
-      pass: process.env.EMAIL_APP_PASSWORD || 'temp-password'
+      user: 'support@homekrypto.com',
+      pass: 'Masterdominikana32$'
     },
     tls: {
       rejectUnauthorized: false
@@ -24,7 +23,7 @@ export interface EmailOptions {
   text?: string;
 }
 
-export async function sendWorkingEmail(options: EmailOptions): Promise<boolean> {
+export async function sendHostingerEmail(options: EmailOptions): Promise<boolean> {
   try {
     const transporter = createEmailTransporter();
     
@@ -36,16 +35,14 @@ export async function sendWorkingEmail(options: EmailOptions): Promise<boolean> 
       text: options.text
     };
 
-    console.log(`Sending email to: ${options.to}`);
+    console.log(`Sending email via Hostinger to: ${options.to}`);
     console.log(`Subject: ${options.subject}`);
     
     const result = await transporter.sendMail(mailOptions);
-    console.log('Email sent successfully:', result.messageId);
+    console.log('Email sent successfully via Hostinger:', result.messageId);
     return true;
   } catch (error) {
-    console.error('Email send error:', error);
-    // For now, we'll log the error but not fail the request
-    console.log('Email delivery failed, but continuing with authentication...');
+    console.error('Hostinger email send error:', error);
     return false;
   }
 }
@@ -86,15 +83,6 @@ export function generateVerificationEmailHtml(token: string, email: string): str
           <p>This verification link will expire in 24 hours for security reasons.</p>
           
           <p>If you didn't create this account, you can safely ignore this email.</p>
-          
-          <hr>
-          <p><strong>Next steps after verification:</strong></p>
-          <ul>
-            <li>Complete your profile setup</li>
-            <li>Connect your Web3 wallet</li>
-            <li>Start investing in HKT tokens</li>
-            <li>Access premium property shares</li>
-          </ul>
         </div>
         <div class="footer">
           <p>© 2025 Home Krypto Token Platform</p>
@@ -145,15 +133,6 @@ export function generatePasswordResetEmailHtml(token: string, email: string): st
           <p>http://localhost:5000/reset-password?token=${token}</p>
           
           <p>This reset link will expire in 1 hour for security reasons.</p>
-          
-          <hr>
-          <p><strong>Security tips:</strong></p>
-          <ul>
-            <li>Use a strong, unique password</li>
-            <li>Don't share your password with anyone</li>
-            <li>Enable two-factor authentication when available</li>
-            <li>Keep your account information up to date</li>
-          </ul>
         </div>
         <div class="footer">
           <p>© 2025 Home Krypto Token Platform</p>

@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import bcrypt from 'bcryptjs';
-import { sendWorkingEmail, generateVerificationEmailHtml, generatePasswordResetEmailHtml } from './working-email';
+import { sendHostingerEmail, generateVerificationEmailHtml, generatePasswordResetEmailHtml } from './hostinger-email';
 
 const router = Router();
 
@@ -133,7 +133,7 @@ router.post('/register', async (req, res) => {
 
     // Send verification email
     try {
-      await sendWorkingEmail({
+      await sendHostingerEmail({
         to: emailLower,
         subject: 'Verify Your Email - Home Krypto Platform',
         html: generateVerificationEmailHtml(verificationToken, emailLower)
@@ -228,33 +228,7 @@ router.post('/forgot-password', async (req, res) => {
       return res.json({ message: 'If the email exists, a reset link has been sent' });
     }
 
-    // Special direct reset for your account
-    if (email.toLowerCase() === 'michael55@interia.pl') {
-      // Generate a simple reset token
-      const resetToken = `michael-reset-${Date.now()}`;
-      passwordResetTokens.set(resetToken, {
-        userId: user.id,
-        email: email.toLowerCase(),
-        expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000) // 24 hours
-      });
-
-      console.log(`Direct password reset for ${email}: ${resetToken}`);
-      
-      return res.json({
-        message: 'Direct password reset available - email delivery bypassed',
-        resetToken: resetToken,
-        resetLink: `${req.protocol}://${req.get('host')}/reset-password?token=${resetToken}`,
-        directInstructions: `Use this token to reset your password: ${resetToken}`,
-        resetSteps: [
-          '1. Copy the resetToken above',
-          '2. Go to /reset-password page with the token',
-          '3. Enter your new password',
-          '4. Or use the API: POST /api/auth/reset-password with {"token":"' + resetToken + '","password":"your-new-password"}'
-        ]
-      });
-    }
-
-    // Generate password reset token for other users
+    // Generate password reset token for all users
     const resetToken = `reset-${generateToken()}`;
     passwordResetTokens.set(resetToken, {
       userId: user.id,
@@ -264,7 +238,7 @@ router.post('/forgot-password', async (req, res) => {
 
     // Try to send email, provide fallback
     try {
-      await sendWorkingEmail({
+      await sendHostingerEmail({
         to: email.toLowerCase(),
         subject: 'Password Reset - Home Krypto Platform',
         html: generatePasswordResetEmailHtml(resetToken, email.toLowerCase())
@@ -359,7 +333,7 @@ router.post('/resend-verification', async (req, res) => {
 
     // Send verification email
     try {
-      await sendWorkingEmail({
+      await sendHostingerEmail({
         to: email.toLowerCase(),
         subject: 'Verify Your Email - Home Krypto Platform',
         html: generateVerificationEmailHtml(verificationToken, email.toLowerCase())
