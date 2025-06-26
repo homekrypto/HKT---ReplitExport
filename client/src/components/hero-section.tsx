@@ -82,30 +82,39 @@ export default function HeroSection() {
             {/* Value proposition cards - Minimalist Apple style */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
               <div className="group p-6 bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm rounded-2xl border border-gray-200/50 dark:border-gray-700/50 hover:bg-white/80 dark:hover:bg-gray-800/80 transition-all duration-300 hover:shadow-lg">
-                <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl mb-4 flex items-center justify-center group-hover:scale-110 transition-transform duration-200">
-                  <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
-                  </svg>
+                <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl mb-4 flex items-center justify-center group-hover:scale-110 transition-transform duration-200 relative">
+                  {/* Custom geometric design - Dollar symbol made of circles */}
+                  <div className="relative">
+                    <div className="w-4 h-4 border-2 border-white rounded-full absolute -top-1 -left-1"></div>
+                    <div className="w-2 h-6 bg-white rounded-full"></div>
+                    <div className="w-4 h-4 border-2 border-white rounded-full absolute -bottom-1 -right-1"></div>
+                  </div>
                 </div>
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Start Small</h3>
                 <p className="text-gray-600 dark:text-gray-300 text-sm">Begin with amounts that fit your budget</p>
               </div>
 
               <div className="group p-6 bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm rounded-2xl border border-gray-200/50 dark:border-gray-700/50 hover:bg-white/80 dark:hover:bg-gray-800/80 transition-all duration-300 hover:shadow-lg">
-                <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-green-600 rounded-xl mb-4 flex items-center justify-center group-hover:scale-110 transition-transform duration-200">
-                  <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.002 4.002 0 003 15z" />
-                  </svg>
+                <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-green-600 rounded-xl mb-4 flex items-center justify-center group-hover:scale-110 transition-transform duration-200 relative">
+                  {/* Custom geometric design - Abstract building shapes */}
+                  <div className="flex space-x-1">
+                    <div className="w-1 h-6 bg-white rounded-full"></div>
+                    <div className="w-1 h-4 bg-white rounded-full mt-2"></div>
+                    <div className="w-1 h-5 bg-white rounded-full mt-1"></div>
+                    <div className="w-1 h-3 bg-white rounded-full mt-3"></div>
+                  </div>
                 </div>
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Own Globally</h3>
                 <p className="text-gray-600 dark:text-gray-300 text-sm">Access premium properties worldwide</p>
               </div>
 
               <div className="group p-6 bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm rounded-2xl border border-gray-200/50 dark:border-gray-700/50 hover:bg-white/80 dark:hover:bg-gray-800/80 transition-all duration-300 hover:shadow-lg">
-                <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl mb-4 flex items-center justify-center group-hover:scale-110 transition-transform duration-200">
-                  <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
+                <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl mb-4 flex items-center justify-center group-hover:scale-110 transition-transform duration-200 relative">
+                  {/* Custom geometric design - Shield made of hexagons */}
+                  <div className="relative">
+                    <div className="w-5 h-5 border-2 border-white transform rotate-45"></div>
+                    <div className="w-3 h-3 bg-white transform rotate-45 absolute top-1 left-1"></div>
+                  </div>
                 </div>
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Stay Secure</h3>
                 <p className="text-gray-600 dark:text-gray-300 text-sm">Blockchain technology ensures transparency</p>
