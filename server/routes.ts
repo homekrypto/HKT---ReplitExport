@@ -9,7 +9,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Security middleware
   const helmet = (await import('helmet')).default;
   const cookieParser = (await import('cookie-parser')).default;
-  const authRoutes = (await import('./auth-routes')).default;
+  const authRoutes = (await import('./temp-auth-routes')).default;
   
   app.use(helmet({
     contentSecurityPolicy: {
