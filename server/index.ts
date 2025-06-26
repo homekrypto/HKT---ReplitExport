@@ -52,6 +52,22 @@ import tempAuthRoutes from './temp-auth-routes';
 app.use('/api/temp-admin', tempAdminRoutes);
 app.use('/api/auth', tempAuthRoutes);
 
+// Import temporary user routes
+import tempBookingRoutes from './temp-booking-routes.js';
+import tempUserRoutes from './temp-user-routes.js';
+import tempSimpleBookingRoutes from './temp-simple-booking-routes.js';
+
+// Import temporary blog routes
+import tempBlogRoutes from './temp-blog-routes.js';
+
+// Register temporary user functionality routes
+app.use('/api/bookings', tempBookingRoutes);
+app.use('/api/user', tempUserRoutes);
+app.use('/api/simple-booking', tempSimpleBookingRoutes);
+app.use('/api/swap', tempUserRoutes); // Swap routes are in temp-user-routes
+app.use('/api/cross-chain-wallet', tempUserRoutes); // Wallet routes are in temp-user-routes
+app.use('/api/blog', tempBlogRoutes);
+
 (async () => {
   // Skip database-dependent routes during connection issues
   // const server = await registerRoutes(app);
