@@ -13,23 +13,14 @@ export default function HeroSection() {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="max-w-5xl mx-auto text-center">
             
-            {/* Pre-headline - Creates anticipation */}
-            <div className="mb-4">
-              <span className="inline-block px-4 py-2 bg-gradient-to-r from-blue-600 to-green-600 text-white text-sm font-medium rounded-full shadow-lg">
-                Premium Properties Made Accessible
-              </span>
-            </div>
-
-            {/* Main headline - Emotional and aspirational */}
+            {/* Main headline - Bold and direct */}
             <h1 className="text-5xl md:text-7xl lg:text-8xl font-light mb-8 text-gray-900 dark:text-white leading-tight tracking-tight">
-              Own Your
-              <br />
-              <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-green-600 bg-clip-text text-transparent font-medium">
-                Dream Property
+              <span className="bg-gradient-to-r from-gray-900 to-gray-700 dark:from-white dark:to-gray-300 bg-clip-text text-transparent">
+                WE ARE DOING INVESTING
               </span>
               <br />
-              <span className="text-4xl md:text-5xl lg:text-6xl text-gray-600 dark:text-gray-400">
-                Starting Today
+              <span className="bg-gradient-to-r from-blue-600 to-green-600 bg-clip-text text-transparent font-medium">
+                IN REAL APROACHABLE
               </span>
             </h1>
 
