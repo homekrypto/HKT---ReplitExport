@@ -119,6 +119,17 @@ app.post('/api/test-email', async (req, res) => {
     throw err;
   });
 
+  // Handle specific client-side routes that need direct access
+  app.get('/reset-password', (req, res) => {
+    const indexPath = join(__dirname, "..", "client", "index.html");
+    res.sendFile(indexPath);
+  });
+
+  app.get('/verify-email', (req, res) => {
+    const indexPath = join(__dirname, "..", "client", "index.html");
+    res.sendFile(indexPath);
+  });
+
   // importantly only setup vite in development and after
   // setting up all the other routes so the catch-all route
   // doesn't interfere with the other routes
