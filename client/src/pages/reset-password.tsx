@@ -11,7 +11,7 @@ import { Loader2, Eye, EyeOff, CheckCircle } from 'lucide-react';
 
 export default function ResetPassword() {
   const [, setLocation] = useLocation();
-  const [match, params] = useRoute('/reset-password/:token');
+  const [match] = useRoute('/reset-password');
   const [formData, setFormData] = useState({
     password: '',
     confirmPassword: '',
@@ -24,7 +24,8 @@ export default function ResetPassword() {
   const { resetPassword, resetPasswordError, isResettingPassword } = useAuth();
   const { toast } = useToast();
 
-  const token = params?.token;
+  // Get token from query parameter
+  const token = new URLSearchParams(window.location.search).get('token');
 
   useEffect(() => {
     if (!match || !token) {
