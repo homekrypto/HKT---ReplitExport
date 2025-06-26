@@ -269,24 +269,47 @@ router.post('/forgot-password', async (req, res) => {
 // RESET PASSWORD
 router.post('/reset-password', async (req, res) => {
   try {
-    const { token, password } = req.body;
+    const { token, password, confirmPassword } = req.body;
 
     if (!token || !password) {
+      if (confirmPassword !== undefined) {
+        return res.status(400).send(`<html><body><h1>Error</h1><p>Token and password are required</p><a href="/reset-password?token=${token}">Try again</a></body></html>`);
+      }
       return res.status(400).json({ message: 'Token and password are required' });
+    }
+
+    if (password.length < 6) {
+      if (confirmPassword !== undefined) {
+        return res.status(400).send(`<html><body><h1>Error</h1><p>Password must be at least 6 characters long</p><a href="/reset-password?token=${token}">Try again</a></body></html>`);
+      }
+      return res.status(400).json({ message: 'Password must be at least 6 characters long' });
+    }
+
+    if (confirmPassword && password !== confirmPassword) {
+      return res.status(400).send(`<html><body><h1>Error</h1><p>Passwords do not match</p><a href="/reset-password?token=${token}">Try again</a></body></html>`);
     }
 
     const resetData = passwordResetTokens.get(token);
     if (!resetData) {
+      if (confirmPassword !== undefined) {
+        return res.status(400).send(`<html><body><h1>Error</h1><p>Invalid or expired reset token</p><a href="/">Go to Home</a></body></html>`);
+      }
       return res.status(400).json({ message: 'Invalid or expired reset token' });
     }
 
     if (resetData.expiresAt < new Date()) {
       passwordResetTokens.delete(token);
+      if (confirmPassword !== undefined) {
+        return res.status(400).send(`<html><body><h1>Error</h1><p>Reset token has expired</p><a href="/">Go to Home</a></body></html>`);
+      }
       return res.status(400).json({ message: 'Reset token has expired' });
     }
 
     const user = Array.from(users.values()).find(u => u.id === resetData.userId);
     if (!user) {
+      if (confirmPassword !== undefined) {
+        return res.status(400).send(`<html><body><h1>Error</h1><p>User not found</p><a href="/">Go to Home</a></body></html>`);
+      }
       return res.status(400).json({ message: 'User not found' });
     }
 
@@ -299,10 +322,93 @@ router.post('/reset-password', async (req, res) => {
     passwordResetTokens.delete(token);
 
     console.log(`Password reset completed for user: ${user.email}`);
-    res.json({ message: 'Password reset successful. You can now log in with your new password.' });
+    
+    // If this is a form submission (has confirmPassword), show success page
+    if (confirmPassword) {
+      return res.send(`
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Reset Successful - Home Krypto Platform</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #333;
+        }
+        .container {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 400px;
+            margin: 1rem;
+            text-align: center;
+        }
+        .logo { margin-bottom: 2rem; }
+        .logo h1 { color: #667eea; font-size: 1.8rem; font-weight: 700; }
+        .success-icon {
+            width: 64px;
+            height: 64px;
+            background: #10b981;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            color: white;
+            font-size: 2rem;
+        }
+        .message { margin-bottom: 2rem; color: #374151; line-height: 1.6; }
+        .btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .btn:hover { transform: translateY(-2px); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">
+            <h1>HKT</h1>
+        </div>
+        
+        <div class="success-icon">✓</div>
+        
+        <div class="message">
+            <h2>Password Reset Successful!</h2>
+            <p>Your password has been updated successfully. You can now log in with your new password.</p>
+        </div>
+        
+        <a href="/" class="btn">Go to Login</a>
+    </div>
+</body>
+</html>
+      `);
+    } else {
+      // JSON API response
+      return res.json({ message: 'Password reset successful. You can now log in with your new password.' });
+    }
   } catch (error) {
     console.error('Password reset error:', error);
-    res.status(500).json({ message: 'Password reset failed' });
+    return res.status(500).send(`<html><body><h1>Error</h1><p>Password reset failed. Please try again.</p><a href="/">Go to Home</a></body></html>`);
   }
 });
 
