@@ -16,11 +16,15 @@ export default function HeroSection() {
             {/* Main headline - Bold and direct */}
             <h1 className="text-5xl md:text-7xl lg:text-8xl font-light mb-8 text-gray-900 dark:text-white leading-tight tracking-tight">
               <span className="bg-gradient-to-r from-gray-900 to-gray-700 dark:from-white dark:to-gray-300 bg-clip-text text-transparent">
-                WE ARE DOING INVESTING
+                INVESTING IN REAL ESTATE
               </span>
               <br />
               <span className="bg-gradient-to-r from-blue-600 to-green-600 bg-clip-text text-transparent font-medium">
-                IN REAL APROACHABLE
+                VIA CRYPTO - NEW WAY
+              </span>
+              <br />
+              <span className="bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent font-medium">
+                TO REAL PROFITS
               </span>
             </h1>
 
