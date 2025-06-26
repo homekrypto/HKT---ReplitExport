@@ -171,8 +171,15 @@ app.post('/api/test-email', async (req, res) => {
     
     // For all other routes, serve the React app
     if (app.get("env") === "development") {
-      // In development, this is handled by Vite middleware
-      return;
+      // In development, let Vite handle this route by not interfering
+      // The Vite middleware should have already handled this, but if it gets here,
+      // we need to manually serve the index.html for client-side routing
+      const indexPath = join(__dirname, "..", "client", "index.html");
+      if (fs.existsSync(indexPath)) {
+        res.sendFile(indexPath);
+      } else {
+        res.status(404).send('Development server issue - client/index.html not found');
+      }
     } else {
       // In production, serve the built React app
       const indexPath = join(__dirname, "..", "public", "index.html");
