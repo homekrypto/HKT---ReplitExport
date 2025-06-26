@@ -6,6 +6,8 @@ import { seedSupportedChains } from "./seed-chains";
 import { startPriceUpdateService } from "./price-feed";
 import { fileURLToPath } from "url";
 import { dirname, join } from "path";
+import path from "path";
+import fs from "fs";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -157,6 +159,28 @@ app.post('/api/test-email', async (req, res) => {
       res.download(filePath, "homekrypto-source-code.tar.gz");
     } catch (error) {
       res.status(404).json({ error: "File not found" });
+    }
+  });
+
+  // Add catch-all route for client-side routing (must be after all API routes)
+  app.get('*', (req, res) => {
+    // Skip API routes
+    if (req.path.startsWith('/api/')) {
+      return res.status(404).json({ error: 'API endpoint not found' });
+    }
+    
+    // For all other routes, serve the React app
+    if (app.get("env") === "development") {
+      // In development, this is handled by Vite middleware
+      return;
+    } else {
+      // In production, serve the built React app
+      const indexPath = join(__dirname, "..", "public", "index.html");
+      if (fs.existsSync(indexPath)) {
+        res.sendFile(indexPath);
+      } else {
+        res.status(404).send('React app not built');
+      }
     }
   });
 
