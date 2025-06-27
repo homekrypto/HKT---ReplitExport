@@ -7,6 +7,7 @@ yarn-error.log*
 # Production builds
 dist/
 build/
+.next/
 
 # Environment variables
 .env
@@ -22,10 +23,6 @@ build/
 # Logs
 logs
 *.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-lerna-debug.log*
 
 # Runtime data
 pids
@@ -35,29 +32,15 @@ pids
 
 # Coverage directory used by tools like istanbul
 coverage/
-*.lcov
 
 # nyc test coverage
 .nyc_output
 
 # Dependency directories
-node_modules/
 jspm_packages/
-
-# TypeScript cache
-*.tsbuildinfo
 
 # Optional npm cache directory
 .npm
-
-# Optional eslint cache
-.eslintcache
-
-# Microbundle cache
-.rpt2_cache/
-.rts2_cache_cjs/
-.rts2_cache_es/
-.rts2_cache_umd/
 
 # Optional REPL history
 .node_repl_history
@@ -70,45 +53,13 @@ jspm_packages/
 
 # dotenv environment variables file
 .env
-.env.test
 
-# parcel-bundler cache (https://parceljs.org/)
-.cache
-.parcel-cache
-
-# Next.js build output
-.next
-
-# Nuxt.js build / generate output
-.nuxt
-dist
-
-# Gatsby files
-.cache/
-public
-
-# Vuepress build output
-.vuepress/dist
-
-# Serverless directories
-.serverless/
-
-# FuseBox cache
-.fusebox/
-
-# DynamoDB Local files
-.dynamodb/
-
-# TernJS port file
-.tern-port
-
-# AWS Lambda deployment packages
-*.zip
-
-# Replit specific
-.replit
-.config/
-.upm/
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
 
 # OS generated files
 .DS_Store
@@ -119,19 +70,28 @@ public
 ehthumbs.db
 Thumbs.db
 
-# IDE
-.vscode/
-.idea/
-*.swp
-*.swo
-*~
-
 # Temporary files
 *.tmp
 *.temp
 
-# Project specific
-homekrypto-*.tar.gz
-cookies.txt
-*.zip
+# Cache
+.cache/
+
+# Replit specific
+.replit
+replit.nix
+
+# Backup files
+BACKUP/
+*.tar.gz
+
+# Export packages
+REPLIT_EXPORT_PACKAGE/
 attached_assets/
+database-export/
+
+# Development files
+cookies*.txt
+hostinger-fix-commands.txt
+aws-lambda/
+deployment/

@@ -1,259 +1,176 @@
-# HKT (Home Krypto Token) - Real Estate Investment Platform
+# HKT Platform - Blockchain Real Estate Investment Platform
 
-A comprehensive blockchain-based real estate investment platform that allows users to invest in premium properties through cryptocurrency tokens, providing fractional ownership of high-value real estate assets.
-
-## 🌟 Features
-
-- **Tokenized Real Estate Investment**: Invest in properties through HKT tokens
-- **Multi-Chain Wallet Support**: MetaMask, WalletConnect, Coinbase Wallet integration
-- **Investment Dashboard**: Real-time portfolio tracking and analytics
-- **Property Marketplace**: Browse and invest in properties worldwide
-- **AI Assistant**: Intelligent help system for investment guidance
-- **Blog System**: Educational content and market insights
-- **Multi-language Support**: 6 languages with dark/light themes
+A cutting-edge full-stack application that democratizes real estate investment through blockchain technology and HKT tokens.
 
 ## 🏗️ Architecture
 
-### Frontend
-- **React 18** with TypeScript
-- **Tailwind CSS** + shadcn/ui components
-- **Wouter** for routing
-- **TanStack Query** for state management
-- **Vite** for build tooling
+- **Frontend**: React 18 + TypeScript + Tailwind CSS
+- **Backend**: Node.js + Express.js + PostgreSQL
+- **Database**: Drizzle ORM with optimized schema
+- **Authentication**: JWT with secure session management
+- **Web3**: Multi-chain wallet integration (5 blockchains)
 
-### Backend
-- **Node.js** with Express.js
-- **PostgreSQL** with Drizzle ORM
-- **JWT** authentication
-- **Real-time price monitoring**
-- **Email verification system**
+## 🚀 Features
 
-### AWS Lambda Migration Ready
-- Complete serverless architecture
-- DynamoDB single-table design
-- Lambda functions for all endpoints
-- CloudFront CDN integration
+### Investment Platform
+- Real-time HKT token price tracking from multiple DEX sources
+- Portfolio dashboard with performance analytics
+- Investment calculator with compound growth projections
+- Quarterly investment reports and ROI tracking
 
-## 🚀 Quick Start
+### Property System
+- Premium property marketplace with detailed listings
+- Fractional ownership through HKT token purchases
+- Airbnb-style booking system with 7-day minimum stays
+- Owner benefits including free accommodation weeks
 
-### Prerequisites
-- Node.js 18+
-- PostgreSQL database
-- SMTP credentials for email
+### User Management
+- Secure registration with email verification
+- Multi-factor authentication support
+- Cross-chain wallet verification system
+- Comprehensive user profiles and preferences
 
-### Installation
+### Administrative Tools
+- Complete admin panel for platform management
+- Property management with pricing controls
+- User account administration and analytics
+- Real-time booking oversight and reporting
 
-1. **Clone the repository**
+### Additional Features
+- AI-powered investment assistance (OpenAI integration)
+- Professional blog system with SEO optimization
+- Multi-language support (6 languages)
+- Dark/light theme with crypto-inspired design
+
+## 🛠️ Installation
+
+1. **Clone Repository**
 ```bash
-git clone https://github.com/yourusername/hkt-platform.git
+git clone [repository-url]
 cd hkt-platform
 ```
 
-2. **Install dependencies**
+2. **Install Dependencies**
 ```bash
 npm install
 ```
 
-3. **Environment setup**
+3. **Environment Setup**
 ```bash
-cp .env.example .env
-# Edit .env with your database URL and email settings
+cp .env.template .env
+# Configure your environment variables
 ```
 
-4. **Database setup**
+4. **Database Setup**
 ```bash
 npm run db:push
 ```
 
-5. **Start development server**
+5. **Start Development Server**
 ```bash
 npm run dev
 ```
 
-The application will be available at `http://localhost:5000`
+## 📊 Database Schema
 
-## 📁 Project Structure
+The platform uses PostgreSQL with 15+ optimized tables:
 
-```
-├── client/                 # React frontend
-│   ├── src/
-│   │   ├── components/     # Reusable UI components
-│   │   ├── pages/          # Application pages
-│   │   ├── lib/           # Utilities and helpers
-│   │   └── hooks/         # Custom React hooks
-├── server/                # Express backend
-│   ├── auth.ts           # Authentication logic
-│   ├── routes.ts         # API routes
-│   ├── storage.ts        # Database operations
-│   └── price-feed.ts     # HKT price monitoring
-├── shared/               # Shared types and schemas
-│   └── schema.ts         # Database schema
-├── aws-lambda/           # AWS serverless migration
-│   ├── dynamodb-schema.ts
-│   ├── auth-lambda.ts
-│   └── deployment-guide.md
-└── package.json
-```
-
-## 🌐 Deployment
-
-### Current Platform (Replit)
-The platform is live at: `https://homekrypto.com`
-
-### AWS Lambda Migration
-Complete serverless infrastructure ready for deployment:
-
-```bash
-cd aws-lambda
-npm install -g serverless
-serverless deploy --stage prod
-```
-
-See `aws-lambda/deployment-guide.md` for detailed instructions.
-
-## 💰 Investment Features
-
-### Investment Calculator
-- Monthly investment planning
-- ROI projections with 15% annual growth
-- Property share calculations
-- Quarterly performance tracking
-
-### Property Portfolio
-- **Cap Cana, Dominican Republic**: Luxury beachfront properties
-- **Miami, USA**: Coming soon
-- **Madrid, Spain**: Coming soon
-
-### HKT Token
-- **Contract**: `0x0de50324B6960B15A5ceD3D076aE314ac174Da2e`
-- **Network**: Ethereum
-- **Current Price**: $0.10 USD
-- **Total Supply**: 1,000,000,000 HKT
+- **users**: User accounts and authentication
+- **investments**: Investment tracking and portfolio data
+- **properties**: Real estate listings and details
+- **bookings**: Reservation system with payment tracking
+- **wallets**: Multi-chain wallet connections
+- **blog_posts**: Content management system
+- **hkt_stats**: Real-time token price data
 
 ## 🔐 Security Features
 
-- JWT-based authentication
-- Email verification system
-- Rate limiting on API endpoints
-- Secure password hashing
-- CSRF protection
-- Helmet.js security headers
+- Bcrypt password hashing
+- JWT token authentication
+- CSRF and XSS protection
+- Rate limiting on all endpoints
+- Secure session management
+- Input validation with Zod schemas
 
-## 📱 Pages & Functionality
-
-1. **Homepage**: Investment overview and calculator
-2. **Properties**: Global portfolio and pilot showcase
-3. **Dashboard**: Personal investment tracking
-4. **How It Works**: Step-by-step investment guide
-5. **Our Mission**: Company vision and team
-6. **Blog**: Educational content and insights
-7. **Contact**: Support and communication
-8. **Legal Pages**: Terms, Privacy, Whitepaper
-
-## 🛠️ Development
-
-### Available Scripts
-
-```bash
-npm run dev          # Start development server
-npm run build        # Build for production
-npm run start        # Start production server
-npm run db:push      # Push database schema changes
-npm run check        # TypeScript type checking
-```
-
-### Database Schema
-
-Key tables:
-- `users`: User accounts and authentication
-- `investments`: Investment records and tracking
-- `quarterly_data`: Performance history
-- `hkt_stats`: Real-time token statistics
-- `blog_posts`: Content management
-- `subscribers`: Newsletter and waitlist
-
-## 🌍 Multi-language Support
-
-Supported languages:
-- English
-- Spanish
-- Portuguese
-- French
-- German
-- Chinese
-
-## 🔌 API Endpoints
+## 🌐 API Endpoints
 
 ### Authentication
 - `POST /api/auth/register` - User registration
-- `POST /api/auth/login` - User login
+- `POST /api/auth/login` - User authentication
 - `GET /api/auth/me` - Get current user
-- `POST /api/auth/logout` - Logout
+- `POST /api/auth/logout` - End session
 
-### Investments
-- `GET /api/investments` - Get user investments
+### Investment
+- `GET /api/investments` - Portfolio data
 - `POST /api/investments` - Create investment
-- `PUT /api/investments/:id` - Update investment
+- `GET /api/investments/projections` - Calculate returns
 
-### HKT Token
-- `GET /api/hkt/price` - Current HKT price
-- `GET /api/hkt/stats` - Token statistics
+### Properties & Bookings
+- `GET /api/bookings/properties/:id` - Property details
+- `POST /api/bookings/calculate-price` - Booking quotes
+- `POST /api/bookings/create-stripe-booking` - USD payments
+- `POST /api/bookings/create-hkt-booking` - HKT payments
 
-### Blog
-- `GET /api/blog` - Get blog posts
-- `GET /api/blog/:slug` - Get specific post
+## 🎨 Theme System
 
-## 🤖 AI Assistant
+The platform features a sophisticated theme system:
 
-Integrated OpenAI GPT-4 assistant for:
-- Investment guidance
-- Platform navigation
-- Real estate insights
-- Technical support
+- **Default Theme**: Investment-focused with gold accents
+- **Dark Theme**: High contrast for extended use
+- **Responsive Design**: Mobile-first approach
+- **Custom Graphics**: Unique geometric elements
 
-## 📊 Analytics & Monitoring
+## 🚀 Deployment
 
-- Real-time price monitoring
-- Investment performance tracking
-- User engagement metrics
-- Error logging and monitoring
+### Development
+```bash
+npm run dev
+```
 
-## 🔄 Migration to AWS
+### Production Build
+```bash
+npm run build
+npm start
+```
 
-The project includes a complete AWS Lambda + DynamoDB migration:
+### Database Migration
+```bash
+npm run db:push
+```
 
-- **Cost Reduction**: 30-60% lower operational costs
-- **Global Scaling**: Auto-scaling infrastructure
-- **Performance**: Single-digit millisecond latency
-- **Reliability**: 99.99% uptime SLA
+## 🧪 Test Accounts
 
-## 🤝 Contributing
+Pre-configured accounts for testing:
 
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Add tests if applicable
-5. Submit a pull request
+- **Admin**: admin@homekrypto.com / password123
+- **Investor**: info@example.com / password123
+- **User**: test@example.com / password123
 
-## 📄 License
+## 📈 Performance
 
-This project is licensed under the MIT License.
+- Optimized database queries with proper indexing
+- Cached price data for real-time performance
+- Lazy loading components for faster page loads
+- Efficient state management with TanStack Query
 
-## 📞 Support
+## 🔗 External Integrations
 
-- **Email**: support@homekrypto.com
-- **Website**: https://homekrypto.com
-- **Documentation**: See individual component READMEs
+- **Price Feeds**: CoinGecko, DexScreener, Moralis
+- **Email**: SMTP with verification system
+- **Payments**: Stripe integration ready
+- **AI**: OpenAI GPT-4 for user assistance
+- **Blockchain**: Ethereum, BSC, Polygon, Avalanche, Fantom
 
-## 🎯 Roadmap
+## 📝 License
 
-- [ ] Mobile app development
-- [ ] Additional blockchain networks
-- [ ] Advanced analytics dashboard
-- [ ] Automated property management
-- [ ] Secondary market trading
-- [ ] Multi-currency support
+Private proprietary software - All rights reserved
+
+## 🤝 Support
+
+For technical support or questions:
+- Email: support@homekrypto.com
+- Documentation: Available in `/documentation` folder
 
 ---
 
-**HKT Platform** - Making Global Real Estate Investment Accessible to Everyone
+**Built with modern web technologies for the future of real estate investment.**
