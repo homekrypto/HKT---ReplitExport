@@ -114,9 +114,9 @@ export default function SimpleBookingPage() {
       checkIn,
       checkOut,
       currency,
-      total: currency === 'USD' ? pricing.total : pricing.totalHkt,
+      total: currency === 'USD' ? (pricing as any)?.total || 0 : (pricing as any)?.totalHkt || 0,
       nights,
-      isFreeWeek: pricing.isFreeWeek,
+      isFreeWeek: (pricing as any)?.isFreeWeek || false,
     });
   };
 
@@ -206,7 +206,7 @@ export default function SimpleBookingPage() {
                 </div>
 
                 {/* Share Owner Benefits */}
-                {userShares?.hasShares && (
+                {(userShares as any)?.hasShares && (
                   <div className="bg-green-50 dark:bg-green-900/20 p-4 rounded-lg border border-green-200 dark:border-green-800">
                     <div className="flex items-center space-x-2 mb-2">
                       <Gift className="h-5 w-5 text-green-600 dark:text-green-400" />
@@ -215,14 +215,14 @@ export default function SimpleBookingPage() {
                       </h4>
                     </div>
                     <p className="text-sm text-green-700 dark:text-green-300">
-                      You own {userShares.totalShares} shares in this property! 
+                      You own {(userShares as any)?.totalShares || 0} shares in this property! 
                       Enjoy your first 7 nights FREE (you only pay the cleaning fee).
                     </p>
                   </div>
                 )}
 
                 {/* Test Share Button */}
-                {!userShares?.hasShares && (
+                {!(userShares as any)?.hasShares && (
                   <div className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg border border-blue-200 dark:border-blue-800">
                     <h4 className="font-medium text-blue-800 dark:text-blue-200 mb-2">
                       Want to test the free week feature?
@@ -335,27 +335,27 @@ export default function SimpleBookingPage() {
             </Card>
 
             {/* Price Breakdown */}
-            {pricing && isValidBooking && (
+            {pricing && isValidBooking && (pricing as any)?.pricePerNight && (
               <Card>
                 <CardHeader>
                   <CardTitle>Price Breakdown</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-3">
                   <div className="flex justify-between">
-                    <span>${pricing.pricePerNight.toFixed(2)} × {pricing.nights} nights</span>
-                    <span>${pricing.subtotal.toFixed(2)}</span>
+                    <span>${((pricing as any)?.pricePerNight || 0).toFixed(2)} × {(pricing as any)?.nights || 0} nights</span>
+                    <span>${((pricing as any)?.subtotal || 0).toFixed(2)}</span>
                   </div>
                   
-                  {pricing.isFreeWeek && (
+                  {(pricing as any)?.isFreeWeek && (
                     <div className="flex justify-between text-green-600 dark:text-green-400">
                       <span>Free week discount (7 nights)</span>
-                      <span>-${(pricing.pricePerNight * 7).toFixed(2)}</span>
+                      <span>-${(((pricing as any)?.pricePerNight || 0) * 7).toFixed(2)}</span>
                     </div>
                   )}
                   
                   <div className="flex justify-between">
                     <span>Cleaning fee</span>
-                    <span>${pricing.cleaningFee.toFixed(2)}</span>
+                    <span>${((pricing as any)?.cleaningFee || 0).toFixed(2)}</span>
                   </div>
                   
                   <Separator />
@@ -364,13 +364,13 @@ export default function SimpleBookingPage() {
                     <span>Total</span>
                     <span>
                       {currency === 'USD' 
-                        ? `$${pricing.total.toFixed(2)}`
-                        : `${pricing.totalHkt.toFixed(0)} HKT`
+                        ? `$${((pricing as any)?.total || 0).toFixed(2)}`
+                        : `${((pricing as any)?.totalHkt || 0).toFixed(0)} HKT`
                       }
                     </span>
                   </div>
 
-                  {pricing.isFreeWeek && (
+                  {(pricing as any)?.isFreeWeek && (
                     <div className="text-sm text-green-600 dark:text-green-400">
                       Your first 7 nights are FREE as a property share owner!
                     </div>
@@ -384,8 +384,8 @@ export default function SimpleBookingPage() {
                     size="lg"
                   >
                     {isProcessing ? 'Processing...' : 
-                     currency === 'USD' ? `Reserve & Pay $${pricing.total.toFixed(2)}` :
-                     `Reserve & Pay ${pricing.totalHkt.toFixed(0)} HKT`}
+                     currency === 'USD' ? `Reserve & Pay $${((pricing as any)?.total || 0).toFixed(2)}` :
+                     `Reserve & Pay ${((pricing as any)?.totalHkt || 0).toFixed(0)} HKT`}
                   </Button>
                   
                   <p className="text-xs text-gray-700 dark:text-gray-400 text-center font-medium">
