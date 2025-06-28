@@ -10,17 +10,9 @@ frontend:
         - cd client
         - npm run build
   artifacts:
-    baseDirectory: client/dist
+    baseDirectory: dist
     files:
       - '**/*'
   cache:
     paths:
       - client/node_modules/**/*
-backend:
-  phases:
-    preBuild:
-      commands:
-        - npm ci
-    build:
-      commands:
-        - npm run build
