@@ -17,7 +17,8 @@ import {
   Users,
   Search,
   Filter,
-  Star
+  Star,
+  UserPlus
 } from 'lucide-react';
 import { useLocation } from 'wouter';
 
