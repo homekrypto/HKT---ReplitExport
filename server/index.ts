@@ -73,6 +73,168 @@ app.use('/api/swap', tempUserRoutes); // Swap routes are in temp-user-routes
 app.use('/api/cross-chain-wallet', tempUserRoutes); // Wallet routes are in temp-user-routes
 app.use('/api/blog', tempBlogRoutes);
 
+// Agent registration route (must be before Vite middleware)
+app.post('/api/agents/register', async (req, res) => {
+  try {
+    const agentData = req.body;
+    
+    // Only validate email is required - everything else is optional
+    if (!agentData.email || !agentData.email.trim()) {
+      return res.status(400).json({ error: 'Email address is required' });
+    }
+
+    // Basic email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(agentData.email)) {
+      return res.status(400).json({ error: 'Please enter a valid email address' });
+    }
+
+    const { sendHostingerEmail } = await import('./hostinger-email');
+
+    // Send welcome email to the agent
+    const agentWelcomeEmailHtml = `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+        <h1 style="color: #2563eb; text-align: center;">Welcome to HomeKrypto!</h1>
+        <h2 style="color: #1e40af;">Registration Submitted Successfully</h2>
+        
+        <p>Dear ${agentData.firstName || 'Agent'},</p>
+        
+        <p>Thank you for your interest in becoming a HomeKrypto partner agent. Your application has been submitted and will be reviewed within 1-2 business days.</p>
+        
+        <div style="background-color: #f3f4f6; padding: 20px; border-radius: 8px; margin: 20px 0;">
+          <h3 style="color: #1f2937; margin-top: 0;">Boost Your Approval Chances</h3>
+          <p>Add a link to HomeKrypto from your website to improve your approval chances and increase your visibility:</p>
+          <code style="background-color: #e5e7eb; padding: 10px; display: block; border-radius: 4px; font-family: monospace;">
+            &lt;a href="https://homekrypto.com" target="_blank" rel="dofollow"&gt;Proud Partner of HomeKrypto&lt;/a&gt;
+          </code>
+          <p>Place this code in your website footer, About page, or anywhere visible to visitors. This helps with faster approval and better search rankings.</p>
+        </div>
+        
+        <h3 style="color: #1f2937;">What happens next:</h3>
+        <ul style="line-height: 1.6;">
+          <li>Our team will verify your license and credentials</li>
+          <li>You'll receive an approval notification via email</li>
+          <li>Once approved, you'll get your custom referral link</li>
+          <li>Your profile will go live on our platform</li>
+          <li>You'll gain access to the agent dashboard</li>
+        </ul>
+        
+        <p style="margin-top: 30px;">Best regards,<br>The HomeKrypto Team</p>
+        
+        <hr style="border: none; border-top: 1px solid #e5e7eb; margin: 30px 0;">
+        <p style="font-size: 12px; color: #6b7280;">
+          This email was sent because you registered as an agent on homekrypto.com. 
+          If you didn't make this request, please ignore this email.
+        </p>
+      </div>
+    `;
+
+    const agentWelcomeEmailText = `
+      Welcome to HomeKrypto!
+      
+      Registration Submitted Successfully
+      
+      Dear ${agentData.firstName || 'Agent'},
+      
+      Thank you for your interest in becoming a HomeKrypto partner agent. Your application has been submitted and will be reviewed within 1-2 business days.
+      
+      Boost Your Approval Chances:
+      Add a link to HomeKrypto from your website to improve your approval chances and increase your visibility:
+      
+      <a href="https://homekrypto.com" target="_blank" rel="dofollow">Proud Partner of HomeKrypto</a>
+      
+      Place this code in your website footer, About page, or anywhere visible to visitors. This helps with faster approval and better search rankings.
+      
+      What happens next:
+      • Our team will verify your license and credentials
+      • You'll receive an approval notification via email
+      • Once approved, you'll get your custom referral link
+      • Your profile will go live on our platform
+      • You'll gain access to the agent dashboard
+      
+      Best regards,
+      The HomeKrypto Team
+      
+      This email was sent because you registered as an agent on homekrypto.com. If you didn't make this request, please ignore this email.
+    `;
+
+    // Send notification email to admin
+    const adminNotificationHtml = `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+        <h1 style="color: #dc2626;">New Agent Registration</h1>
+        
+        <div style="background-color: #fef2f2; border-left: 4px solid #dc2626; padding: 20px; margin: 20px 0;">
+          <h2 style="color: #991b1b; margin-top: 0;">Agent Details</h2>
+          <p><strong>Name:</strong> ${agentData.firstName || 'Not provided'} ${agentData.lastName || 'Not provided'}</p>
+          <p><strong>Email:</strong> ${agentData.email}</p>
+          <p><strong>Phone:</strong> ${agentData.phone || 'Not provided'}</p>
+          <p><strong>Company:</strong> ${agentData.company || 'Not provided'}</p>
+          <p><strong>License Number:</strong> ${agentData.licenseNumber || 'Not provided'}</p>
+          <p><strong>Location:</strong> ${agentData.city || 'Not provided'}, ${agentData.country || 'Not provided'}</p>
+          <p><strong>Years Experience:</strong> ${agentData.yearsExperience || 'Not provided'}</p>
+          <p><strong>Website:</strong> ${agentData.website || 'Not provided'}</p>
+          <p><strong>LinkedIn:</strong> ${agentData.linkedIn || 'Not provided'}</p>
+          <p><strong>SEO Backlink URL:</strong> ${agentData.seoBacklinkUrl || 'Not provided'}</p>
+        </div>
+        
+        ${agentData.bio ? `
+        <div style="background-color: #f9fafb; padding: 15px; border-radius: 8px; margin: 20px 0;">
+          <h3 style="color: #1f2937; margin-top: 0;">Professional Bio</h3>
+          <p>${agentData.bio}</p>
+        </div>
+        ` : ''}
+        
+        ${agentData.languagesSpoken && agentData.languagesSpoken.length > 0 ? `
+        <div style="background-color: #f0f9ff; padding: 15px; border-radius: 8px; margin: 20px 0;">
+          <h3 style="color: #0369a1; margin-top: 0;">Languages Spoken</h3>
+          <p>${agentData.languagesSpoken.join(', ')}</p>
+        </div>
+        ` : ''}
+        
+        <p style="margin-top: 30px;"><strong>Registration Time:</strong> ${new Date().toLocaleString()}</p>
+        
+        <div style="background-color: #fffbeb; border: 1px solid #fbbf24; padding: 15px; border-radius: 8px; margin: 20px 0;">
+          <p style="color: #92400e; margin: 0;"><strong>Action Required:</strong> Please review and approve/reject this agent registration.</p>
+        </div>
+      </div>
+    `;
+
+    try {
+      console.log('Sending agent welcome email to:', agentData.email);
+      await sendHostingerEmail({
+        to: agentData.email,
+        subject: 'Welcome to HomeKrypto - Registration Submitted',
+        html: agentWelcomeEmailHtml,
+        text: agentWelcomeEmailText
+      });
+      console.log('Agent welcome email sent successfully');
+
+      console.log('Sending admin notification email');
+      await sendHostingerEmail({
+        to: 'admin@homekrypto.com',
+        subject: `New Agent Registration: ${agentData.firstName || ''} ${agentData.lastName || ''} (${agentData.email})`,
+        html: adminNotificationHtml,
+        text: `New agent registration from ${agentData.firstName || ''} ${agentData.lastName || ''} (${agentData.email}). Please review at homekrypto.com/admin`
+      });
+      console.log('Admin notification email sent successfully');
+
+    } catch (emailError) {
+      console.error('Failed to send agent registration emails:', emailError);
+    }
+
+    res.status(200).json({ 
+      success: true, 
+      message: 'Registration submitted successfully! Check your email for confirmation.' 
+    });
+
+  } catch (error) {
+    console.error('Agent registration error:', error);
+    res.status(500).json({ 
+      error: 'Registration failed. Please try again.' 
+    });
+  }
+});
+
 // Add email test endpoint
 app.post('/api/test-email', async (req, res) => {
   try {
