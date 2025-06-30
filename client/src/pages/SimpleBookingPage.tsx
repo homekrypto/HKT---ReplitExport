@@ -221,22 +221,22 @@ export default function SimpleBookingPage() {
                   </div>
                 )}
 
-                {/* Test Share Button */}
+                {/* Investment Simulation Link */}
                 {!(userShares as any)?.hasShares && (
-                  <div className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg border border-blue-200 dark:border-blue-800">
+                  <div className="bg-gradient-to-r from-blue-50 to-green-50 dark:from-blue-900/20 dark:to-green-900/20 p-4 rounded-lg border border-blue-200 dark:border-blue-800">
                     <h4 className="font-medium text-blue-800 dark:text-blue-200 mb-2">
-                      Want to test the free week feature?
+                      See Your Investment Potential
                     </h4>
                     <p className="text-sm text-blue-700 dark:text-blue-300 mb-3">
-                      Get a test property share to experience the booking system with owner benefits.
+                      Simulate what happens when you buy 1 share or multiple shares, and see projections for HKT growth over 5 years.
                     </p>
                     <Button
-                      onClick={() => giveTestShare.mutate()}
-                      disabled={giveTestShare.isPending}
+                      onClick={() => setLocation('/investment-simulation')}
                       size="sm"
-                      variant="outline"
+                      variant="default"
+                      className="bg-gradient-to-r from-blue-600 to-green-600 hover:from-blue-700 hover:to-green-700"
                     >
-                      {giveTestShare.isPending ? 'Granting...' : 'Get Test Share'}
+                      View Investment Simulation
                     </Button>
                   </div>
                 )}

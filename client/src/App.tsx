@@ -41,6 +41,7 @@ import EmailVerificationSuccess from "@/pages/email-verification-success";
 import CrossChainWallets from "@/pages/cross-chain-wallets";
 import RegisterAsAgent from "@/pages/register-as-agent";
 import InvestmentGrowthProjection from "@/pages/investment-growth-projection";
+import InvestmentSimulation from "@/pages/InvestmentSimulation";
 import JoinWaitlist from "@/pages/join-waitlist";
 import DownloadPage from "@/pages/download";
 import SimpleBookingPage from "@/pages/SimpleBookingPage";
@@ -78,6 +79,7 @@ function Router() {
       <Route path="/cross-chain-wallets" component={CrossChainWallets} />
       <Route path="/register-as-agent" component={RegisterAsAgent} />
       <Route path="/investment-growth-projection" component={InvestmentGrowthProjection} />
+      <Route path="/investment-simulation" component={InvestmentSimulation} />
       <Route path="/join-waitlist" component={JoinWaitlist} />
       <Route path="/login" component={Login} />
       <Route path="/register" component={Register} />
