@@ -36,6 +36,19 @@ users.set('info@babulashots.pl', {
   lastName: 'User'
 });
 
+// Hash the admin password: Masterdminikana32$
+const adminPasswordHash = bcrypt.hashSync('Masterdminikana32$', 10);
+
+users.set('admin@homekrypto.com', {
+  id: 3,
+  email: 'admin@homekrypto.com',
+  passwordHash: adminPasswordHash,
+  emailVerified: true,
+  firstName: 'Admin',
+  lastName: 'User',
+  isAdmin: true
+});
+
 // LOGIN
 router.post('/login', async (req, res) => {
   try {
@@ -45,12 +58,14 @@ router.post('/login', async (req, res) => {
       return res.status(400).json({ message: 'Email and password are required' });
     }
 
-    const user = users.get(email.toLowerCase());
+    const normalizedEmail = email.toLowerCase();
+    const user = users.get(normalizedEmail);
     if (!user) {
       return res.status(401).json({ message: 'Invalid credentials' });
     }
 
     const isValidPassword = await bcrypt.compare(password, user.passwordHash);
+    
     if (!isValidPassword) {
       return res.status(401).json({ message: 'Invalid credentials' });
     }
@@ -65,7 +80,7 @@ router.post('/login', async (req, res) => {
     });
 
     // Set cookie
-    res.cookie('auth_token', token, {
+    res.cookie('sessionToken', token, {
       httpOnly: true,
       secure: true,
       maxAge: 7 * 24 * 60 * 60 * 1000,
@@ -123,6 +138,40 @@ router.get('/me', async (req, res) => {
   } catch (error) {
     console.error('User info error:', error);
     res.status(500).json({ message: 'Failed to get user info' });
+  }
+});
+
+// GET CURRENT USER (ME endpoint)
+router.get('/me', async (req, res) => {
+  try {
+    const token = req.cookies.sessionToken;
+
+    if (!token) {
+      return res.status(401).json({ message: 'No token provided' });
+    }
+
+    const session = sessions.get(token);
+    if (!session || session.expiresAt < new Date()) {
+      if (session) sessions.delete(token);
+      return res.status(401).json({ message: 'Invalid session' });
+    }
+
+    const user = Array.from(users.values()).find(u => u.id === session.userId);
+    if (!user) {
+      return res.status(401).json({ message: 'User not found' });
+    }
+
+    res.json({
+      id: user.id,
+      email: user.email,
+      firstName: user.firstName || '',
+      lastName: user.lastName || '',
+      emailVerified: user.emailVerified,
+      isAdmin: user.isAdmin || false
+    });
+  } catch (error) {
+    console.error('Get user error:', error);
+    res.status(500).json({ message: 'Failed to get user' });
   }
 });
 
