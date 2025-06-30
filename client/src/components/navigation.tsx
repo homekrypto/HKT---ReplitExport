@@ -6,6 +6,7 @@ import { useAuth } from '@/hooks/useAuth';
 import ThemeToggle from './theme-toggle';
 import LanguageSelector from './language-selector';
 import WalletConnectDropdown from './wallet-connect-dropdown';
+import HKTLogo from './HKTLogo';
 
 export default function Navigation() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -42,7 +43,7 @@ export default function Navigation() {
         <div className="hidden md:block">
           <div className="flex justify-center py-4 border-b border-gray-100 dark:border-gray-800">
             <Link href="/" className="flex-shrink-0">
-              <h1 className="text-3xl font-bold text-primary">HKT</h1>
+              <HKTLogo size="large" variant="full" showText={true} />
             </Link>
           </div>
           <div className="flex justify-between items-center h-16">
@@ -104,7 +105,7 @@ export default function Navigation() {
         <div className="md:hidden">
           <div className="flex justify-between items-center h-16">
             <Link href="/" className="flex-shrink-0">
-              <h1 className="text-2xl font-bold text-primary">HKT</h1>
+              <HKTLogo size="medium" variant="compact" showText={true} />
             </Link>
             <Button
               variant="ghost"
