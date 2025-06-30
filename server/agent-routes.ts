@@ -24,12 +24,15 @@ router.post('/register', async (req, res) => {
   try {
     const agentData = req.body;
     
-    // Validate required fields
-    const requiredFields = ['firstName', 'lastName', 'email', 'phone', 'licenseNumber', 'licenseState', 'city', 'state', 'zipCode'];
-    for (const field of requiredFields) {
-      if (!agentData[field]) {
-        return res.status(400).json({ error: `${field} is required` });
-      }
+    // Only validate email is required - everything else is optional
+    if (!agentData.email || !agentData.email.trim()) {
+      return res.status(400).json({ error: 'Email address is required' });
+    }
+
+    // Basic email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(agentData.email)) {
+      return res.status(400).json({ error: 'Please enter a valid email address' });
     }
 
     // Check if agent already exists
@@ -42,8 +45,11 @@ router.post('/register', async (req, res) => {
       return res.status(400).json({ error: 'Agent with this email already exists' });
     }
 
-    // Generate unique referral link
-    const referralLink = generateReferralLink(agentData.firstName, agentData.lastName, agentData.city);
+    // Generate unique referral link (use default values if fields are empty)
+    const firstName = agentData.firstName || 'agent';
+    const lastName = agentData.lastName || 'partner';
+    const city = agentData.city || 'location';
+    const referralLink = generateReferralLink(firstName, lastName, city);
     
     // Create agent record
     const [newAgent] = await db.insert(realEstateAgents).values({
@@ -70,24 +76,71 @@ router.post('/register', async (req, res) => {
       `
     });
 
-    // Send confirmation email to agent
+    // Send confirmation email to agent with SEO backlink instructions
+    const agentName = agentData.firstName || 'Agent';
     await sendHostingerEmail({
       to: agentData.email,
-      subject: 'Agent Registration Received - HomeKrypto',
+      subject: 'Welcome to HomeKrypto – Your Agent Profile Is Being Reviewed',
       html: `
-        <h2>Thank You for Your Interest in HomeKrypto</h2>
-        <p>Dear ${agentData.firstName},</p>
-        <p>We have received your registration as a real estate agent partner. Your application is currently under review.</p>
-        <p><strong>Next Steps:</strong></p>
-        <ul>
-          <li>Our team will review your credentials and license information</li>
-          <li>You will receive an approval notification within 1-2 business days</li>
-          <li>Once approved, you'll receive your custom referral link and agent dashboard access</li>
-        </ul>
-        <p>Your referral link will be: <strong>${referralLink}</strong></p>
-        <p>Thank you for joining our network of professional real estate agents!</p>
-        <p>Best regards,<br>HomeKrypto Team</p>
-      `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #ffffff;">
+          <div style="text-align: center; margin-bottom: 30px;">
+            <h1 style="color: #f59e0b; font-size: 28px; margin: 0;">HomeKrypto</h1>
+            <p style="color: #6b7280; font-size: 16px;">Real Estate Investment Platform</p>
+          </div>
+
+          <h2 style="color: #1f2937; font-size: 24px;">Welcome to HomeKrypto!</h2>
+          
+          <p style="color: #374151; font-size: 16px; line-height: 1.6;">
+            Dear ${agentName},
+          </p>
+          
+          <p style="color: #374151; font-size: 16px; line-height: 1.6;">
+            Thank you for registering as a real estate partner with HomeKrypto. Your profile has been submitted and is now under manual review by our team. You'll receive another email once your profile is approved and visible on the platform.
+          </p>
+
+          <div style="background-color: #fef3c7; border: 2px solid #f59e0b; border-radius: 8px; padding: 20px; margin: 25px 0;">
+            <h3 style="color: #f59e0b; font-size: 20px; margin: 0 0 15px 0;">🚀 Boost Your Approval Chances</h3>
+            <p style="color: #92400e; font-size: 16px; line-height: 1.6; margin-bottom: 15px;">
+              In the meantime, we <strong>strongly recommend</strong> adding a backlink from your website to ours. This boosts your visibility and helps us approve your profile faster.
+            </p>
+            
+            <p style="color: #92400e; font-size: 16px; font-weight: bold; margin-bottom: 10px;">
+              Please copy and paste the following HTML code into your website:
+            </p>
+            
+            <div style="background-color: #ffffff; border: 1px solid #d1d5db; border-radius: 4px; padding: 15px; font-family: monospace; font-size: 14px; color: #1f2937; overflow-x: auto;">
+              &lt;a href="https://homekrypto.com" target="_blank" rel="dofollow"&gt;Proud Partner of HomeKrypto&lt;/a&gt;
+            </div>
+            
+            <p style="color: #92400e; font-size: 14px; line-height: 1.6; margin-top: 15px;">
+              <strong>Where to place it:</strong> Add this link to your website footer, About page, Partners section, or anywhere visible to visitors. This helps with faster approval, more traffic, and better search engine rankings.
+            </p>
+          </div>
+
+          <div style="background-color: #f9fafb; border-radius: 8px; padding: 20px; margin: 25px 0;">
+            <h3 style="color: #1f2937; font-size: 18px; margin: 0 0 15px 0;">What happens next:</h3>
+            <ul style="color: #374151; font-size: 16px; line-height: 1.8; margin: 0; padding-left: 20px;">
+              <li>Our team will verify your information and credentials</li>
+              <li>You'll receive an approval notification via email</li>
+              <li>Once approved, you'll get your custom referral link</li>
+              <li>Your profile will go live on our platform</li>
+              <li>You'll gain access to high-value crypto-savvy clients</li>
+            </ul>
+          </div>
+
+          <div style="text-align: center; margin: 30px 0;">
+            <p style="color: #374151; font-size: 16px; line-height: 1.6;">
+              Questions? Contact us at <a href="mailto:admin@homekrypto.com" style="color: #f59e0b;">admin@homekrypto.com</a>
+            </p>
+          </div>
+
+          <div style="border-top: 1px solid #e5e7eb; padding-top: 20px; text-align: center;">
+            <p style="color: #6b7280; font-size: 14px;">
+              Best regards,<br>
+              <strong>The HomeKrypto Team</strong>
+            </p>
+          </div>
+        </div>`
     });
 
     res.json({ 
