@@ -43,6 +43,9 @@ import RegisterAsAgent from "@/pages/register-as-agent";
 import InvestmentGrowthProjection from "@/pages/investment-growth-projection";
 import InvestmentSimulation from "@/pages/InvestmentSimulation";
 import JoinWaitlist from "@/pages/join-waitlist";
+import AgentRegistration from "@/pages/AgentRegistration";
+import Agents from "@/pages/Agents";
+import AdminAgentManagement from "@/pages/AdminAgentManagement";
 import DownloadPage from "@/pages/download";
 import SimpleBookingPage from "@/pages/SimpleBookingPage";
 import EnhancedBookingPage from "@/pages/EnhancedBookingPage";
@@ -81,6 +84,8 @@ function Router() {
       <Route path="/investment-growth-projection" component={InvestmentGrowthProjection} />
       <Route path="/investment-simulation" component={InvestmentSimulation} />
       <Route path="/join-waitlist" component={JoinWaitlist} />
+      <Route path="/agent-registration" component={AgentRegistration} />
+      <Route path="/agents" component={Agents} />
       <Route path="/login" component={Login} />
       <Route path="/register" component={Register} />
       <Route path="/forgot-password" component={ForgotPassword} />
@@ -94,6 +99,7 @@ function Router() {
       <Route path="/governance" component={Governance} />
       <Route path="/profile" component={Profile} />
       <Route path="/admin" component={AdminPanel} />
+      <Route path="/admin/agents" component={AdminAgentManagement} />
       <Route path="/test-admin" component={TestAdmin} />
       <Route path="/download" component={DownloadPage} />
       <Route component={NotFound} />

@@ -40,6 +40,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
   const adminRoutes = (await import('./admin-routes')).default;
   app.use('/api/admin', adminRoutes);
   
+  // Agent routes
+  const agentRoutes = (await import('./agent-routes')).default;
+  app.use('/api/agents', agentRoutes);
+  
   // AI Assistant endpoint
   app.post('/api/ai-assistant', async (req, res) => {
     try {

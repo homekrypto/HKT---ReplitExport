@@ -284,6 +284,52 @@ export type InsertHktStats = z.infer<typeof insertHktStatsSchema>;
 export type Subscriber = typeof subscribers.$inferSelect;
 export type InsertSubscriber = z.infer<typeof insertSubscriberSchema>;
 
+// Real Estate Agents
+export const realEstateAgents = pgTable("real_estate_agents", {
+  id: serial("id").primaryKey(),
+  firstName: varchar("first_name", { length: 100 }).notNull(),
+  lastName: varchar("last_name", { length: 100 }).notNull(),
+  email: varchar("email", { length: 255 }).unique().notNull(),
+  phone: varchar("phone", { length: 20 }).notNull(),
+  company: varchar("company", { length: 200 }),
+  licenseNumber: varchar("license_number", { length: 50 }).notNull(),
+  licenseState: varchar("license_state", { length: 50 }).notNull(),
+  city: varchar("city", { length: 100 }).notNull(),
+  state: varchar("state", { length: 50 }).notNull(),
+  zipCode: varchar("zip_code", { length: 10 }).notNull(),
+  country: varchar("country", { length: 50 }).notNull().default('United States'),
+  website: varchar("website", { length: 500 }),
+  linkedIn: varchar("linkedin", { length: 500 }),
+  bio: text("bio"),
+  specializations: text("specializations").array(),
+  yearsExperience: integer("years_experience"),
+  languagesSpoken: text("languages_spoken").array(),
+  profileImage: varchar("profile_image", { length: 500 }),
+  referralLink: varchar("referral_link", { length: 500 }).unique(),
+  seoBacklinkUrl: varchar("seo_backlink_url", { length: 500 }),
+  isApproved: boolean("is_approved").default(false),
+  isActive: boolean("is_active").default(true),
+  approvedBy: integer("approved_by").references(() => users.id),
+  approvedAt: timestamp("approved_at"),
+  rejectionReason: text("rejection_reason"),
+  commission: decimal("commission", { precision: 5, scale: 2 }).default("2.50"), // Default 2.5%
+  totalSales: decimal("total_sales", { precision: 15, scale: 2 }).default("0"),
+  totalCommission: decimal("total_commission", { precision: 12, scale: 2 }).default("0"),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+// Agent-Property assignments
+export const agentProperties = pgTable("agent_properties", {
+  id: serial("id").primaryKey(),
+  agentId: integer("agent_id").notNull().references(() => realEstateAgents.id),
+  propertyId: varchar("property_id", { length: 100 }).notNull(), // References properties
+  isPrimaryAgent: boolean("is_primary_agent").default(false),
+  commissionRate: decimal("commission_rate", { precision: 5, scale: 2 }),
+  assignedAt: timestamp("assigned_at").defaultNow(),
+  assignedBy: integer("assigned_by").references(() => users.id),
+});
+
 // Cross-chain wallet types
 export type SupportedChain = typeof supportedChains.$inferSelect;
 export type InsertSupportedChain = typeof supportedChains.$inferInsert;
@@ -299,6 +345,12 @@ export type PropertyShare = typeof propertyShares.$inferSelect;
 export type InsertPropertyShare = typeof propertyShares.$inferInsert;
 export type Property = typeof properties.$inferSelect;
 export type InsertProperty = typeof properties.$inferInsert;
+
+// Real Estate Agent types
+export type RealEstateAgent = typeof realEstateAgents.$inferSelect;
+export type InsertRealEstateAgent = typeof realEstateAgents.$inferInsert;
+export type AgentProperty = typeof agentProperties.$inferSelect;
+export type InsertAgentProperty = typeof agentProperties.$inferInsert;
 
 // Booking system schemas
 export const insertBookingSchema = createInsertSchema(bookings).omit({
