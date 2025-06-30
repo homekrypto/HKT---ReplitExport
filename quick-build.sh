@@ -1,90 +1,49 @@
 #!/bin/bash
 
-# Quick Build Script for HKT Platform Deployment
-echo "🚀 Quick Build for HKT Platform Deployment"
+# Quick production build - bypasses heavy dependencies
+echo "⚡ Quick production build for HKT Platform..."
 
-# Clean dist directory
-rm -rf dist
-mkdir -p dist/public
+# Create dist directory
+mkdir -p dist
 
-# Build server (critical for deployment)
-echo "📦 Building server..."
-esbuild server/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist --external:@replit/vite-plugin-cartographer --external:@replit/vite-plugin-runtime-error-modal --external:drizzle-kit --external:tsx --minify
+# Build server only (skip frontend Vite build for now)
+echo "🔧 Building server..."
+npx esbuild server/index.ts \
+  --platform=node \
+  --packages=external \
+  --bundle \
+  --format=esm \
+  --outdir=dist \
+  --target=node18 \
+  --external:pg-native \
+  --external:@neondatabase/serverless \
+  --external:bcryptjs \
+  --external:helmet \
+  --external:cookie-parser
 
-# Check if server build succeeded
-if [ ! -f "dist/index.js" ]; then
-    echo "❌ Server build failed!"
-    exit 1
-fi
-
-echo "✅ Server build successful"
-
-# Create minimal frontend (deployment ready)
-echo "🌐 Creating deployment frontend..."
-cat > dist/public/index.html << 'EOF'
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HKT Platform</title>
-    <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; margin: 0; padding: 0; background: #000; color: #fff; }
-        .container { max-width: 1200px; margin: 0 auto; padding: 2rem; text-align: center; }
-        .logo { font-size: 3rem; font-weight: bold; color: #f59e0b; margin-bottom: 2rem; }
-        .status { font-size: 1.5rem; margin-bottom: 2rem; }
-        .loading { animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
-        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: .5; } }
-        .info { max-width: 600px; margin: 0 auto; text-align: left; background: #1a1a1a; padding: 2rem; border-radius: 8px; }
-        .info h3 { color: #f59e0b; }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <div class="logo">HKT</div>
-        <div class="status loading">Platform Ready</div>
-        <div class="info">
-            <h3>Home Krypto Token Platform</h3>
-            <p>Making Global Real Estate Investment Accessible to Everyone</p>
-            <p><strong>Platform Features:</strong></p>
-            <ul>
-                <li>Real estate tokenization through HKT tokens</li>
-                <li>Property share ownership starting from 1 week</li>
-                <li>Cross-chain wallet support</li>
-                <li>Live price monitoring and analytics</li>
-                <li>Secure booking and investment tracking</li>
-            </ul>
-            <p><strong>Status:</strong> <span id="server-status">🟢 Server Online</span></p>
-        </div>
-    </div>
-    <script>
-        fetch('/api/health')
-            .then(response => response.json())
-            .then(data => {
-                if (data.status === 'healthy') {
-                    document.querySelector('.status').textContent = 'Platform Online';
-                    document.querySelector('.loading').classList.remove('loading');
-                    document.getElementById('server-status').textContent = '✅ All Systems Operational';
-                }
-            })
-            .catch(() => {
-                document.getElementById('server-status').textContent = '🔄 Initializing...';
-            });
-    </script>
-</body>
-</html>
+if [ -f "dist/index.js" ]; then
+    echo "✅ Server build completed!"
+    file_size=$(du -h dist/index.js | cut -f1)
+    echo "📦 Server bundle size: $file_size"
+    
+    # Create a simple startup script
+    cat > dist/start.sh << 'EOF'
+#!/bin/bash
+echo "🚀 Starting HKT Platform production server..."
+echo "📍 Server will be available at: http://localhost:5000"
+NODE_ENV=production node index.js
 EOF
-
-echo "✅ Deployment frontend created"
-
-# Verify build
-echo "🔍 Verifying build..."
-if [ -f "dist/index.js" ] && [ -f "dist/public/index.html" ]; then
-    echo "✅ Build verification successful"
-    echo "📁 dist/index.js: $(ls -lh dist/index.js | awk '{print $5}')"
-    echo "📁 dist/public/index.html: $(ls -lh dist/public/index.html | awk '{print $5}')"
-    echo "🎉 Ready for deployment!"
+    chmod +x dist/start.sh
+    
+    echo ""
+    echo "🎯 Production server ready!"
+    echo "📁 Files in dist/:"
+    ls -la dist/
+    echo ""
+    echo "🚀 To start production server:"
+    echo "   cd dist && ./start.sh"
+    echo "   or: NODE_ENV=production node dist/index.js"
 else
-    echo "❌ Build verification failed"
+    echo "❌ Server build failed"
     exit 1
 fi
