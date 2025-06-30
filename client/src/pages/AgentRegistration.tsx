@@ -26,20 +26,13 @@ import {
   CheckCircle
 } from 'lucide-react';
 
-const US_STATES = [
-  'Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware',
-  'Florida', 'Georgia', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky',
-  'Louisiana', 'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi',
-  'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey', 'New Mexico',
-  'New York', 'North Carolina', 'North Dakota', 'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania',
-  'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont',
-  'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming'
-];
-
-const SPECIALIZATIONS = [
-  'Residential Sales', 'Commercial Real Estate', 'Luxury Properties', 'Investment Properties',
-  'First-Time Buyers', 'Vacation Homes', 'New Construction', 'Foreclosures', 'Condominiums',
-  'Land Sales', 'Property Management', 'International Buyers'
+const COUNTRIES = [
+  'United States', 'Canada', 'United Kingdom', 'Germany', 'France', 'Spain', 'Italy', 'Netherlands',
+  'Portugal', 'Australia', 'New Zealand', 'Japan', 'Singapore', 'Hong Kong', 'United Arab Emirates',
+  'Switzerland', 'Austria', 'Belgium', 'Sweden', 'Norway', 'Denmark', 'Finland', 'Ireland',
+  'Mexico', 'Brazil', 'Argentina', 'Chile', 'Colombia', 'Costa Rica', 'Panama', 'Dominican Republic',
+  'India', 'Thailand', 'Malaysia', 'Philippines', 'Indonesia', 'South Korea', 'Taiwan', 'Israel',
+  'South Africa', 'Turkey', 'Greece', 'Cyprus', 'Malta', 'Monaco', 'Luxembourg', 'Liechtenstein'
 ];
 
 const LANGUAGES = [
@@ -57,15 +50,12 @@ export default function AgentRegistration() {
     phone: '',
     company: '',
     licenseNumber: '',
-    licenseState: '',
     city: '',
-    state: '',
-    zipCode: '',
     country: 'United States',
+    zipCode: '',
     website: '',
     linkedIn: '',
     bio: '',
-    specializations: [] as string[],
     yearsExperience: '',
     languagesSpoken: [] as string[],
     seoBacklinkUrl: '',
@@ -75,10 +65,7 @@ export default function AgentRegistration() {
 
   const registerMutation = useMutation({
     mutationFn: async (data: any) => {
-      return await apiRequest('/api/agents/register', {
-        method: 'POST',
-        body: JSON.stringify(data)
-      });
+      return await apiRequest('POST', '/api/agents/register', data);
     },
     onSuccess: (data) => {
       setIsSubmitted(true);
@@ -100,14 +87,7 @@ export default function AgentRegistration() {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 
-  const handleSpecializationChange = (specialization: string, checked: boolean) => {
-    setFormData(prev => ({
-      ...prev,
-      specializations: checked 
-        ? [...prev.specializations, specialization]
-        : prev.specializations.filter(s => s !== specialization)
-    }));
-  };
+
 
   const handleLanguageChange = (language: string, checked: boolean) => {
     setFormData(prev => ({
@@ -328,19 +308,7 @@ export default function AgentRegistration() {
                   required
                 />
               </div>
-              <div>
-                <Label htmlFor="licenseState">License State *</Label>
-                <Select value={formData.licenseState} onValueChange={(value) => handleInputChange('licenseState', value)}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select state" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {US_STATES.map(state => (
-                      <SelectItem key={state} value={state}>{state}</SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
+
               <div>
                 <Label htmlFor="yearsExperience">Years of Experience</Label>
                 <Input
@@ -374,14 +342,14 @@ export default function AgentRegistration() {
                 />
               </div>
               <div>
-                <Label htmlFor="state">State *</Label>
-                <Select value={formData.state} onValueChange={(value) => handleInputChange('state', value)}>
+                <Label htmlFor="country">Country *</Label>
+                <Select value={formData.country} onValueChange={(value) => handleInputChange('country', value)}>
                   <SelectTrigger>
-                    <SelectValue placeholder="Select state" />
+                    <SelectValue placeholder="Select country" />
                   </SelectTrigger>
                   <SelectContent>
-                    {US_STATES.map(state => (
-                      <SelectItem key={state} value={state}>{state}</SelectItem>
+                    {COUNTRIES.map(country => (
+                      <SelectItem key={country} value={country}>{country}</SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
@@ -418,21 +386,7 @@ export default function AgentRegistration() {
                 />
               </div>
               
-              <div>
-                <Label>Specializations</Label>
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-2 mt-2">
-                  {SPECIALIZATIONS.map(spec => (
-                    <div key={spec} className="flex items-center space-x-2">
-                      <Checkbox
-                        id={spec}
-                        checked={formData.specializations.includes(spec)}
-                        onCheckedChange={(checked) => handleSpecializationChange(spec, checked as boolean)}
-                      />
-                      <Label htmlFor={spec} className="text-sm">{spec}</Label>
-                    </div>
-                  ))}
-                </div>
-              </div>
+
 
               <div>
                 <Label>Languages Spoken</Label>
