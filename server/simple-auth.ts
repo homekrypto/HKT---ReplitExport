@@ -82,9 +82,9 @@ router.post('/login', async (req, res) => {
     // Set cookie
     res.cookie('sessionToken', token, {
       httpOnly: true,
-      secure: true,
+      secure: process.env.NODE_ENV === 'production',
       maxAge: 7 * 24 * 60 * 60 * 1000,
-      sameSite: 'strict'
+      sameSite: 'lax'
     });
 
     res.json({
@@ -95,7 +95,8 @@ router.post('/login', async (req, res) => {
         firstName: user.firstName,
         lastName: user.lastName,
         emailVerified: user.emailVerified
-      }
+      },
+      token: token // For testing purposes
     });
   } catch (error) {
     console.error('Login error:', error);
@@ -166,7 +167,9 @@ router.get('/me', async (req, res) => {
       email: user.email,
       firstName: user.firstName || '',
       lastName: user.lastName || '',
+      isEmailVerified: user.emailVerified,
       emailVerified: user.emailVerified,
+      createdAt: new Date().toISOString(),
       isAdmin: user.isAdmin || false
     });
   } catch (error) {
@@ -184,7 +187,7 @@ router.post('/logout', async (req, res) => {
       sessions.delete(token);
     }
 
-    res.clearCookie('auth_token');
+    res.clearCookie('sessionToken');
     res.json({ message: 'Logout successful' });
   } catch (error) {
     console.error('Logout error:', error);
