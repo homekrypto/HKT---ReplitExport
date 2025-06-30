@@ -59,7 +59,7 @@ export default function TestAdmin() {
   
   // Fetch pending agents
   const { data: pendingAgents = [], refetch: refetchAgents } = useQuery<Agent[]>({
-    queryKey: ['/api/agents/all'],
+    queryKey: ['/api/admin/agents'],
     select: (data: unknown) => {
       if (Array.isArray(data)) {
         // Filter for pending agents (not approved yet)

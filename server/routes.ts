@@ -40,47 +40,34 @@ export async function registerRoutes(app: Express): Promise<Server> {
   const adminRoutes = (await import('./admin-routes')).default;
   app.use('/api/admin', adminRoutes);
   
+  // Agent routes
+  const agentRoutes = (await import('./agent-routes')).default;
+  app.use('/api/agents', agentRoutes);
+  
   // Test endpoint to verify routing
   app.get('/api/test', (req, res) => {
     res.json({ message: 'API routing is working', timestamp: new Date().toISOString() });
   });
 
-  // Agent registration route moved to index.ts to avoid routing conflicts
-                <li>Once approved, you'll get your custom referral link</li>
-                <li>Your profile will go live on our platform</li>
-                <li>You'll gain access to high-value crypto-savvy clients</li>
-              </ul>
-            </div>
+  // Direct test route for agents
+  app.get('/api/agents/test', (req, res) => {
+    res.json({ message: 'Agent routing is working', agentData: 'test' });
+  });
 
-            <div style="text-align: center; margin: 30px 0;">
-              <p style="color: #374151; font-size: 16px; line-height: 1.6;">
-                Questions? Contact us at <a href="mailto:admin@homekrypto.com" style="color: #f59e0b;">admin@homekrypto.com</a>
-              </p>
-            </div>
-
-            <div style="border-top: 1px solid #e5e7eb; padding-top: 20px; text-align: center;">
-              <p style="color: #6b7280; font-size: 14px;">
-                Best regards,<br>
-                <strong>The HomeKrypto Team</strong>
-              </p>
-            </div>
-          </div>`
-      });
-
-      console.log('Admin email result:', adminEmailResult);
-      console.log('Agent email result:', agentEmailResult);
-
-      res.json({ 
-        success: true, 
-        message: 'Registration submitted successfully. You will receive approval notification within 1-2 business days.',
-        emailSent: agentEmailResult
-      });
-
+  // Direct agents endpoint for admin panel
+  app.get('/api/admin/agents', async (req, res) => {
+    try {
+      // Import temp storage
+      const { getTempAgents } = await import('./temp-agent-storage');
+      const agents = getTempAgents();
+      res.json(agents);
     } catch (error) {
-      console.error('Agent registration error:', error);
-      res.status(500).json({ error: 'Failed to register agent' });
+      console.error('Error fetching agents:', error);
+      res.status(500).json({ error: 'Failed to fetch agents' });
     }
   });
+
+  // Agent registration route moved to index.ts to avoid routing conflicts
   
   // AI Assistant endpoint
   app.post('/api/ai-assistant', async (req, res) => {
