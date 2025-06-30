@@ -1,15 +1,13 @@
 import { useState, useEffect } from 'react';
 import { useRoute, useLocation } from 'wouter';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { Calendar } from '@/components/ui/calendar';
+import { useQuery } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Separator } from '@/components/ui/separator';
-import { CalendarDays, Users, Bed, Bath, Wifi, Car, Utensils, Gift } from 'lucide-react';
-import { format, addDays, differenceInDays } from 'date-fns';
+import { Users, Bed, Bath, Gift, ArrowLeft, MapPin } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
-import { apiRequest } from '@/lib/queryClient';
+import PropertyBookingForm from '@/components/booking/PropertyBookingForm';
+import BookingSuccess from '@/components/booking/BookingSuccess';
 
 interface Property {
   id: string;
@@ -48,14 +46,10 @@ export default function BookingPage() {
   const [, params] = useRoute('/booking/:propertyId');
   const [, setLocation] = useLocation();
   const { toast } = useToast();
-  const queryClient = useQueryClient();
   
   const propertyId = params?.propertyId;
-  const [checkIn, setCheckIn] = useState<Date>();
-  const [checkOut, setCheckOut] = useState<Date>();
-  const [guests, setGuests] = useState(1);
-  const [currency, setCurrency] = useState<'USD' | 'HKT'>('USD');
-  const [isProcessing, setIsProcessing] = useState(false);
+  const [showBookingForm, setShowBookingForm] = useState(true);
+  const [completedBooking, setCompletedBooking] = useState<any>(null);
 
   // Fetch property details
   const { data: property, isLoading: loadingProperty } = useQuery({
