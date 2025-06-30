@@ -46,6 +46,7 @@ import DownloadPage from "@/pages/download";
 import SimpleBookingPage from "@/pages/SimpleBookingPage";
 import AdminPanel from "@/pages/AdminPanel";
 import TestAdmin from "@/pages/TestAdmin";
+import Governance from "@/pages/governance";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -87,6 +88,7 @@ function Router() {
       <Route path="/blog" component={Blog} />
       <Route path="/blog/:slug" component={BlogPost} />
       <Route path="/dashboard" component={Dashboard} />
+      <Route path="/governance" component={Governance} />
       <Route path="/profile" component={Profile} />
       <Route path="/admin" component={AdminPanel} />
       <Route path="/test-admin" component={TestAdmin} />
