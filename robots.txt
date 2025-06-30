@@ -1,0 +1,54 @@
+User-agent: *
+Allow: /
+
+# Block admin and private areas
+Disallow: /admin/
+Disallow: /test-admin/
+Disallow: /api/
+Disallow: /dashboard/
+Disallow: /profile/
+Disallow: /mainnet-testing/
+
+# Block authentication pages from indexing
+Disallow: /login
+Disallow: /register
+Disallow: /forgot-password
+Disallow: /reset-password
+Disallow: /verify-email
+Disallow: /email-verification-success
+
+# Block temporary or development pages
+Disallow: /download
+Disallow: /for-developers
+
+# Allow important pages
+Allow: /
+Allow: /our-mission
+Allow: /how-it-works
+Allow: /properties
+Allow: /pilot-property-showcase
+Allow: /investment-growth-projection
+Allow: /investment-simulation
+Allow: /buy-hkt
+Allow: /blog
+Allow: /contact
+Allow: /faq
+Allow: /frequently-asked-questions
+Allow: /work-with-us
+Allow: /register-as-agent
+Allow: /agents
+Allow: /sitemap
+Allow: /join-waitlist
+Allow: /terms-and-conditions
+Allow: /privacy-policy
+Allow: /whitepaper
+Allow: /homekrypto-whitepaper
+Allow: /secondary-market
+Allow: /governance
+Allow: /booking
+
+# Sitemap location
+Sitemap: https://homekrypto.com/sitemap.xml
+
+# Crawl delay (be respectful to server resources)
+Crawl-delay: 1

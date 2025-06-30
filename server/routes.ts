@@ -605,6 +605,37 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // SEO-related routes
+  app.get('/sitemap.xml', async (req, res) => {
+    try {
+      const fs = await import('fs/promises');
+      const path = await import('path');
+      const sitemapPath = path.join(process.cwd(), 'sitemap.xml');
+      const sitemap = await fs.readFile(sitemapPath, 'utf-8');
+      
+      res.set('Content-Type', 'application/xml');
+      res.send(sitemap);
+    } catch (error) {
+      console.error('Error serving sitemap:', error);
+      res.status(404).send('Sitemap not found');
+    }
+  });
+
+  app.get('/robots.txt', async (req, res) => {
+    try {
+      const fs = await import('fs/promises');
+      const path = await import('path');
+      const robotsPath = path.join(process.cwd(), 'robots.txt');
+      const robots = await fs.readFile(robotsPath, 'utf-8');
+      
+      res.set('Content-Type', 'text/plain');
+      res.send(robots);
+    } catch (error) {
+      console.error('Error serving robots.txt:', error);
+      res.status(404).send('Robots.txt not found');
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }
