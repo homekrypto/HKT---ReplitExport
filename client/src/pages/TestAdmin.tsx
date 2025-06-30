@@ -42,10 +42,10 @@ interface Agent {
   yearsExperience: number;
   languagesSpoken: string[];
   seoBacklinkUrl?: string;
-  status: 'pending' | 'approved' | 'rejected';
-  submittedAt: Date;
+  isApproved: boolean;
+  isActive: boolean;
+  createdAt: Date;
   approvedAt?: Date;
-  rejectedAt?: Date;
   rejectionReason?: string;
   referralLink?: string;
 }
@@ -59,8 +59,14 @@ export default function TestAdmin() {
   
   // Fetch pending agents
   const { data: pendingAgents = [], refetch: refetchAgents } = useQuery<Agent[]>({
-    queryKey: ['/admin/agents/pending'],
-    select: (data: unknown) => Array.isArray(data) ? data as Agent[] : [],
+    queryKey: ['/api/agents/all'],
+    select: (data: unknown) => {
+      if (Array.isArray(data)) {
+        // Filter for pending agents (not approved yet)
+        return data.filter((agent: any) => !agent.isApproved) as Agent[];
+      }
+      return [];
+    },
   });
 
   // Use local state instead of database to demonstrate admin functionality
@@ -124,7 +130,7 @@ export default function TestAdmin() {
 
   const approveAgent = useMutation({
     mutationFn: async (agentId: number) => {
-      return apiRequest('POST', `/admin/agents/${agentId}/approve`);
+      return apiRequest('POST', `/api/agents/approve/${agentId}`);
     },
     onSuccess: () => {
       refetchAgents();
@@ -144,7 +150,7 @@ export default function TestAdmin() {
 
   const rejectAgent = useMutation({
     mutationFn: async ({ agentId, reason }: { agentId: number; reason: string }) => {
-      return apiRequest('POST', `/admin/agents/${agentId}/reject`, { reason });
+      return apiRequest('POST', `/api/agents/reject/${agentId}`, { reason });
     },
     onSuccess: () => {
       refetchAgents();
@@ -397,11 +403,11 @@ export default function TestAdmin() {
                         </div>
                         <div>
                           <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Experience</label>
-                          <p className="text-gray-900 dark:text-gray-100">{agent.yearsExperience} years</p>
+                          <p className="text-gray-900 dark:text-gray-100">{agent.yearsExperience || 0} years</p>
                         </div>
                         <div>
                           <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Languages</label>
-                          <p className="text-gray-900 dark:text-gray-100">{agent.languagesSpoken.join(', ')}</p>
+                          <p className="text-gray-900 dark:text-gray-100">{agent.languagesSpoken?.join(', ') || 'Not specified'}</p>
                         </div>
                       </div>
 
@@ -422,7 +428,7 @@ export default function TestAdmin() {
                       <div className="mb-4">
                         <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Submitted</label>
                         <p className="text-gray-600 dark:text-gray-400 text-sm">
-                          {new Date(agent.submittedAt).toLocaleDateString()} at {new Date(agent.submittedAt).toLocaleTimeString()}
+                          {new Date(agent.createdAt).toLocaleDateString()} at {new Date(agent.createdAt).toLocaleTimeString()}
                         </p>
                       </div>
 
