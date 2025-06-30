@@ -277,6 +277,16 @@ export default function Home() {
                   </div>
                 </div>
                 <p className="text-xs text-gray-400 mt-4 italic">Based on illustrative $195k property value. Live values will vary.</p>
+                
+                <div className="mt-6">
+                  <Link href="/pilot-property-showcase">
+                    <Button 
+                      className="w-full bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700 text-white font-semibold py-3 px-6 rounded-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200"
+                    >
+                      View Property Details →
+                    </Button>
+                  </Link>
+                </div>
               </CardContent>
             </Card>
 
