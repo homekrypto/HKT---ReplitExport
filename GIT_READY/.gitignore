@@ -1,0 +1,103 @@
+# Dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Production builds
+dist/
+build/
+out/
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Database files
+*.sqlite
+*.sqlite3
+*.db
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+*.temp
+
+# Replit specific files
+.replit
+.replitignore
+.upm/
+
+# Build artifacts
+*.tsbuildinfo
+.cache/
+
+# Coverage reports
+coverage/
+*.lcov
+.nyc_output/
+
+# Backup and archive files
+*.backup
+*.bak
+*.tar.gz
+*.zip
+
+# Cookie and session files
+cookies*.txt
+session*.json
+
+# Development tools
+.eslintcache
+.stylelintcache
+
+# Package manager lockfiles (keep package-lock.json)
+yarn.lock
+pnpm-lock.yaml
+
+# Serverless directories
+.serverless/
+
+# Cloud deployment
+.vercel/
+.netlify/
+
+# Local Netlify folder
+.netlify
+
+# FuseBox cache
+.fusebox/
+
+# DynamoDB Local files
+.dynamodb/
+
+# TernJS port file
+.tern-port
