@@ -11,6 +11,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { useToast } from '@/hooks/use-toast';
 import { apiRequest } from '@/lib/queryClient';
+import SEO from '@/components/SEO';
 import { 
   CheckCircle, 
   XCircle, 
@@ -162,7 +163,14 @@ export default function AdminAgentManagement() {
   }
 
   return (
-    <div className="p-6 space-y-6">
+    <>
+      <SEO 
+        title="Admin Agent Management - HomeKrypto Administration | HKT"
+        description="Administrative dashboard for managing real estate agent registrations, approvals, and profile oversight for HomeKrypto's certified agent network."
+        keywords="admin dashboard, agent management, real estate administration, agent approval, HomeKrypto admin, property agent oversight"
+        url={`${window.location.origin}/admin/agents`}
+      />
+      <div className="p-6 space-y-6">
       {/* Header */}
       <div className="flex justify-between items-center">
         <div>
@@ -484,5 +492,6 @@ export default function AdminAgentManagement() {
         </Card>
       )}
     </div>
+    </>
   );
 }

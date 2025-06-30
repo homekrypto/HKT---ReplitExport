@@ -5,6 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import SEO from '@/components/SEO';
 import { 
   MapPin, 
   Phone, 
@@ -83,7 +84,14 @@ export default function Agents() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-amber-50 to-orange-100 dark:from-gray-900 dark:to-gray-800 p-4">
+    <>
+      <SEO 
+        title="Find Real Estate Agents - Crypto Property Investment Specialists | HKT"
+        description="Browse verified real estate agents specializing in cryptocurrency-funded property investments. Find licensed professionals in your area who understand blockchain and digital asset transactions."
+        keywords="crypto real estate agents, blockchain property specialists, cryptocurrency property investment, real estate professionals, verified agents, property investment experts"
+        url={`${window.location.origin}/agents`}
+      />
+      <div className="min-h-screen bg-gradient-to-br from-amber-50 to-orange-100 dark:from-gray-900 dark:to-gray-800 p-4">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="text-center mb-8 pt-8">
@@ -309,5 +317,6 @@ export default function Agents() {
         </Card>
       </div>
     </div>
+    </>
   );
 }

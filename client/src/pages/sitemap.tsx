@@ -80,6 +80,15 @@ export default function Sitemap() {
         { name: "Work With Us", path: "/work-with-us", description: "Career opportunities and job listings", status: "live" },
         { name: "For Developers", path: "/for-developers", description: "Developer resources and API documentation", status: "live" }
       ]
+    },
+    {
+      title: "Real Estate Agents",
+      icon: Briefcase,
+      pages: [
+        { name: "Agents Directory", path: "/agents", description: "Find verified real estate agents specializing in crypto investments", status: "live" },
+        { name: "Agent Registration", path: "/agent-registration", description: "Join our network of certified real estate professionals", status: "live" },
+        { name: "Agent Management", path: "/admin/agents", description: "Administrative panel for agent approval and management", status: "live", protected: true }
+      ]
     }
   ];
 
@@ -138,7 +147,7 @@ export default function Sitemap() {
               <div className="text-sm text-gray-600 dark:text-gray-400 font-medium">Protected Pages</div>
             </div>
             <div className="text-center">
-              <div className="text-3xl font-bold text-purple-600 dark:text-purple-400">6</div>
+              <div className="text-3xl font-bold text-purple-600 dark:text-purple-400">7</div>
               <div className="text-sm text-gray-700 dark:text-gray-400 font-medium">Categories</div>
             </div>
           </div>

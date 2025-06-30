@@ -60,7 +60,9 @@ export default function Footer() {
         { label: t.footer.whitepaper, href: '/whitepaper' },
         { label: t.footer.faq, href: '/faq' },
         { label: 'Work With Us', href: '/work-with-us' },
-        { label: 'Contact', href: '/contact' }
+        { label: 'Contact', href: '/contact' },
+        { label: 'Real Estate Agents', href: '/agents' },
+        { label: 'Become an Agent', href: '/agent-registration' }
       ]
     },
     {

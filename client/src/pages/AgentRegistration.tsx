@@ -11,6 +11,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { useToast } from '@/hooks/use-toast';
 import { apiRequest } from '@/lib/queryClient';
+import SEO from '@/components/SEO';
 import { 
   UserPlus, 
   Building, 
@@ -176,7 +177,14 @@ export default function AgentRegistration() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-amber-50 to-orange-100 dark:from-gray-900 dark:to-gray-800 p-4">
+    <>
+      <SEO 
+        title="Become a HomeKrypto Real Estate Agent - Join Our Network | HKT"
+        description="Join HomeKrypto's network of certified real estate agents specializing in crypto-funded property investments. Get your professional agent profile, earn commissions, and connect with crypto-savvy clients."
+        keywords="real estate agent registration, crypto real estate, blockchain property investment, agent network, real estate careers, property investment professional"
+        url={`${window.location.origin}/agent-registration`}
+      />
+      <div className="min-h-screen bg-gradient-to-br from-amber-50 to-orange-100 dark:from-gray-900 dark:to-gray-800 p-4">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <div className="text-center mb-8 pt-8">
@@ -491,5 +499,6 @@ export default function AgentRegistration() {
         </form>
       </div>
     </div>
+    </>
   );
 }
