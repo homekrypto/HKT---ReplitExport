@@ -8,6 +8,7 @@ import { useQuery } from '@tanstack/react-query';
 import { web3Service, type Web3State } from '@/lib/web3';
 import HKTSwapInterface from '@/components/hkt-swap-interface';
 import BookingManagement from '@/components/BookingManagement';
+import BuyHKTButton from '@/components/BuyHKTButton';
 import { 
   User,
   Mail,
@@ -86,13 +87,20 @@ export default function Dashboard() {
                   Track your HKT investments and real estate portfolio performance
                 </p>
               </div>
-              <div className="text-right">
+              <div className="text-right space-y-2">
+                <div className="flex items-center justify-end gap-3">
+                  <BuyHKTButton size="sm" />
+                  <Button variant="outline" size="sm">
+                    <Plus className="h-4 w-4 mr-2" />
+                    Book Property
+                  </Button>
+                </div>
                 <div className="flex items-center space-x-2 text-sm text-gray-700 dark:text-gray-400 font-medium">
                   <Mail className="h-4 w-4" />
                   <span>{user?.email}</span>
                 </div>
                 {user?.lastLoginAt && (
-                  <div className="flex items-center space-x-2 text-sm text-gray-700 dark:text-gray-400 font-medium mt-1">
+                  <div className="flex items-center space-x-2 text-sm text-gray-700 dark:text-gray-400 font-medium">
                     <Calendar className="h-4 w-4" />
                     <span>Last login: {new Date(user.lastLoginAt).toLocaleDateString()}</span>
                   </div>

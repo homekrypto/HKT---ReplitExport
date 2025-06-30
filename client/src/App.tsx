@@ -52,6 +52,7 @@ import EnhancedBookingPage from "@/pages/EnhancedBookingPage";
 import AdminPanel from "@/pages/AdminPanel";
 import TestAdmin from "@/pages/TestAdmin";
 import Governance from "@/pages/governance";
+import MainnetTesting from "@/pages/MainnetTesting";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -97,6 +98,7 @@ function Router() {
       <Route path="/blog/:slug" component={BlogPost} />
       <Route path="/dashboard" component={Dashboard} />
       <Route path="/governance" component={Governance} />
+      <Route path="/mainnet-testing" component={MainnetTesting} />
       <Route path="/profile" component={Profile} />
       <Route path="/admin" component={AdminPanel} />
       <Route path="/admin/agents" component={AdminAgentManagement} />

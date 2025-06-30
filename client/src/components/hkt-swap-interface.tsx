@@ -43,6 +43,13 @@ interface SwapQuote {
 export default function HKTSwapInterface() {
   const { toast } = useToast();
   const [web3State, setWeb3State] = useState<Web3State>(web3Service.getState());
+  const [fromAmount, setFromAmount] = useState('');
+  const [toAmount, setToAmount] = useState('');
+  const [isSwapping, setIsSwapping] = useState(false);
+  const [quote, setQuote] = useState<SwapQuote | null>(null);
+  const [slippage, setSlippage] = useState(0.5);
+  const [showBuyWidget, setShowBuyWidget] = useState(false);
+  
   const [fromToken, setFromToken] = useState<SwapToken>({
     address: WETH_CONTRACT_ADDRESS,
     symbol: 'ETH',
@@ -55,11 +62,6 @@ export default function HKTSwapInterface() {
     name: 'Home Krypto Token',
     decimals: 18,
   });
-  const [fromAmount, setFromAmount] = useState('');
-  const [toAmount, setToAmount] = useState('');
-  const [slippage, setSlippage] = useState('0.5');
-  const [isSwapping, setIsSwapping] = useState(false);
-  const [quote, setQuote] = useState<SwapQuote | null>(null);
 
   useEffect(() => {
     const unsubscribe = web3Service.subscribe(setWeb3State);
