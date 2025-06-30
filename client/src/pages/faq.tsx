@@ -102,6 +102,72 @@ const faqData: FAQItem[] = [
     question: 'How do you select properties?',
     answer: 'Our team identifies properties with strong investment potential, focusing on high-demand locations, vacation rental performance, and growth prospects. We conduct thorough due diligence on all properties.',
     category: 'investment'
+  },
+  {
+    id: '16',
+    question: 'What is Home Krypto?',
+    answer: 'Home Krypto is a decentralized real estate investment and booking platform powered by the HKT token. Users can invest in properties, earn perks, and book vacation rentals using either fiat or crypto — all through blockchain technology.',
+    category: 'general'
+  },
+  {
+    id: '17',
+    question: 'Can I invest in properties?',
+    answer: 'Yes. Property NFTs represent fractional ownership. Investors earn a share of income and perks.',
+    category: 'investment'
+  },
+  {
+    id: '18',
+    question: 'Is there a DAO or voting system?',
+    answer: 'Yes. The GovernanceDAO contract allows token and NFT holders to vote on major platform decisions.',
+    category: 'technical'
+  },
+  {
+    id: '19',
+    question: 'Who can I contact for help?',
+    answer: 'You can reach our support team at support@homekrypto.com or through the contact form on the platform.',
+    category: 'general'
+  },
+  {
+    id: '20',
+    question: 'Are there any risks?',
+    answer: 'Yes. As with any crypto-related project, there are risks related to market volatility, technology, and regulation. Please read our Risk Disclaimer and Terms & Conditions.',
+    category: 'legal'
+  },
+  {
+    id: '21',
+    question: 'Is the booking system fully reliable and robust now?',
+    answer: 'Yes! The booking system is 100% complete with advanced edge case handling, including: Full date validation (no past or invalid date ranges; max 365 nights), Guest count limits tailored per property, Real-time HKT price validation with fallback logic, Network connectivity awareness with online/offline detection.',
+    category: 'technical'
+  },
+  {
+    id: '22',
+    question: 'How does the system handle connectivity or server issues?',
+    answer: 'It features an automatic retry system using exponential backoff (waiting longer between retries), plus request timeouts to prevent hanging requests. Users get clear error messages and retry counters for transparency.',
+    category: 'technical'
+  },
+  {
+    id: '23',
+    question: 'What about wallet connections like MetaMask?',
+    answer: 'Wallet connections are optimized with smooth state management and detailed error handling specifically for MetaMask or other wallets, ensuring a seamless user experience.',
+    category: 'technical'
+  },
+  {
+    id: '24',
+    question: 'Does the UI show real-time updates?',
+    answer: 'Yes, the booking UI includes: Real-time HKT price updates every 60 seconds, with timestamps, Connection status indicators (online/offline), Professional loading animations and color-coded booking terms, Automatic form resets after successful booking.',
+    category: 'technical'
+  },
+  {
+    id: '25',
+    question: 'What happens if the system goes offline or encounters unexpected errors?',
+    answer: 'The system gracefully degrades, providing clear feedback and preventing user frustration. It automatically recovers when services become available again.',
+    category: 'technical'
+  },
+  {
+    id: '26',
+    question: 'How does this affect user experience?',
+    answer: 'The enhanced error recovery, network resilience, and polished UI ensure a premium, professional-grade booking experience similar to top-tier platforms like Airbnb.',
+    category: 'general'
   }
 ];
 
