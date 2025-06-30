@@ -33,42 +33,35 @@
     </filter>
   </defs>
   
-  <!-- Background circle for contrast -->
-  <circle cx="60" cy="60" r="58" fill="none" stroke="#f0f0f0" stroke-width="1" opacity="0.3"/>
+  <!-- Outer ring for reference -->
+  <circle cx="60" cy="60" r="58" fill="none" stroke="#f0f0f0" stroke-width="1" opacity="0.2"/>
   
-  <!-- Main central sphere -->
-  <circle cx="60" cy="60" r="18" fill="url(#mainGrad)" filter="url(#shadow)"/>
+  <!-- Central main sphere -->
+  <circle cx="60" cy="60" r="16" fill="url(#mainGrad)" filter="url(#shadow)"/>
   
-  <!-- Secondary accent spheres -->
-  <circle cx="60" cy="25" r="12" fill="url(#accentGrad)" filter="url(#shadow)"/>
-  <circle cx="60" cy="95" r="12" fill="url(#accentGrad)" filter="url(#shadow)"/>
+  <!-- Four cardinal direction spheres - perfectly symmetric -->
+  <circle cx="60" cy="25" r="11" fill="url(#accentGrad)" filter="url(#shadow)"/>
+  <circle cx="95" cy="60" r="11" fill="url(#accentGrad)" filter="url(#shadow)"/>
+  <circle cx="60" cy="95" r="11" fill="url(#accentGrad)" filter="url(#shadow)"/>
+  <circle cx="25" cy="60" r="11" fill="url(#accentGrad)" filter="url(#shadow)"/>
   
-  <!-- Ring of smaller spheres -->
-  <circle cx="85" cy="45" r="7" fill="url(#smallGrad)" filter="url(#shadow)"/>
-  <circle cx="95" cy="60" r="7" fill="url(#smallGrad)" filter="url(#shadow)"/>
-  <circle cx="85" cy="75" r="7" fill="url(#smallGrad)" filter="url(#shadow)"/>
+  <!-- Four corner spheres at 45-degree angles - perfectly symmetric -->
+  <circle cx="84.85" cy="35.15" r="7" fill="url(#smallGrad)" filter="url(#shadow)"/>
+  <circle cx="84.85" cy="84.85" r="7" fill="url(#smallGrad)" filter="url(#shadow)"/>
+  <circle cx="35.15" cy="84.85" r="7" fill="url(#smallGrad)" filter="url(#shadow)"/>
+  <circle cx="35.15" cy="35.15" r="7" fill="url(#smallGrad)" filter="url(#shadow)"/>
   
-  <circle cx="35" cy="45" r="7" fill="url(#smallGrad)" filter="url(#shadow)"/>
-  <circle cx="25" cy="60" r="7" fill="url(#smallGrad)" filter="url(#shadow)"/>
-  <circle cx="35" cy="75" r="7" fill="url(#smallGrad)" filter="url(#shadow)"/>
+  <!-- Inner ring of small spheres - perfectly symmetric -->
+  <circle cx="60" cy="40" r="4" fill="url(#smallGrad)" opacity="0.8"/>
+  <circle cx="80" cy="60" r="4" fill="url(#smallGrad)" opacity="0.8"/>
+  <circle cx="60" cy="80" r="4" fill="url(#smallGrad)" opacity="0.8"/>
+  <circle cx="40" cy="60" r="4" fill="url(#smallGrad)" opacity="0.8"/>
   
-  <!-- Corner accent spheres -->
-  <circle cx="40" cy="30" r="5" fill="url(#smallGrad)" filter="url(#shadow)"/>
-  <circle cx="80" cy="30" r="5" fill="url(#smallGrad)" filter="url(#shadow)"/>
-  <circle cx="40" cy="90" r="5" fill="url(#smallGrad)" filter="url(#shadow)"/>
-  <circle cx="80" cy="90" r="5" fill="url(#smallGrad)" filter="url(#shadow)"/>
-  
-  <!-- Outer ring detail spheres -->
-  <circle cx="30" cy="35" r="4" fill="url(#smallGrad)" opacity="0.8"/>
-  <circle cx="90" cy="35" r="4" fill="url(#smallGrad)" opacity="0.8"/>
-  <circle cx="30" cy="85" r="4" fill="url(#smallGrad)" opacity="0.8"/>
-  <circle cx="90" cy="85" r="4" fill="url(#smallGrad)" opacity="0.8"/>
-  
-  <!-- Connecting lines for network effect (subtle) -->
-  <g opacity="0.1" stroke="#888" stroke-width="1" fill="none">
-    <line x1="60" y1="25" x2="60" y2="42"/>
-    <line x1="60" y1="78" x2="60" y2="95"/>
-    <line x1="42" y1="60" x2="25" y2="60"/>
-    <line x1="78" y1="60" x2="95" y2="60"/>
+  <!-- Subtle connecting lines for network effect - perfectly symmetric -->
+  <g opacity="0.08" stroke="#888" stroke-width="1" fill="none">
+    <line x1="60" y1="36" x2="60" y2="44"/>
+    <line x1="60" y1="76" x2="60" y2="84"/>
+    <line x1="44" y1="60" x2="36" y2="60"/>
+    <line x1="76" y1="60" x2="84" y2="60"/>
   </g>
 </svg>

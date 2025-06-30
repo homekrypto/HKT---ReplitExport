@@ -75,15 +75,20 @@ export default function HKTLogo({
         </filter>
       </defs>
       
-      <circle cx="20" cy="20" r="8" fill={`url(#compactMainGrad-${uniqueId})`} filter={`url(#compactShadow-${uniqueId})`}/>
+      {/* Central sphere */}
+      <circle cx="20" cy="20" r="7" fill={`url(#compactMainGrad-${uniqueId})`} filter={`url(#compactShadow-${uniqueId})`}/>
+      
+      {/* Four corner spheres - perfectly symmetric */}
       <circle cx="10" cy="10" r="4" fill={`url(#compactSmallGrad-${uniqueId})`} filter={`url(#compactShadow-${uniqueId})`}/>
       <circle cx="30" cy="10" r="4" fill={`url(#compactSmallGrad-${uniqueId})`} filter={`url(#compactShadow-${uniqueId})`}/>
       <circle cx="10" cy="30" r="4" fill={`url(#compactSmallGrad-${uniqueId})`} filter={`url(#compactShadow-${uniqueId})`}/>
       <circle cx="30" cy="30" r="4" fill={`url(#compactSmallGrad-${uniqueId})`} filter={`url(#compactShadow-${uniqueId})`}/>
-      <circle cx="20" cy="6" r="2" fill={`url(#compactSmallGrad-${uniqueId})`} opacity="0.8"/>
-      <circle cx="34" cy="20" r="2" fill={`url(#compactSmallGrad-${uniqueId})`} opacity="0.8"/>
-      <circle cx="20" cy="34" r="2" fill={`url(#compactSmallGrad-${uniqueId})`} opacity="0.8"/>
-      <circle cx="6" cy="20" r="2" fill={`url(#compactSmallGrad-${uniqueId})`} opacity="0.8"/>
+      
+      {/* Four cardinal direction spheres - perfectly symmetric */}
+      <circle cx="20" cy="6" r="2.5" fill={`url(#compactSmallGrad-${uniqueId})`} opacity="0.8"/>
+      <circle cx="34" cy="20" r="2.5" fill={`url(#compactSmallGrad-${uniqueId})`} opacity="0.8"/>
+      <circle cx="20" cy="34" r="2.5" fill={`url(#compactSmallGrad-${uniqueId})`} opacity="0.8"/>
+      <circle cx="6" cy="20" r="2.5" fill={`url(#compactSmallGrad-${uniqueId})`} opacity="0.8"/>
     </svg>
   ) : (
     <svg viewBox="0 0 120 120" className={cn(getSizeClasses(), className)} xmlns="http://www.w3.org/2000/svg">
@@ -119,29 +124,36 @@ export default function HKTLogo({
         </filter>
       </defs>
       
-      <circle cx="60" cy="60" r="58" fill="none" stroke="#f0f0f0" strokeWidth="1" opacity="0.3"/>
-      <circle cx="60" cy="60" r="18" fill={`url(#mainGrad-${uniqueId})`} filter={`url(#shadow-${uniqueId})`}/>
-      <circle cx="60" cy="25" r="12" fill={`url(#accentGrad-${uniqueId})`} filter={`url(#shadow-${uniqueId})`}/>
-      <circle cx="60" cy="95" r="12" fill={`url(#accentGrad-${uniqueId})`} filter={`url(#shadow-${uniqueId})`}/>
-      <circle cx="85" cy="45" r="7" fill={`url(#smallGrad-${uniqueId})`} filter={`url(#shadow-${uniqueId})`}/>
-      <circle cx="95" cy="60" r="7" fill={`url(#smallGrad-${uniqueId})`} filter={`url(#shadow-${uniqueId})`}/>
-      <circle cx="85" cy="75" r="7" fill={`url(#smallGrad-${uniqueId})`} filter={`url(#shadow-${uniqueId})`}/>
-      <circle cx="35" cy="45" r="7" fill={`url(#smallGrad-${uniqueId})`} filter={`url(#shadow-${uniqueId})`}/>
-      <circle cx="25" cy="60" r="7" fill={`url(#smallGrad-${uniqueId})`} filter={`url(#shadow-${uniqueId})`}/>
-      <circle cx="35" cy="75" r="7" fill={`url(#smallGrad-${uniqueId})`} filter={`url(#shadow-${uniqueId})`}/>
-      <circle cx="40" cy="30" r="5" fill={`url(#smallGrad-${uniqueId})`} filter={`url(#shadow-${uniqueId})`}/>
-      <circle cx="80" cy="30" r="5" fill={`url(#smallGrad-${uniqueId})`} filter={`url(#shadow-${uniqueId})`}/>
-      <circle cx="40" cy="90" r="5" fill={`url(#smallGrad-${uniqueId})`} filter={`url(#shadow-${uniqueId})`}/>
-      <circle cx="80" cy="90" r="5" fill={`url(#smallGrad-${uniqueId})`} filter={`url(#shadow-${uniqueId})`}/>
-      <circle cx="30" cy="35" r="4" fill={`url(#smallGrad-${uniqueId})`} opacity="0.8"/>
-      <circle cx="90" cy="35" r="4" fill={`url(#smallGrad-${uniqueId})`} opacity="0.8"/>
-      <circle cx="30" cy="85" r="4" fill={`url(#smallGrad-${uniqueId})`} opacity="0.8"/>
-      <circle cx="90" cy="85" r="4" fill={`url(#smallGrad-${uniqueId})`} opacity="0.8"/>
-      <g opacity="0.1" stroke="#888" strokeWidth="1" fill="none">
-        <line x1="60" y1="25" x2="60" y2="42"/>
-        <line x1="60" y1="78" x2="60" y2="95"/>
-        <line x1="42" y1="60" x2="25" y2="60"/>
-        <line x1="78" y1="60" x2="95" y2="60"/>
+      {/* Outer ring for reference */}
+      <circle cx="60" cy="60" r="58" fill="none" stroke="#f0f0f0" strokeWidth="1" opacity="0.2"/>
+      
+      {/* Central main sphere */}
+      <circle cx="60" cy="60" r="16" fill={`url(#mainGrad-${uniqueId})`} filter={`url(#shadow-${uniqueId})`}/>
+      
+      {/* Four cardinal direction spheres - perfectly symmetric */}
+      <circle cx="60" cy="25" r="11" fill={`url(#accentGrad-${uniqueId})`} filter={`url(#shadow-${uniqueId})`}/>
+      <circle cx="95" cy="60" r="11" fill={`url(#accentGrad-${uniqueId})`} filter={`url(#shadow-${uniqueId})`}/>
+      <circle cx="60" cy="95" r="11" fill={`url(#accentGrad-${uniqueId})`} filter={`url(#shadow-${uniqueId})`}/>
+      <circle cx="25" cy="60" r="11" fill={`url(#accentGrad-${uniqueId})`} filter={`url(#shadow-${uniqueId})`}/>
+      
+      {/* Four corner spheres at 45-degree angles - perfectly symmetric */}
+      <circle cx="84.85" cy="35.15" r="7" fill={`url(#smallGrad-${uniqueId})`} filter={`url(#shadow-${uniqueId})`}/>
+      <circle cx="84.85" cy="84.85" r="7" fill={`url(#smallGrad-${uniqueId})`} filter={`url(#shadow-${uniqueId})`}/>
+      <circle cx="35.15" cy="84.85" r="7" fill={`url(#smallGrad-${uniqueId})`} filter={`url(#shadow-${uniqueId})`}/>
+      <circle cx="35.15" cy="35.15" r="7" fill={`url(#smallGrad-${uniqueId})`} filter={`url(#shadow-${uniqueId})`}/>
+      
+      {/* Inner ring of small spheres - perfectly symmetric */}
+      <circle cx="60" cy="40" r="4" fill={`url(#smallGrad-${uniqueId})`} opacity="0.8"/>
+      <circle cx="80" cy="60" r="4" fill={`url(#smallGrad-${uniqueId})`} opacity="0.8"/>
+      <circle cx="60" cy="80" r="4" fill={`url(#smallGrad-${uniqueId})`} opacity="0.8"/>
+      <circle cx="40" cy="60" r="4" fill={`url(#smallGrad-${uniqueId})`} opacity="0.8"/>
+      
+      {/* Subtle connecting lines for network effect - perfectly symmetric */}
+      <g opacity="0.08" stroke="#888" strokeWidth="1" fill="none">
+        <line x1="60" y1="36" x2="60" y2="44"/>
+        <line x1="60" y1="76" x2="60" y2="84"/>
+        <line x1="44" y1="60" x2="36" y2="60"/>
+        <line x1="76" y1="60" x2="84" y2="60"/>
       </g>
     </svg>
   );
