@@ -1,11 +1,40 @@
 import { Router } from 'express';
 import { eq, and, desc, sql } from 'drizzle-orm';
-import { db } from './db-wrapper';
+import { db, executeQuery } from './db-wrapper';
 import { realEstateAgents, agentProperties, properties, users } from '@shared/schema';
 import { requireAuth, type AuthenticatedRequest } from './auth';
 import { sendHostingerEmail } from './hostinger-email';
 
 const router = Router();
+
+// Test email functionality
+router.post('/test-email', async (req, res) => {
+  try {
+    const { email } = req.body;
+    if (!email) {
+      return res.status(400).json({ error: 'Email is required' });
+    }
+
+    const result = await sendHostingerEmail({
+      to: email,
+      subject: 'Test Email from HomeKrypto',
+      html: `
+        <h2>Email System Test</h2>
+        <p>This is a test email to verify the HomeKrypto email system is working.</p>
+        <p>If you received this email, the system is functioning correctly.</p>
+        <p>Best regards,<br>HomeKrypto Team</p>
+      `
+    });
+
+    res.json({ 
+      success: result, 
+      message: result ? 'Test email sent successfully' : 'Failed to send test email' 
+    });
+  } catch (error) {
+    console.error('Test email error:', error);
+    res.status(500).json({ error: 'Failed to send test email' });
+  }
+});
 
 // Generate unique referral link
 function generateReferralLink(firstName: string, lastName: string, city: string): string {
@@ -15,7 +44,7 @@ function generateReferralLink(firstName: string, lastName: string, city: string)
 }
 
 // Helper function to check if user is admin
-async function isAdmin(email: string): boolean {
+async function isAdmin(email: string): Promise<boolean> {
   return email === 'admin@homekrypto.com';
 }
 
