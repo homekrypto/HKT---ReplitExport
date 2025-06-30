@@ -3,7 +3,8 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
-import { ChevronDown, ChevronUp, Search, HelpCircle } from 'lucide-react';
+import { ChevronDown, ChevronUp, Search, HelpCircle, ExternalLink, Calendar } from 'lucide-react';
+import { useLocation } from 'wouter';
 
 interface FAQItem {
   id: string;
@@ -175,6 +176,7 @@ export default function FAQ() {
   const [openItems, setOpenItems] = useState<string[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
+  const [, setLocation] = useLocation();
 
   const toggleItem = (id: string) => {
     setOpenItems(prev => 
@@ -207,6 +209,15 @@ export default function FAQ() {
       case 'legal': return 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200';
       default: return 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200';
     }
+  };
+
+  const handleContactSupport = () => {
+    setLocation('/contact');
+  };
+
+  const handleScheduleCall = () => {
+    // Open Calendly scheduling in new tab
+    window.open('https://calendly.com/homekrypto-support/consultation', '_blank');
   };
 
   return (
@@ -310,11 +321,24 @@ export default function FAQ() {
               Our support team is here to help you with any questions about HKT investment.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-primary">
+              <Button 
+                size="lg" 
+                variant="outline" 
+                className="border-white text-white hover:bg-white hover:text-primary"
+                onClick={handleContactSupport}
+              >
+                <HelpCircle className="h-4 w-4 mr-2" />
                 Contact Support
               </Button>
-              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-primary">
+              <Button 
+                size="lg" 
+                variant="outline" 
+                className="border-white text-white hover:bg-white hover:text-primary"
+                onClick={handleScheduleCall}
+              >
+                <Calendar className="h-4 w-4 mr-2" />
                 Schedule a Call
+                <ExternalLink className="h-4 w-4 ml-2" />
               </Button>
             </div>
           </CardContent>
