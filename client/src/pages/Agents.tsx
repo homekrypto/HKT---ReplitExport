@@ -29,7 +29,7 @@ interface Agent {
   email: string;
   company: string;
   city: string;
-  state: string;
+  country: string;
   bio: string;
   specializations: string[];
   yearsExperience: number;
@@ -43,8 +43,7 @@ interface Agent {
 export default function Agents() {
   const [, setLocation] = useLocation();
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedState, setSelectedState] = useState('');
-  const [selectedSpecialization, setSelectedSpecialization] = useState('');
+  const [selectedCountry, setSelectedCountry] = useState('');
 
   const { data: agents = [], isLoading } = useQuery({
     queryKey: ['/api/agents/approved'],
@@ -57,19 +56,13 @@ export default function Agents() {
       agent.city.toLowerCase().includes(searchTerm.toLowerCase()) ||
       agent.company?.toLowerCase().includes(searchTerm.toLowerCase());
     
-    const matchesState = !selectedState || agent.state === selectedState;
-    
-    const matchesSpecialization = !selectedSpecialization || 
-      agent.specializations?.includes(selectedSpecialization);
+    const matchesCountry = !selectedCountry || agent.country === selectedCountry;
 
-    return matchesSearch && matchesState && matchesSpecialization;
+    return matchesSearch && matchesCountry;
   });
 
-  // Get unique states and specializations for filters
-  const uniqueStates = [...new Set(agents.map((agent: Agent) => agent.state))].sort();
-  const uniqueSpecializations = [...new Set(
-    agents.flatMap((agent: Agent) => agent.specializations || [])
-  )].sort();
+  // Get unique countries for filters
+  const uniqueCountries = [...new Set(agents.map((agent: Agent) => agent.country))].sort();
 
   if (isLoading) {
     return (
@@ -112,8 +105,8 @@ export default function Agents() {
             </div>
             <div className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow">
               <MapPin className="h-8 w-8 text-green-500 mx-auto mb-2" />
-              <div className="text-2xl font-bold">{uniqueStates.length}</div>
-              <div className="text-sm text-gray-600 dark:text-gray-400">States Covered</div>
+              <div className="text-2xl font-bold">{uniqueCountries.length}</div>
+              <div className="text-sm text-gray-600 dark:text-gray-400">Countries Covered</div>
             </div>
             <div className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow">
               <Award className="h-8 w-8 text-purple-500 mx-auto mb-2" />
@@ -131,11 +124,11 @@ export default function Agents() {
               Find Your Agent
             </CardTitle>
             <CardDescription>
-              Search by name, location, or specialization
+              Search by name, city, or company
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div className="md:col-span-2">
                 <Input
                   placeholder="Search by name, city, or company..."
@@ -146,25 +139,13 @@ export default function Agents() {
               </div>
               <div>
                 <select
-                  value={selectedState}
-                  onChange={(e) => setSelectedState(e.target.value)}
+                  value={selectedCountry}
+                  onChange={(e) => setSelectedCountry(e.target.value)}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-600"
                 >
-                  <option value="">All States</option>
-                  {uniqueStates.map(state => (
-                    <option key={state} value={state}>{state}</option>
-                  ))}
-                </select>
-              </div>
-              <div>
-                <select
-                  value={selectedSpecialization}
-                  onChange={(e) => setSelectedSpecialization(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-600"
-                >
-                  <option value="">All Specializations</option>
-                  {uniqueSpecializations.map(spec => (
-                    <option key={spec} value={spec}>{spec}</option>
+                  <option value="">All Countries</option>
+                  {uniqueCountries.map(country => (
+                    <option key={country} value={country}>{country}</option>
                   ))}
                 </select>
               </div>
@@ -183,8 +164,7 @@ export default function Agents() {
               </p>
               <Button onClick={() => {
                 setSearchTerm('');
-                setSelectedState('');
-                setSelectedSpecialization('');
+                setSelectedCountry('');
               }}>
                 Clear Filters
               </Button>
@@ -208,7 +188,7 @@ export default function Agents() {
                   </CardTitle>
                   <CardDescription className="flex items-center justify-center gap-2">
                     <MapPin className="h-4 w-4" />
-                    {agent.city}, {agent.state}
+                    {agent.city}, {agent.country}
                   </CardDescription>
                 </CardHeader>
                 
