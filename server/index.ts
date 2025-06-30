@@ -171,6 +171,16 @@ app.post('/api/subscribe', async (req, res) => {
   }
 });
 
+// Health check endpoint for deployment
+app.get('/api/health', (req, res) => {
+  res.status(200).json({ 
+    status: 'healthy', 
+    timestamp: new Date().toISOString(),
+    version: '1.0.0',
+    service: 'hkt-platform'
+  });
+});
+
 // Fixed contact form endpoint
 app.post('/api/contact', async (req, res) => {
   try {
@@ -412,15 +422,16 @@ app.post('/api/contact', async (req, res) => {
 
 
 
-  // ALWAYS serve the app on port 5000
-  // this serves both the API and the client.
-  // It is the only port that is not firewalled.
-  const port = 5000;
+  // Support both development and production environments
+  // In production (Cloud Run), use PORT env var, default to 5000 for development
+  const port = parseInt(process.env.PORT || '5000', 10);
+  const host = '0.0.0.0'; // Always bind to 0.0.0.0 for containerized deployments
+  
   server.listen({
     port,
-    host: "0.0.0.0",
+    host,
     reusePort: true,
   }, () => {
-    log(`serving on port ${port}`);
+    log(`serving on ${host}:${port}`);
   });
 })();
