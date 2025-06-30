@@ -52,7 +52,6 @@ export default function AgentRegistration() {
     licenseNumber: '',
     city: '',
     country: 'United States',
-    zipCode: '',
     website: '',
     linkedIn: '',
     bio: '',
@@ -331,7 +330,7 @@ export default function AgentRegistration() {
                 Location
               </CardTitle>
             </CardHeader>
-            <CardContent className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <Label htmlFor="city">City *</Label>
                 <Input
@@ -353,15 +352,6 @@ export default function AgentRegistration() {
                     ))}
                   </SelectContent>
                 </Select>
-              </div>
-              <div>
-                <Label htmlFor="zipCode">ZIP Code *</Label>
-                <Input
-                  id="zipCode"
-                  value={formData.zipCode}
-                  onChange={(e) => handleInputChange('zipCode', e.target.value)}
-                  required
-                />
               </div>
             </CardContent>
           </Card>

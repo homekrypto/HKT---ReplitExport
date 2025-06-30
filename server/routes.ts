@@ -40,6 +40,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
   const adminRoutes = (await import('./admin-routes')).default;
   app.use('/api/admin', adminRoutes);
   
+  // Test endpoint to verify routing
+  app.get('/api/test', (req, res) => {
+    res.json({ message: 'API routing is working', timestamp: new Date().toISOString() });
+  });
+
   // Agent routes (temporary inline implementation due to import issues)
   const { sendHostingerEmail } = await import('./hostinger-email');
   
