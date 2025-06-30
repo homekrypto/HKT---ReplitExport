@@ -1,5 +1,5 @@
 import { 
-  users, 
+  users as usersTable, 
   investments, 
   quarterlyData, 
   hktStats,
@@ -79,7 +79,7 @@ export interface IStorage {
 export class DatabaseStorage implements IStorage {
   async getUser(id: number): Promise<User | undefined> {
     try {
-      const [user] = await db.select().from(users).where(eq(users.id, id));
+      const [user] = await db.select().from(usersTable).where(eq(usersTable.id, id));
       return user as User || undefined;
     } catch {
       return undefined;
@@ -88,7 +88,7 @@ export class DatabaseStorage implements IStorage {
 
   async getUserByUsername(username: string): Promise<User | undefined> {
     try {
-      const [user] = await db.select().from(users).where(eq(users.username, username));
+      const [user] = await db.select().from(usersTable).where(eq(usersTable.username, username));
       return user as User || undefined;
     } catch {
       return undefined;
@@ -97,7 +97,7 @@ export class DatabaseStorage implements IStorage {
 
   async getUserByWallet(walletAddress: string): Promise<User | undefined> {
     try {
-      const [user] = await db.select().from(users).where(eq(users.primaryWalletAddress, walletAddress));
+      const [user] = await db.select().from(usersTable).where(eq(usersTable.primaryWalletAddress, walletAddress));
       return user as User || undefined;
     } catch {
       return undefined;
@@ -179,15 +179,29 @@ export class DatabaseStorage implements IStorage {
     return stats || undefined;
   }
 
-  async updateHktStats(insertStats: InsertHktStats): Promise<HktStats | null> {
+  async updateHktStats(insertStats: InsertHktStats): Promise<HktStats> {
     try {
+      // Check if database is available
+      if (!db) {
+        console.warn('Database not available - using offline fallback for HKT stats');
+        return {
+          id: 1,
+          currentPrice: insertStats.currentPrice,
+          priceChange24h: insertStats.priceChange24h,
+          totalSupply: insertStats.totalSupply,
+          marketCap: insertStats.marketCap,
+          volume24h: insertStats.volume24h,
+          updatedAt: new Date()
+        };
+      }
+
       const [stats] = await db
         .insert(hktStats)
         .values(insertStats)
         .onConflictDoUpdate({
           target: hktStats.id,
           set: {
-            price: insertStats.price,
+            currentPrice: insertStats.currentPrice,
             priceChange24h: insertStats.priceChange24h,
             totalSupply: insertStats.totalSupply,
             marketCap: insertStats.marketCap,
@@ -202,7 +216,7 @@ export class DatabaseStorage implements IStorage {
       // Return mock data for offline operation
       return {
         id: 1,
-        price: insertStats.price,
+        currentPrice: insertStats.currentPrice,
         priceChange24h: insertStats.priceChange24h,
         totalSupply: insertStats.totalSupply,
         marketCap: insertStats.marketCap,
@@ -430,26 +444,27 @@ export class DatabaseStorage implements IStorage {
   async updateGlobalHktPrice(priceUsd: number): Promise<void> {
     // Update HKT stats with new price
     await this.updateHktStats({
-      price: priceUsd,
-      priceChange24h: 0,
-      lastUpdated: new Date().toISOString(),
-      dataSource: 'admin_override'
+      currentPrice: priceUsd.toString(),
+      priceChange24h: "0",
+      totalSupply: "1000000000",
+      marketCap: "100000000", 
+      volume24h: "1000000"
     });
   }
 
   async getAdminStats(): Promise<any> {
-    const users = await db.select().from(users);
+    const allUsers = await db.select().from(usersTable);
     const investments = await this.getAllInvestments();
     const subscribers = await this.getAllSubscribers();
     const blogPosts = await this.getAllBlogPosts();
 
     return {
-      totalUsers: users.length,
+      totalUsers: allUsers.length,
       totalInvestments: investments.length,
       totalSubscribers: subscribers.length,
       totalBlogPosts: blogPosts.length,
       totalInvestedAmount: investments.reduce((sum, inv) => sum + parseFloat(inv.totalInvested || '0'), 0),
-      activeUsers: users.filter(u => u.emailVerified).length,
+      activeUsers: allUsers.filter((u: any) => u.isEmailVerified).length,
       platformStats: {
         totalProperties: 1, // Will be dynamic when database is implemented
         totalBookings: 0,

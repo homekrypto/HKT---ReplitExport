@@ -239,7 +239,7 @@ export async function validateEmailVerificationToken(token: string): Promise<num
 }
 
 export async function markEmailAsVerified(userId: number, token: string): Promise<void> {
-  await db.transaction(async (tx) => {
+  await db.transaction(async (tx: any) => {
     await tx
       .update(users)
       .set({ isEmailVerified: true })
@@ -258,7 +258,7 @@ export async function requireAuth(req: AuthenticatedRequest, res: Response, next
     const token = req.cookies.sessionToken || req.headers.authorization?.replace('Bearer ', '');
 
     if (!token) {
-      res.status(401).json({ message: 'Authentication required' });
+      res.status(401).json({ message: 'No token provided' });
       return;
     }
 
@@ -272,8 +272,8 @@ export async function requireAuth(req: AuthenticatedRequest, res: Response, next
     req.user = {
       id: userId,
       email: 'user@example.com', // Will be populated by /me endpoint
-      username: null,
-      primaryWalletAddress: null,
+      username: undefined,
+      primaryWalletAddress: undefined,
     };
 
     next();

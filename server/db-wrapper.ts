@@ -92,20 +92,22 @@ class DatabaseWrapper {
           orderBy: () => Promise.resolve([])
         })
       }),
-      insert: () => ({
-        values: () => ({
-          returning: () => Promise.resolve([{ id: 1, success: true }]),
-          onConflictDoUpdate: () => ({ returning: () => Promise.resolve([{ id: 1, success: true }]) })
-        })
-      }),
-      update: () => ({
-        set: () => ({
-          where: () => ({
-            returning: () => Promise.resolve([{ id: 1, success: true }])
+      insert: (table: any) => ({
+        values: (data: any) => ({
+          returning: () => Promise.resolve([{ id: 1, ...data }]),
+          onConflictDoUpdate: (config: any) => ({ 
+            returning: () => Promise.resolve([{ id: 1, ...data }]) 
           })
         })
       }),
-      delete: () => ({
+      update: (table: any) => ({
+        set: (data: any) => ({
+          where: () => ({
+            returning: () => Promise.resolve([{ id: 1, ...data }])
+          })
+        })
+      }),
+      delete: (table: any) => ({
         where: () => Promise.resolve([])
       })
     };
