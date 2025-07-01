@@ -106,43 +106,7 @@ router.post('/login', async (req, res) => {
   }
 });
 
-// USER INFO
-router.get('/me', async (req, res) => {
-  try {
-    const token = req.cookies?.auth_token;
-    
-    if (!token) {
-      return res.status(401).json({ message: 'No token provided' });
-    }
-
-    const session = sessions.get(token);
-    if (!session) {
-      return res.status(401).json({ message: 'Invalid session' });
-    }
-    
-    if (session.expiresAt < new Date()) {
-      sessions.delete(token);
-      return res.status(401).json({ message: 'Session expired' });
-    }
-
-    const user = Array.from(users.values()).find(u => u.id === session.userId);
-    if (!user) {
-      return res.status(401).json({ message: 'User not found' });
-    }
-
-    res.json({
-      id: user.id,
-      email: user.email,
-      firstName: user.firstName,
-      lastName: user.lastName,
-      emailVerified: user.emailVerified,
-      isEmailVerified: user.emailVerified
-    });
-  } catch (error) {
-    console.error('User info error:', error);
-    res.status(500).json({ message: 'Failed to get user info' });
-  }
-});
+// USER INFO - REMOVED DUPLICATE
 
 // GET CURRENT USER (ME endpoint)
 router.get('/me', async (req, res) => {
@@ -153,16 +117,18 @@ router.get('/me', async (req, res) => {
                     ? req.headers.authorization.slice(7) 
                     : null);
 
-    console.log('Auth check - token:', token ? 'present' : 'missing');
-    console.log('Cookies:', Object.keys(req.cookies));
+    // Auth debugging - can be removed in production
+    // console.log('Auth check - token:', token ? 'present' : 'missing');
 
     if (!token) {
       return res.status(401).json({ message: 'No token provided' });
     }
 
     const session = sessions.get(token);
+    console.log('Session found:', session ? 'yes' : 'no');
     if (!session || session.expiresAt < new Date()) {
       if (session) sessions.delete(token);
+      console.log('Session invalid or expired');
       return res.status(401).json({ message: 'Invalid session' });
     }
 
@@ -190,13 +156,17 @@ router.get('/me', async (req, res) => {
 // LOGOUT
 router.post('/logout', async (req, res) => {
   try {
-    const token = req.cookies?.auth_token;
+    const token = req.cookies?.sessionToken;
+    
+    console.log('LOGOUT: Token found:', token ? 'yes' : 'no');
     
     if (token) {
       sessions.delete(token);
+      console.log('LOGOUT: Session deleted');
     }
 
     res.clearCookie('sessionToken');
+    console.log('LOGOUT: Cookie cleared');
     res.json({ message: 'Logout successful' });
   } catch (error) {
     console.error('Logout error:', error);
