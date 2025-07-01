@@ -29,7 +29,6 @@ export default function AdminDashboard() {
 
   const { data: agentStats } = useQuery({
     queryKey: ['/api/admin/agents/stats'],
-    enabled: !!user?.isAdmin,
   });
 
   return (

@@ -3,6 +3,7 @@ import { requireAuth, type AuthenticatedRequest } from '../auth';
 import { db } from '../db';
 import { realEstateAgents, type AgentStatus } from '@shared/schema';
 import { eq, and } from 'drizzle-orm';
+import { count } from 'drizzle-orm';
 import { z } from 'zod';
 
 const router = Router();
@@ -142,6 +143,51 @@ router.patch('/:id/deny', async (req: AuthenticatedRequest, res) => {
     res.status(500).json({ 
       success: false, 
       message: 'Failed to deny agent',
+      error: error.message 
+    });
+  }
+});
+
+// GET /api/admin/agents/stats - Get agent statistics from database
+router.get('/stats', async (req: AuthenticatedRequest, res) => {
+  try {
+    // Get total agents count
+    const [totalResult] = await db.select({ count: count() }).from(realEstateAgents);
+    const totalAgents = totalResult.count;
+    
+    // Get pending agents count
+    const [pendingResult] = await db
+      .select({ count: count() })
+      .from(realEstateAgents)
+      .where(eq(realEstateAgents.status, 'pending'));
+    const pendingAgents = pendingResult.count;
+    
+    // Get approved agents count
+    const [approvedResult] = await db
+      .select({ count: count() })
+      .from(realEstateAgents)
+      .where(eq(realEstateAgents.status, 'approved'));
+    const approvedAgents = approvedResult.count;
+    
+    // Get denied agents count
+    const [deniedResult] = await db
+      .select({ count: count() })
+      .from(realEstateAgents)
+      .where(eq(realEstateAgents.status, 'denied'));
+    const deniedAgents = deniedResult.count;
+    
+    res.json({
+      success: true,
+      totalAgents,
+      pendingAgents,
+      approvedAgents,
+      deniedAgents
+    });
+  } catch (error) {
+    console.error('Error fetching agent stats:', error);
+    res.status(500).json({ 
+      success: false, 
+      message: 'Failed to fetch agent statistics',
       error: error.message 
     });
   }
