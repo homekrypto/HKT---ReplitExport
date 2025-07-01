@@ -91,6 +91,63 @@ app.post('/api/agents/register', async (req, res) => {
       return res.status(400).json({ error: 'Please enter a valid email address' });
     }
 
+    // Save agent to database first (before sending emails)
+    const { executeQuery } = await import('./db-wrapper');
+    const { realEstateAgents } = await import('../shared/schema');
+    
+    // Generate referral link if we have name and city
+    let referralLink = null;
+    if (agentData.firstName && agentData.lastName && agentData.city) {
+      const base = `${agentData.firstName.toLowerCase()}-${agentData.lastName.toLowerCase()}-${agentData.city.toLowerCase().replace(/\s+/g, '-')}`;
+      const randomSuffix = Math.random().toString(36).substring(2, 8);
+      referralLink = `homekrypto.com/agent/${base}-${randomSuffix}`;
+    }
+
+    // Prepare agent data for database (only required fields to avoid schema issues)
+    const dbAgentData = {
+      firstName: agentData.firstName || 'New',
+      lastName: agentData.lastName || 'Agent', 
+      email: agentData.email,
+      phone: agentData.phone || '+1-000-000-0000',
+      licenseNumber: agentData.licenseNumber || 'PENDING',
+      licenseState: agentData.licenseState || 'PENDING',
+      city: agentData.city || 'Not Specified',
+      state: agentData.state || 'PENDING',
+      zipCode: agentData.zipCode || '00000',
+      status: 'pending' as const,
+      isApproved: false,
+      isActive: true,
+    };
+
+    let savedAgent = null;
+    try {
+      savedAgent = await executeQuery(async (db) => {
+        const [agent] = await db.insert(realEstateAgents)
+          .values(dbAgentData)
+          .returning();
+        return agent;
+      });
+      console.log('Agent saved to database:', savedAgent.id, savedAgent.email);
+    } catch (dbError) {
+      console.error('Database insert failed:', dbError);
+      
+      // Fallback: Save to temporary storage
+      try {
+        const { addTempAgent } = await import('./temp-agent-storage');
+        savedAgent = addTempAgent({
+          ...agentData,
+          status: 'pending',
+          isApproved: false,
+          isActive: true,
+          referralLink: referralLink,
+          createdAt: new Date().toISOString()
+        });
+        console.log('Agent saved to temporary storage:', savedAgent.email);
+      } catch (tempError) {
+        console.error('Temporary storage also failed:', tempError);
+      }
+    }
+
     const { sendHostingerEmail } = await import('./hostinger-email');
 
     // Send welcome email to the agent

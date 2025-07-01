@@ -82,25 +82,37 @@ export async function createSession(userId: number, userAgent?: string, ipAddres
 }
 
 export async function validateSession(token: string): Promise<number | null> {
-  const [session] = await db
-    .select({ userId: sessions.userId })
-    .from(sessions)
-    .where(and(
-      eq(sessions.token, token),
-      gt(sessions.expiresAt, new Date())
-    ));
-
-  if (session) {
-    // Update last used timestamp
-    await db
-      .update(sessions)
-      .set({ lastUsedAt: new Date() })
-      .where(eq(sessions.token, token));
+  try {
+    const { executeQuery } = await import('./db-wrapper');
     
-    return session.userId;
-  }
+    const session = await executeQuery(async (db) => {
+      const [result] = await db
+        .select({ userId: sessions.userId })
+        .from(sessions)
+        .where(and(
+          eq(sessions.token, token),
+          gt(sessions.expiresAt, new Date())
+        ));
+      return result;
+    });
 
-  return null;
+    if (session) {
+      // Update last used timestamp
+      await executeQuery(async (db) => {
+        await db
+          .update(sessions)
+          .set({ lastUsedAt: new Date() })
+          .where(eq(sessions.token, token));
+      });
+
+      return session.userId;
+    }
+
+    return null;
+  } catch (error) {
+    console.error('Session validation error:', error);
+    return null;
+  }
 }
 
 export async function deleteSession(token: string): Promise<void> {
