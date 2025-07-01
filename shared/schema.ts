@@ -25,6 +25,7 @@ export const users = pgTable("users", {
   lastName: varchar("last_name", { length: 100 }),
   passwordHash: varchar("password_hash", { length: 255 }),
   primaryWalletAddress: varchar("primary_wallet_address", { length: 42 }).unique(),
+  role: varchar("role", { length: 20 }).default("user"),
   isEmailVerified: boolean("is_email_verified").default(false),
   twoFactorEnabled: boolean("two_factor_enabled").default(false),
   twoFactorSecret: varchar("two_factor_secret", { length: 32 }),

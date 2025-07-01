@@ -76,9 +76,9 @@ router.post('/login', async (req, res) => {
     // Set cookie for frontend compatibility
     const cookieOptions = {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
+      secure: false, // Allow non-HTTPS in development
       maxAge: 24 * 60 * 60 * 1000, // 24 hours
-      sameSite: 'strict' as const,
+      sameSite: 'lax' as const, // More permissive for development
     };
 
     res.cookie('sessionToken', token, cookieOptions);
@@ -196,7 +196,9 @@ router.get('/me', async (req, res) => {
       firstName: user.firstName || '',
       lastName: user.lastName || '',
       emailVerified: user.emailVerified,
-      isEmailVerified: user.emailVerified
+      isEmailVerified: user.emailVerified,
+      role: user.email === 'admin@homekrypto.com' ? 'admin' : 'user',
+      isAdmin: user.email === 'admin@homekrypto.com'
     });
   } catch (error) {
     console.error('Auth error:', error);
@@ -398,5 +400,8 @@ router.get('/verify-email/:token', async (req, res) => {
     res.redirect('/?verified=false&reason=error');
   }
 });
+
+// Export temp data for other modules
+export { tempUsers, tempSessions, tempVerificationTokens, tempPasswordResetTokens };
 
 export default router;

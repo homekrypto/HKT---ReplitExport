@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/hooks/useAuth';
 import ProtectedRoute from '@/components/protected-route';
+import AdminDashboard from '@/components/admin/AdminDashboard';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -27,7 +28,8 @@ import {
   ShoppingCart
 } from 'lucide-react';
 
-export default function Dashboard() {
+// User Dashboard Component
+function UserDashboard() {
   const { user } = useAuth();
   const [web3State, setWeb3State] = useState<Web3State>(web3Service.getState());
 
@@ -319,6 +321,34 @@ export default function Dashboard() {
           <BookingManagement />
         </div>
       </div>
+    </ProtectedRoute>
+  );
+}
+
+// Main Dashboard Component with Role-Based Routing
+export default function Dashboard() {
+  const { user, isLoading } = useAuth();
+
+  if (isLoading) {
+    return (
+      <ProtectedRoute>
+        <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-4"></div>
+            <p className="text-gray-600 dark:text-gray-300">Loading dashboard...</p>
+          </div>
+        </div>
+      </ProtectedRoute>
+    );
+  }
+
+  return (
+    <ProtectedRoute>
+      {user?.role === 'admin' || user?.isAdmin ? (
+        <AdminDashboard />
+      ) : (
+        <UserDashboard />
+      )}
     </ProtectedRoute>
   );
 }

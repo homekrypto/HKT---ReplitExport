@@ -7,6 +7,44 @@ import { sendHostingerEmail } from '../hostinger-email';
 
 const router = Router();
 
+// Import temp data from correct files
+import { tempUsers } from '../temp-auth-routes';
+import { getTempAgents } from '../temp-agent-storage';
+
+// Get agent statistics for admin dashboard
+router.get('/stats', async (req: any, res) => {
+  try {
+    // Check for session token
+    const token = req.cookies?.sessionToken;
+    if (!token) {
+      return res.status(401).json({ message: 'Authentication required' });
+    }
+
+    // Simplified admin check using tempUsers
+    const user = Array.from(tempUsers.values()).find(u => u.email === 'admin@homekrypto.com');
+    if (!user) {
+      return res.status(403).json({ message: 'Access denied' });
+    }
+
+    const agents = getTempAgents();
+    const totalAgents = agents.length;
+    // Using isApproved field since the TempAgent interface doesn't have status field
+    const pendingAgents = agents.filter(agent => !agent.isApproved && !agent.rejectionReason).length;
+    const approvedAgents = agents.filter(agent => agent.isApproved).length;
+    const deniedAgents = agents.filter(agent => !agent.isApproved && agent.rejectionReason).length;
+
+    res.json({
+      totalAgents,
+      pendingAgents,
+      approvedAgents,
+      deniedAgents,
+    });
+  } catch (error) {
+    console.error('Error fetching agent stats:', error);
+    res.status(500).json({ message: 'Failed to fetch agent statistics' });
+  }
+});
+
 // Admin authentication middleware function
 async function requireAdmin(req: any, res: any, next: any) {
   try {

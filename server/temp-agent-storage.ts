@@ -123,3 +123,6 @@ export function rejectTempAgent(id: number, reason: string): TempAgent | null {
   }
   return null;
 }
+
+// Export the tempAgents array directly for access by other modules
+export { tempAgents };
