@@ -3,16 +3,22 @@ frontend:
   phases:
     preBuild:
       commands:
+        # Install server dependencies at the root
+        - npm ci
+        # Go into the client directory and install frontend dependencies
         - cd client
         - npm ci
     build:
       commands:
-        - cd client
+        # Run the build command for your Vite/React frontend
+        # This will create the 'dist/public' folder from your vite.config.ts
         - npm run build
   artifacts:
-    baseDirectory: dist
+    # Tell Amplify where the built static files are
+    baseDirectory: client/dist # Check your vite.config.ts, but it's likely this or just 'dist' inside client
     files:
       - '**/*'
   cache:
     paths:
+      - node_modules/**/*
       - client/node_modules/**/*
