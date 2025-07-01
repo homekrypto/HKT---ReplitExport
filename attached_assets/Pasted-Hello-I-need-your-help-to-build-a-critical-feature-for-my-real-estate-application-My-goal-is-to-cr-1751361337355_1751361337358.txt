@@ -1,0 +1,38 @@
+Hello! I need your help to build a critical feature for my real estate application. My goal is to create a complete approval system for new agents who register on the site.
+Before you suggest any code, your most important task is to deeply analyze my entire codebase to understand its structure and the technologies used. You must act as an expert developer reverse-engineering a project.
+Phase 1: Codebase Analysis
+First, investigate and answer the following questions for yourself. You will use these answers to build the implementation plan in Phase 2.
+Backend Technology: What is the backend language and framework? (e.g., Node.js with Express, Python with Django/Flask, etc.). Check files like package.json or requirements.txt.
+Frontend Technology: What is the frontend library or framework? (e.g., React, Vue, Next.js, or plain HTML/CSS/JS). Check the file structure and dependencies.
+Database and Model:
+What database is being used? (e.g., MongoDB, PostgreSQL).
+Find the file that defines the data model/schema for a User or Agent. What is this file's name and path?
+What fields does the current Agent/User model have?
+Authentication: How are admin routes protected? Identify the middleware or function used for checking if a user is an admin.
+Email Service: Is there an existing service for sending emails? (e.g., Nodemailer, SendGrid). If so, identify the configuration and the function used to send an email.
+Phase 2: Implementation Plan
+Now, using the information you discovered in Phase 1, create a detailed, step-by-step plan to implement the agent approval system.
+My functional requirements are:
+As an admin, I need a new page or section in my /admin dashboard to see a list of agents with a "pending" status.
+For each pending agent, I need an "Approve" button and a "Deny" button.
+Approving an agent should change their status to "approved" and send them a welcome email with a login link. It should also make their public profile page (e.g., /agents/agent-name) active.
+Denying an agent should change their status to "denied" and send them a polite rejection email, asking them to contact support at support@your-domain.com for more information. <-- IMPORTANT: Change this email address!
+Please write this plan into a new file named agent_approval_plan.md. The plan must be structured as follows:
+1. Database Modification
+File to Modify: [Tell me the path to the agent/user model file you found]
+Action: Explain that we need to add a status field to the schema (e.g., status: { type: String, enum: ['pending', 'approved', 'denied'], default: 'pending' }). Provide the exact code to add.
+Action: Explain where to modify the registration logic to ensure new agents are saved with the pending status.
+2. Backend API Endpoints
+File(s) to Create/Modify: [Tell me which route file to change or what new file to create]
+Action: Provide the full code for three new API endpoints:
+GET /api/admin/pending-agents (protected for admins only).
+PATCH /api/admin/agents/:id/approve (protected for admins only).
+PATCH /api/admin/agents/:id/deny (protected for admins only).
+Action: For the approve and deny endpoints, include the logic to send the correct email.
+3. Frontend Admin Dashboard UI
+File(s) to Create/Modify: [Tell me which frontend component file to change or what new file to create for the admin dashboard]
+Action: Provide the full code for the new UI component. This component should fetch data from /api/admin/pending-agents and display the list with "Approve" and "Deny" buttons that call the correct backend APIs.
+4. Dynamic Agent Profile Page & SEO
+File(s) to Create/Modify: [Tell me the file that handles your frontend routing]
+Action: Explain how to set up the dynamic route (e.g., /agents/:slug). Provide the code for the component that will render this page, including how it should fetch the agent's data and how to dynamically set the SEO meta description tag in the HTML <head>.
+Your primary goal is to provide a clear, safe, and accurate plan for me to follow. By analyzing first, your plan will be perfectly tailored to my project's existing code.

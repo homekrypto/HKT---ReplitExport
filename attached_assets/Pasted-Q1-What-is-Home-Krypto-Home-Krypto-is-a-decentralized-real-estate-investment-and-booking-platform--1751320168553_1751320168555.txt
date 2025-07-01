@@ -1,0 +1,83 @@
+Q1: What is Home Krypto?
+Home Krypto is a decentralized real estate investment and booking platform powered by the HKT token. Users can invest in properties, earn perks, and book vacation rentals using either fiat or crypto — all through blockchain technology.
+
+Q2: What makes Home Krypto different from Airbnb or traditional real estate platforms?
+Unlike traditional platforms, Home Krypto is powered by smart contracts, NFTs, and the HKT token. It offers decentralized governance, profit sharing, property NFTs, and booking perks for investors.
+
+🪙 TOKEN (HKT)
+Q3: What is the HKT token used for?
+HKT (Home Krypto Token) is used for:
+
+Booking properties
+
+Earning rewards
+
+Accessing gated content
+
+Real estate investments
+
+Voting in DAO governance
+
+Q4: Can I buy HKT with fiat or crypto?
+Yes. You can:
+
+Use crypto (ETH, USDT) on Uniswap
+
+Use fiat via Transak, Ramp Network, or MoonPay
+
+Q5: Where can I trade HKT?
+HKT is tradable on Uniswap. A direct buy widget will be available on the platform shortly.
+
+🧾 AGENTS & PARTNERS
+Q6: I’m a real estate agent. How do I join?
+Visit the Agent Registration page. Fill in your license details (optional), specializations, and contact info. Approval is done manually by our admin team.
+
+Q7: What benefits do agents get?
+
+2.5% commission on deals
+
+SEO backlinks to their website
+
+Custom referral links
+
+Exposure in our searchable agent directory
+
+Optional property assignment by admin
+
+Q8: How long does approval take?
+You’ll receive a decision via email within 24–72 hours.
+
+🏠 PROPERTY BOOKINGS
+Q9: How does the booking system work?
+
+Bookings require a 7-night minimum
+
+Pay with HKT or USD (via Stripe)
+
+$90 cleaning fee applies
+
+50% refund for cancellations (if within the policy window)
+
+Q10: What are the perks for investors or property owners?
+If you own at least 1 NFT share of a property, you receive one free week per year in that property.
+
+Q11: Can I book using both crypto and fiat?
+Yes, you can book in either USD or HKT, and prices are auto-converted using real-time rates.
+
+🔐 SECURITY & BLOCKCHAIN
+Q12: Is Home Krypto fully decentralized?
+Yes. The platform uses:
+
+PropertyNFT smart contracts
+
+Booking escrow contracts
+
+Governance DAO
+
+HKT security token
+
+Q13: How are my bookings secured?
+Booking payments are held in escrow via smart contracts. All confirmations are tracked on-chain.
+
+Q14: Can I view transactions on a blockchain explorer?
+Yes, all booking and investment transactions are recorded and verifiable on the Ethereum blockchain.

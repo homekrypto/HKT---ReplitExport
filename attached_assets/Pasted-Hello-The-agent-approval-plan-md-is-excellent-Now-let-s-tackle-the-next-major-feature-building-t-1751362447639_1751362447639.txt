@@ -1,0 +1,34 @@
+Hello! The agent_approval_plan.md is excellent. Now, let's tackle the next major feature: building the complete backend API for managing properties.
+Your first task is to use your existing knowledge of my codebase (Node.js, Express, TypeScript, PostgreSQL, Drizzle ORM) to plan this feature.
+Phase 1: Analysis & Data Model Design
+Confirm Stack: You've already identified my stack. Keep this in mind for all code generation.
+Propose a Property Schema: My application needs a new database table for properties. Define a new Drizzle ORM schema for properties in the shared/schema.ts file. It must include fields for:
+id (auto-incrementing primary key)
+title (string)
+description (text)
+price (number/decimal)
+location (string)
+status (enum: 'For Sale', 'Sold', 'Rented')
+type (enum: 'House', 'Apartment', 'Land')
+imageUrls (array of strings, for storing image URLs)
+createdAt and updatedAt timestamps.
+Phase 2: Backend Implementation Plan
+Based on this, generate a new file named property_backend_plan.md. This file must provide a complete, step-by-step plan to build the property management API.
+The plan must be structured as follows:
+1. Database Schema and Migration
+File to Modify: shared/schema.ts
+Action: Provide the exact TypeScript code to add the new properties table schema using Drizzle ORM syntax.
+Action: Provide the Drizzle ORM command to generate and run the database migration to create the new table.
+2. Backend API for Property CRUD (Create, Read, Update, Delete)
+File to Create: server/routes/propertyRoutes.ts
+Action: Provide the full TypeScript code for this new Express route file. It must be protected by the existing admin JWT middleware. Include these endpoints:
+POST /api/properties: Creates a new property. Validate the incoming data body.
+GET /api/properties: Fetches all properties. Must support filtering by status and type, and a text search on the title field via query parameters (e.g., ?status=For Sale&search=beachfront).
+GET /api/properties/:id: Fetches a single property by its ID.
+PATCH /api/properties/:id: Updates an existing property.
+DELETE /api/properties/:id: Deletes a property.
+File to Modify: server/index.ts
+Action: Provide the code to import and use the new propertyRoutes in the main Express app.
+3. Image Management Strategy
+Action: For now, we will handle images by storing their URLs in the imageUrls array. The frontend will be responsible for uploading images to a service (like Cloudinary or S3) and providing the URLs. Your backend API endpoints (POST and PATCH) should simply accept an array of string URLs in the request body and save them to the database. Explain this clearly in the plan.
+Your final output in property_backend_plan.md should be a complete guide with all the necessary TypeScript code and Drizzle ORM commands, perfectly tailored to my project's existing architecture.

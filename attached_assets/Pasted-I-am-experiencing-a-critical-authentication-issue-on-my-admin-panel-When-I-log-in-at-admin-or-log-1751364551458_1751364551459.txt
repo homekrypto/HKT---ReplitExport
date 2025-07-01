@@ -1,0 +1,23 @@
+I am experiencing a critical authentication issue on my admin panel. When I log in at /admin or /login with the correct credentials, the login is successful, and I am briefly redirected to the /dashboard page. However, the dashboard page is blank, and after a moment, I am immediately redirected back to the /login page.
+This seems to be a redirect loop caused by the protected route logic not recognizing the authenticated state after login.
+Your task is to diagnose and fix this issue. Please follow this investigation plan step-by-step:
+1. Analyze the Frontend Login Logic:
+Find the function in my React code that handles the form submission on the login page.
+Examine how it processes a successful response from the POST /api/login (or similar) endpoint.
+Specifically, check what it does with the session token (JWT) or user data it receives. Does it store the token in localStorage? Does it set a cookie? Does it update a global state using a React Context or state manager (like Zustand/Redux)?
+2. Investigate the Global Authentication State:
+Find the code that provides the authentication state to my entire application (this is likely a React Context Provider, e.g., AuthProvider).
+Analyze how this provider determines if a user is authenticated. Does it check for a token in localStorage? Does it have a user object in its state?
+This is the "source of truth" for authentication, and it's likely not being updated correctly after login.
+3. Inspect the Protected Route Logic:
+Find the component or wrapper that protects the /dashboard route.
+Examine its logic. How does it check for authentication? Does it consume the AuthProvider context?
+There might be a race condition where this check happens before the authentication state from the login has been successfully set.
+4. Propose a Solution:
+Based on your analysis, identify the root cause of the problem.
+Provide a clear plan to fix it. This will likely involve modifying the login submission function to correctly update the global authentication state.
+Final Output:
+Please create a file named auth_fix_plan.md and detail your findings:
+Root Cause Analysis: A clear explanation of why the redirect loop is happening (e.g., "The login function successfully receives the token but fails to update the AuthContext state, so the ProtectedRoute component never sees the authenticated user.").
+Code to Fix: Provide the exact, complete code snippets for the files that need to be changed.
+Explanation of Fix: Explain why your proposed changes will resolve the issue.

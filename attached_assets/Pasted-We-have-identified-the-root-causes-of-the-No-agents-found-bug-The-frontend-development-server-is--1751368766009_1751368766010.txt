@@ -1,0 +1,24 @@
+We have identified the root causes of the "No agents found" bug. The frontend development server is not proxying API requests to the backend, and the backend code is using conflicting temporary data instead of the real database.
+Your task is to implement a permanent and complete fix for this entire system. Please follow these steps precisely and apply the changes directly to my codebase.
+Step 1: Configure the Vite Proxy
+Open the file vite.config.ts.
+In the server configuration object, add a proxy rule to forward all requests starting with /api to the backend server at http://localhost:5000. This is the most critical step.
+Step 2: Unify the Backend to Use the Real Database
+Open the file server/routes/adminAgentRoutes.ts.
+Delete all the existing code in this file.
+Replace it with new, clean code that uses only Drizzle ORM to interact with the realEstateAgents table in the PostgreSQL database.
+The new code must correctly implement the following endpoints:
+GET /api/admin/agents: Fetches all agents from the database, with optional filtering by status (pending, approved, denied).
+PATCH /api/admin/agents/:id/approve: Updates an agent's status to approved in the database.
+PATCH /api/admin/agents/:id/deny: Updates an agent's status to denied in the database.
+Remove all references to temp-agent-storage or any other temporary data sources from this file.
+Step 3: Fix the Frontend Component to Use the Correct API
+Open the React component file that renders the agent management page (likely client/src/pages/AdminAgentManagement.tsx).
+Find the useQuery hook that fetches the agent data.
+Modify this hook to call the one, correct API endpoint: /api/admin/agents.
+Ensure it correctly passes the status filter (all, pending, etc.) as a query parameter.
+Remove any hardcoded test URLs (like /api/test-agents) or any client-side filtering logic. The frontend should simply display the data that the backend provides.
+Step 4: Seed the Database for Testing
+To ensure there is data to display, check if the realEstateAgents table in the database is empty.
+If it is empty, please insert two sample agents using Drizzle. One agent should have a status of 'pending' and the other a status of 'approved'. This is essential for verifying the fix.
+After you have completed all four steps, the /admin/agents page must correctly load and display the two agents from the real PostgreSQL database.

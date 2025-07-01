@@ -1,0 +1,69 @@
+Feature Scope: Booking System (with USD/HKT Payment + Owner Perks)
+✅ FRONTEND FUNCTIONALITY
+1. Property Booking UI
+* Inputs:
+    * Check-in & check-out date pickers
+    * Guest selector (default: 2 guests)
+    * Payment method toggle: USD or HKT
+* Booking rules:
+    * Enforce a minimum 7-night stay
+    * Apply a $90 cleaning fee
+* Price calculation logic:
+    * Total = (number_of_nights * nightly_price_usd) + cleaning_fee
+    * If user qualifies for free week (property owner): override nightly cost with $0, but keep cleaning fee.
+* Currency conversion (HKT):
+    * Fetch real-time HKT/USD exchange rate from:
+        * Preferably on-chain oracle (e.g., Chainlink)
+        * Or fallback to centralized API (e.g., CoinGecko, Uniswap subgraph)
+    * Show both USD and equivalent HKT amount
+* Error handling:
+    * Validate inputs (e.g., empty dates, less than 7 nights)
+    * Graceful fallback if price feed fails
+* Wallet integration:
+    * On Pay with HKT: detect wallet (MetaMask)
+    * Show connected wallet address
+    * Initiate transaction via smart contract with total HKT amount
+
+🛠 BACKEND / CMS CONFIGURATION
+2. Admin Panel Requirements
+* Admins must be able to:
+    * Set/update USD rent price (e.g., $285.71/night)
+    * Toggle property visibility or availability
+    * Update metadata: images, title, description, guest count, etc.
+* Optional: assign wallet addresses as owners (for free-week logic)
+* Store data in Firestore, Supabase, MongoDB, or another CMS backend
+3. Real-time HKT Price Feed Logic
+* Use a serverless function or frontend call to:
+    * Fetch latest HKT/USD rate (e.g., every 60 seconds)
+    * Cache and update client-side display
+* Optional: display timestamp of last update for transparency
+
+🎁 OWNER PERK LOGIC
+4. Free Week Feature
+* Implement logic to detect if connected wallet holds at least 1 tokenized share of the property
+* On detection:
+    * Allow user to book one free 7-night stay
+    * Disable nightly cost, retain cleaning fee
+    * Tag this booking as "Owner Benefit" in DB
+
+🔍 TESTING PLAN
+Manual Test Scenarios:
+Scenario	Expected Outcome
+Book with < 7 nights	Error shown
+Normal user, 8 nights, USD	Full cost + cleaning fee in USD
+Normal user, 8 nights, HKT	Full cost + cleaning fee in HKT
+Owner, 7 nights	$0 nightly, $90 cleaning fee only
+Owner, already used free week	Block or charge full price
+MetaMask disconnected	Prompt to connect
+HKT feed fails	Fallback to cached value or alert error
+Edge Case Testing:
+* Booking across month boundary
+* Bookings overlapping with other guests (requires availability logic)
+* Booking far in the future (e.g., 1 year ahead)
+
+🧩 Optional Enhancements
+* Availability calendar: show and block unavailable dates
+* Booking confirmation email with transaction hash
+* Success screen with booking summary and wallet address
+* View My Bookings user dashboard
+* Booking management panel for admin: see upcoming stays, status, and payments

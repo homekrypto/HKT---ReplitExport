@@ -1,0 +1,22 @@
+We have identified two new, critical bugs that need to be fixed. The agent registration form doesn't save new users, and the approval/denial buttons are broken.
+Your task is to fix both of these root causes. Please follow this two-step plan.
+Step 1: Fix the Agent Registration Endpoint
+Problem: The POST /api/agents/register endpoint (located in server/index.ts) sends emails but does not save the new agent to the database.
+Task: Go to the file server/index.ts and find the app.post('/api/agents/register', ...) route handler.
+Inside this handler, immediately after validating the request body and before sending the emails, you must add a Drizzle ORM db.insert() call.
+This call should take the agentData from req.body and save it as a new record in the realEstateAgents table in the PostgreSQL database.
+Ensure you map the fields correctly from the form (firstName, email, etc.) to the database columns. The new agent should be saved with a status of 'pending'.
+Step 2: Fix the Core Authentication Middleware
+Problem: The requireAuth middleware is broken and crashes the server, causing a 500 error on protected routes like "Approve" and "Deny".
+Task: Go to the file where the requireAuth middleware is defined (likely server/auth.ts or server/simple-auth.ts).
+Rewrite this function to correctly and safely handle session validation. The logic should be:
+Read the sessionToken from the request cookies (req.cookies.sessionToken).
+If no token exists, immediately return a 401 Unauthorized error.
+Look up the user in the database or temporary storage based on the session token.
+If no user is found for that token, return a 401 Unauthorized error.
+If a user is found, attach the user object to the request (e.g., req.user = user;) and call next() to proceed.
+This fix will make all protected routes in the application (like approve and deny) work correctly.
+Final Output:
+Please apply these changes directly to my codebase. After your fix:
+Registering a new agent must create a new record in the database, and that agent must appear in the /admin/agents list with a "pending" status.
+The "Approve" and "Deny" buttons on the /admin/agents page must work correctly without causing a 500 error.

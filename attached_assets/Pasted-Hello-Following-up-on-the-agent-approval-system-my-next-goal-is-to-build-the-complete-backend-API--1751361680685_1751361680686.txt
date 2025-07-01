@@ -1,0 +1,32 @@
+Hello! Following up on the agent approval system, my next goal is to build the complete backend API for managing properties in my admin dashboard.
+Your first task is to analyze my codebase again to confirm the technology and propose a structure for the new Property data model.
+Phase 1: Codebase Analysis
+Investigate my project and determine the following before you create the plan:
+Backend & Database: Confirm the backend framework (e.g., Node.js/Express) and the database being used (e.g., MongoDB).
+Property Data Model: My application does not have a "Property" model yet. Propose a new database schema/model for properties. It should include fields for: title, description, price, location (can be a string or an object), status (e.g., 'For Sale', 'Sold', 'Rented'), type (e.g., 'House', 'Apartment'), and an array to store image URLs or IDs (images).
+Image Storage Strategy: Check if my project is already configured to use a file storage service like AWS S3 or Cloudinary. If not, plan to implement a simple local upload system where images are saved to a public folder (e.g., /public/uploads). Identify a suitable library for handling file uploads (like multer for Node.js/Express).
+Admin Authentication: Re-identify the middleware function used to protect admin-only routes. We will need it for all new endpoints.
+Phase 2: Implementation Plan
+Based on your analysis, generate a new file named property_backend_plan.md. This file must provide a complete, step-by-step plan to build the property management API.
+The plan must be structured as follows:
+1. Property Database Model
+File to Create: [Tell me the path and filename for the new property model, e.g., models/Property.js]
+Action: Provide the complete and exact code for the new Property schema/model based on your proposal in Phase 1.
+2. Backend API for Property CRUD (Create, Read, Update, Delete)
+File to Create: [Tell me the path for a new route file, e.g., routes/propertyRoutes.js]
+Action: Provide the full code for this new route file. It must be protected by the admin authentication middleware and include the following endpoints:
+POST /api/properties: Creates a new property. It should validate incoming data.
+GET /api/properties: Fetches all properties. It MUST support filtering by status and type via query parameters (e.g., ?status=For Sale).
+GET /api/properties/:id: Fetches a single property by its ID.
+PATCH /api/properties/:id: Updates an existing property.
+DELETE /api/properties/:id: Deletes a property.
+Action: Explain how to connect this new route file to the main server file (e.g., app.js or index.js).
+3. Backend API for Image Management
+Action: In the same routes/propertyRoutes.js file, add the necessary endpoints and logic for image handling based on the storage strategy you identified.
+Action: Provide the code for the following endpoints:
+POST /api/properties/:id/images: Uploads one or more images and associates them with a specific property. Use the appropriate library (e.g., multer) for this.
+DELETE /api/properties/:id/images/:imageId: Deletes a specific image from a property. (Note: This is an advanced feature; if it's too complex, just focus on the upload).
+4. Search and Filtering
+Action: The GET /api/properties endpoint you create must have the logic to handle search. It should be able to search for a property by a keyword in its title or description.
+Example: A request to /api/properties?search=beachfront should return properties that have "beachfront" in their title or description.
+Your final output in property_backend_plan.md should be a complete guide with all the necessary code and explanations, perfectly tailored to my project's existing structure.

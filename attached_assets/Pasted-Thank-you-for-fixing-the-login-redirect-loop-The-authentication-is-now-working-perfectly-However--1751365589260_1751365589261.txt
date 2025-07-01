@@ -1,0 +1,28 @@
+Thank you for fixing the login redirect loop. The authentication is now working perfectly. However, I have an authorization issue.
+When I log in as admin@homekrypto.com, I am correctly taken to the /dashboard page, but I am seeing the standard user dashboard instead of the admin-specific dashboard (with Agent Management, Property Management, etc.).
+My goal is to ensure that users with the role 'admin' see a completely different set of components and data on the dashboard page.
+Please diagnose and fix this role-based rendering issue. Follow this plan:
+1. Analyze the User Data:
+First, re-examine the useAuth hook and the /api/me endpoint. Confirm that the user object returned after login includes a role field (e.g., { email: '...', role: 'admin' }). If the role is not being provided to the frontend, this is the first problem to fix.
+2. Inspect the Dashboard Page Component:
+Go to the file that renders the /dashboard page (likely client/src/pages/dashboard.tsx).
+Check how it currently renders its content. It is probably not checking the user's role.
+3. Implement Role-Based Conditional Rendering:
+Modify the /dashboard page component to implement proper role-based authorization.
+The Logic should be:
+Fetch the current user from the useAuth hook.
+If user.role === 'admin', then render a new component named AdminDashboard.
+If the user has any other role (or no role), then render the existing UserDashboard component.
+4. Create the AdminDashboard Component:
+Create a new component file at client/src/components/admin/AdminDashboard.tsx.
+Inside this new component, you should place the links and widgets that are specific to the admin, such as:
+A welcome message: "Welcome to the Admin Panel".
+A link to Agent Management (/admin/agents).
+A link to Property Management (/admin/properties).
+Any other admin-specific statistics or tools.
+Final Output:
+Please apply these changes directly to my codebase. I expect to see:
+A modified /dashboard page that acts as a router based on the user's role.
+A new AdminDashboard.tsx component containing the admin-specific content.
+Confirmation that the user object on the frontend contains the role property.
+After your changes, logging in as an admin should show the AdminDashboard content, while logging in as a regular user should show the standard user dashboard.

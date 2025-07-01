@@ -1,0 +1,34 @@
+We are on the final step. The AdminDashboard is now showing the correct agent stats, which proves the /api/admin/agents/stats endpoint is working.
+However, the /admin/agents page is still showing "0 agents." This proves that the authenticated API call to GET /api/admin/agents is failing the requireAuth middleware check.
+The root cause is that the frontend is not correctly sending the authentication cookie with its API requests.
+Your Task: Fix the authenticated API requests on the frontend.
+1. Analyze the API Request Helper:
+Go to the file that defines the frontend's API request helper function (likely client/src/lib/queryClient.ts or a similar utility file).
+Examine how the fetch command is configured. It is likely missing the credentials: 'include' option. This option is required to tell the browser to automatically send cookies with cross-origin requests.
+2. Implement the Fix:
+Modify the fetch call inside your API request helper function to always include the credentials: 'include' option.
+Example of the Fix:
+If your code looks like this:
+Generated javascript
+export const apiRequest = (method, url, body) => {
+  return fetch(url, { method, body });
+}
+Use code with caution.
+JavaScript
+It must be changed to this:
+Generated javascript
+export const apiRequest = (method, url, body) => {
+  const options = {
+    method,
+    credentials: 'include', // <-- THE CRITICAL FIX
+    headers: { 'Content-Type': 'application/json' },
+    body: body ? JSON.stringify(body) : undefined,
+  };
+  return fetch(url, options);
+}
+Use code with caution.
+JavaScript
+3. Verify the Fix:
+After applying this change, the useQuery hook on the /admin/agents page should now be able to successfully call the authenticated GET /api/admin/agents endpoint. The backend will receive the session cookie, pass the requireAuth check, and return the list of agents.
+Final Output:
+Please apply this fix directly to the relevant frontend utility file. After your change, the /admin/agents page must correctly load and display the list of 2 agents from the database. This should be the final fix needed to resolve the entire agent management feature.

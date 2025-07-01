@@ -1,0 +1,158 @@
+Goal:
+Add a new booking system to the existing HomeKrypto Replit project, for properties like pilot-property-showcase. It should function like Airbnb but with:
+
+7-day minimum bookings
+
+Payment in USD (Stripe) or HKT (via wallet)
+
+Cleaning fee ($90 or HKT equivalent)
+
+Free 1-week if user owns 1+ property share
+
+50% refund if canceled
+
+Admin and user dashboards
+
+📂 Project Integration Structure
+Assume existing files like:
+
+bash
+Copy
+Edit
+/main.py or index.js
+/templates/
+    home.html
+    properties.html
+    dashboard.html
+You’ll be adding:
+
+bash
+Copy
+Edit
+/routes/
+    booking.py or booking.js      # Booking API routes
+/templates/
+    booking.html                  # Booking page UI
+/static/js/
+    booking.js                    # Booking logic (wallet connect + Stripe)
+✅ Tasks to Add:
+1. 🧾 PostgreSQL Tables (NeonDB)
+sql
+Copy
+Edit
+CREATE TABLE bookings (
+  id SERIAL PRIMARY KEY,
+  user_id UUID,
+  property_id TEXT,
+  check_in DATE,
+  check_out DATE,
+  nights INT,
+  total_usd NUMERIC,
+  total_hkt NUMERIC,
+  currency TEXT,
+  cleaning_fee NUMERIC,
+  is_free_week BOOLEAN DEFAULT FALSE,
+  status TEXT DEFAULT 'confirmed',
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE property_shares (
+  id SERIAL PRIMARY KEY,
+  user_wallet TEXT,
+  property_id TEXT,
+  shares_owned INT
+);
+2. 🌍 Frontend: booking.html
+Show selected property details
+
+Calendar picker (enforce 7+ days)
+
+Price breakdown:
+
+price_per_night × nights + $90
+
+Check wallet if user owns 1+ share
+
+If yes, discount first 7 nights to $0 (except cleaning)
+
+Buttons:
+
+Pay with Stripe
+
+Pay with Wallet (HKT)
+
+Result message & redirect to /dashboard
+
+3. 🔌 Crypto Payment (Ethers.js or Web3.js)
+Detect wallet with MetaMask
+
+Check HKT balance
+
+If balance ≥ 1 share token, mark is_free_week = true
+
+Transfer HKT to platform wallet address (e.g., 0xYourPlatformWallet)
+
+Confirm transaction hash & write to DB
+
+4. 💳 Stripe Checkout (USD)
+Integrate Stripe SDK (test keys first)
+
+On success, store booking in DB
+
+Service fee + total nights required in payment
+
+5. 👤 User Dashboard: /dashboard
+List:
+
+All bookings
+
+Cancel button (if in future)
+
+Refund 50% (Stripe or partial HKT)
+
+Show free-week status
+
+6. 🔐 Admin Panel: /admin/bookings
+View all bookings by property
+
+Cancel/refund manually
+
+Edit prices/availability
+
+Track free week usage
+
+7. 🔁 Cancellation Rules (API route)
+js
+Copy
+Edit
+POST /api/cancel-booking/:id
+
+// Logic:
+1. Check if eligible for cancel (before check-in)
+2. Refund 50% of original amount
+3. Set booking.status = 'canceled'
+🔒 Security & Considerations
+Validate dates server-side (min 7 days)
+
+Verify token ownership securely (via contract or DB mirror)
+
+Protect admin routes (use existing auth logic)
+
+⚙️ Optional Enhancements
+Auto-convert HKT → USD equivalent with price oracle
+
+Booking calendar with real-time availability (optional for MVP)
+
+✅ Output
+When finished, the new booking system should:
+
+Let users book and pay for pilot properties
+
+Enforce rental and refund logic
+
+Support both fiat and crypto
+
+Recognize token holders and reward with a free week
+
+Be testable in your current Replit environment
+
