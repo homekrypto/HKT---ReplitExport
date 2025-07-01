@@ -586,6 +586,14 @@ app.post('/api/contact', async (req, res) => {
 
 
 
+  // Seed database with sample data if needed
+  try {
+    const { seedAgents } = await import('./seed-agents');
+    await seedAgents();
+  } catch (error) {
+    console.log('Agent seeding skipped:', error.message);
+  }
+
   // Support both development and production environments
   // In production (Cloud Run), use PORT env var, default to 5000 for development
   const port = parseInt(process.env.PORT || '5000', 10);

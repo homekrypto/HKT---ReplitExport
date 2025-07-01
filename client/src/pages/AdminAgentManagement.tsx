@@ -66,24 +66,17 @@ export default function AdminAgentManagement() {
   const [filter, setFilter] = useState<'all' | 'pending' | 'approved' | 'denied'>('all');
 
   const { data: agents = [], isLoading } = useQuery({
-    queryKey: ['/api/test-agents', filter === 'all' ? undefined : filter],
+    queryKey: ['/api/admin/agents', filter === 'all' ? undefined : filter],
     queryFn: async () => {
-      // Temporarily use test endpoint to verify data access
-      const response = await fetch('/api/test-agents', {
+      const statusParam = filter === 'all' ? '' : `?status=${filter}`;
+      const response = await fetch(`/api/admin/agents${statusParam}`, {
         credentials: 'include'
       });
       if (!response.ok) {
         throw new Error('Failed to fetch agents');
       }
       const data = await response.json();
-      let agentData = data.agents || [];
-      
-      // Apply client-side filtering for testing
-      if (filter !== 'all') {
-        agentData = agentData.filter((agent: any) => agent.status === filter);
-      }
-      
-      return agentData;
+      return data.data || [];
     }
   });
 
