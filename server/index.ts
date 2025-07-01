@@ -51,10 +51,12 @@ app.use((req, res, next) => {
 // Add temporary routes for admin panel testing
 import tempAdminRoutes from './temp-admin-routes';
 import simpleAuthRoutes from './simple-auth';
+import adminAgentRoutes from './routes/adminAgentRoutes';
 
 // Use temporary routes to bypass database connection issues
 app.use('/api/temp-admin', tempAdminRoutes);
 app.use('/api/auth', simpleAuthRoutes);
+app.use('/api/admin/agents', adminAgentRoutes);
 
 // Import temporary user routes
 import tempBookingRoutes from './temp-booking-routes.js';
