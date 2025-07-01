@@ -40,9 +40,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
   const adminRoutes = (await import('./admin-routes')).default;
   app.use('/api/admin', adminRoutes);
   
-  // Admin agent routes
-  const adminAgentRoutes = (await import('./routes/adminAgentRoutes')).default;
-  app.use('/api/admin/agents', adminAgentRoutes);
+  // Admin agent routes (TEMPORARY DISABLED - using direct route instead)
+  // const adminAgentRoutes = (await import('./routes/adminAgentRoutes')).default;
+  // app.use('/api/admin/agents', adminAgentRoutes);
   
   // Agent routes
   const agentRoutes = (await import('./agent-routes')).default;
