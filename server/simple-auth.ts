@@ -36,18 +36,25 @@ users.set('info@babulashots.pl', {
   lastName: 'User'
 });
 
-// Hash the admin password: Masterdminikana32$
-const adminPasswordHash = bcrypt.hashSync('Masterdminikana32$', 10);
+// Initialize admin user with proper async password hashing
+async function initializeAdminUser() {
+  const adminPasswordHash = await bcrypt.hash('Masterdminikana32$', 10);
+  
+  users.set('admin@homekrypto.com', {
+    id: 3,
+    email: 'admin@homekrypto.com',
+    passwordHash: adminPasswordHash,
+    emailVerified: true,
+    firstName: 'Admin',
+    lastName: 'User',
+    isAdmin: true
+  });
+  
+  console.log('Admin user initialized with fresh password hash');
+}
 
-users.set('admin@homekrypto.com', {
-  id: 3,
-  email: 'admin@homekrypto.com',
-  passwordHash: adminPasswordHash,
-  emailVerified: true,
-  firstName: 'Admin',
-  lastName: 'User',
-  isAdmin: true
-});
+// Initialize admin user
+initializeAdminUser().catch(console.error);
 
 // LOGIN
 router.post('/login', async (req, res) => {
@@ -61,6 +68,7 @@ router.post('/login', async (req, res) => {
     const normalizedEmail = email.toLowerCase();
     const user = users.get(normalizedEmail);
     if (!user) {
+      console.log(`Login failed - user not found: ${normalizedEmail}`);
       return res.status(401).json({ message: 'Invalid credentials' });
     }
 
