@@ -79,12 +79,14 @@ router.post('/login', async (req, res) => {
       expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) // 7 days
     });
 
-    // Set cookie
+    // Set cookie with enhanced development compatibility
     res.cookie('sessionToken', token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      maxAge: 7 * 24 * 60 * 60 * 1000,
-      sameSite: 'lax'
+      sameSite: process.env.NODE_ENV === 'production' ? 'strict' : 'lax',
+      domain: process.env.NODE_ENV === 'production' ? '.homekrypto.com' : undefined,
+      path: '/',
+      maxAge: 7 * 24 * 60 * 60 * 1000
     });
 
     res.json({
@@ -145,7 +147,14 @@ router.get('/me', async (req, res) => {
 // GET CURRENT USER (ME endpoint)
 router.get('/me', async (req, res) => {
   try {
-    const token = req.cookies.sessionToken;
+    // Support both cookie and Authorization header for development
+    const token = req.cookies.sessionToken || 
+                  (req.headers.authorization?.startsWith('Bearer ') 
+                    ? req.headers.authorization.slice(7) 
+                    : null);
+
+    console.log('Auth check - token:', token ? 'present' : 'missing');
+    console.log('Cookies:', Object.keys(req.cookies));
 
     if (!token) {
       return res.status(401).json({ message: 'No token provided' });

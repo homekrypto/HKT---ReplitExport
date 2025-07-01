@@ -15,6 +15,7 @@ export interface User {
   referralCode?: string;
   createdAt: string;
   lastLoginAt?: string;
+  isAdmin?: boolean;
 }
 
 interface LoginData {
@@ -80,7 +81,9 @@ export function useAuth() {
       return response.json();
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['auth', 'user'] });
+      // Force refetch user data after successful login
+      queryClient.invalidateQueries({ queryKey: ['auth'] });
+      queryClient.refetchQueries({ queryKey: ['auth', 'user'] });
     },
   });
 

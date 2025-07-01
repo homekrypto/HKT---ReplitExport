@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useAuth } from '@/hooks/useAuth';
-import ProtectedRoute from '@/components/protected-route';
+import AdminRoute from '@/components/admin-route';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -135,30 +135,8 @@ export default function AdminPanel() {
     setEditForm({});
   };
 
-  if (!isAdmin) {
-    return (
-      <ProtectedRoute>
-        <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
-          <Card className="w-full max-w-md">
-            <CardHeader>
-              <CardTitle className="flex items-center space-x-2 text-red-600">
-                <AlertCircle className="h-5 w-5" />
-                <span>Access Denied</span>
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-gray-600 dark:text-gray-400">
-                Admin access is restricted to support@homekrypto.com only.
-              </p>
-            </CardContent>
-          </Card>
-        </div>
-      </ProtectedRoute>
-    );
-  }
-
   return (
-    <ProtectedRoute>
+    <AdminRoute>
       <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8">
         <div className="container mx-auto px-4">
           <div className="mb-8">
@@ -512,6 +490,6 @@ export default function AdminPanel() {
           </Tabs>
         </div>
       </div>
-    </ProtectedRoute>
+    </AdminRoute>
   );
 }
