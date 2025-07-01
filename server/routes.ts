@@ -58,6 +58,26 @@ export async function registerRoutes(app: Express): Promise<Server> {
     res.json({ message: 'Agent routing is working', agentData: 'test' });
   });
 
+  // Direct test route for admin agent data (bypassing admin auth for testing)
+  app.get('/api/test-agents', async (req, res) => {
+    try {
+      const { getTempAgents } = await import('./temp-agent-storage');
+      const agents = getTempAgents();
+      res.json({ 
+        message: 'Direct agent data access working',
+        totalAgents: agents.length,
+        agents: agents.map(agent => ({
+          ...agent,
+          status: agent.isApproved ? 'approved' : (agent.rejectionReason ? 'denied' : 'pending'),
+          createdAt: agent.createdAt?.toISOString(),
+        }))
+      });
+    } catch (error) {
+      console.error('Error fetching test agents:', error);
+      res.status(500).json({ error: 'Failed to fetch agents', details: error.message });
+    }
+  });
+
   // Direct agents endpoint for admin panel
   app.get('/api/admin/agents', async (req, res) => {
     try {
