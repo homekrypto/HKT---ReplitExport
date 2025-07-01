@@ -307,7 +307,8 @@ export const realEstateAgents = pgTable("real_estate_agents", {
   profileImage: varchar("profile_image", { length: 500 }),
   referralLink: varchar("referral_link", { length: 500 }).unique(),
   seoBacklinkUrl: varchar("seo_backlink_url", { length: 500 }),
-  isApproved: boolean("is_approved").default(false),
+  status: varchar("status", { length: 20 }).notNull().default('pending'), // 'pending', 'approved', 'denied'
+  isApproved: boolean("is_approved").default(false), // Keep for backward compatibility
   isActive: boolean("is_active").default(true),
   approvedBy: integer("approved_by").references(() => users.id),
   approvedAt: timestamp("approved_at"),
@@ -351,6 +352,7 @@ export type RealEstateAgent = typeof realEstateAgents.$inferSelect;
 export type InsertRealEstateAgent = typeof realEstateAgents.$inferInsert;
 export type AgentProperty = typeof agentProperties.$inferSelect;
 export type InsertAgentProperty = typeof agentProperties.$inferInsert;
+export type AgentStatus = 'pending' | 'approved' | 'denied';
 
 // Booking system schemas
 export const insertBookingSchema = createInsertSchema(bookings).omit({
