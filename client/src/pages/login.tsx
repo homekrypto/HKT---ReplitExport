@@ -29,12 +29,16 @@ export default function Login() {
     setErrors({});
 
     try {
-      await login(formData);
+      const result = await login(formData);
       toast({
         title: 'Login Successful',
         description: 'Welcome back!',
       });
-      setLocation('/dashboard');
+      
+      // Small delay to ensure query cache is updated
+      setTimeout(() => {
+        setLocation('/dashboard');
+      }, 100);
     } catch (error: any) {
       const message = error?.message || 'Login failed';
       setErrors({ general: message });

@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocation } from 'wouter';
 import { useAuth } from '@/hooks/useAuth';
 import { useToast } from '@/hooks/use-toast';
@@ -13,19 +13,25 @@ export default function ProtectedRoute({ children, redirectTo = '/login' }: Prot
   const { isAuthenticated, isLoading } = useAuth();
   const [, setLocation] = useLocation();
   const { toast } = useToast();
+  const [hasCheckedAuth, setHasCheckedAuth] = useState(false);
 
   useEffect(() => {
-    if (!isLoading && !isAuthenticated) {
-      toast({
-        title: 'Authentication Required',
-        description: 'Please log in to access this page.',
-        variant: 'destructive',
-      });
-      setLocation(redirectTo);
+    // Only redirect if we've finished loading and definitively not authenticated
+    if (!isLoading) {
+      setHasCheckedAuth(true);
+      if (!isAuthenticated) {
+        toast({
+          title: 'Authentication Required',
+          description: 'Please log in to access this page.',
+          variant: 'destructive',
+        });
+        setLocation(redirectTo);
+      }
     }
   }, [isAuthenticated, isLoading, redirectTo, setLocation, toast]);
 
-  if (isLoading) {
+  // Show loading until we've confirmed authentication state
+  if (isLoading || !hasCheckedAuth) {
     return (
       <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
         <div className="text-center">

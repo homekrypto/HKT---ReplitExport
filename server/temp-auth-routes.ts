@@ -90,7 +90,10 @@ router.post('/login', async (req, res) => {
         email: user.email,
         firstName: user.firstName,
         lastName: user.lastName,
-        emailVerified: user.emailVerified
+        emailVerified: user.emailVerified,
+        isEmailVerified: user.emailVerified,
+        createdAt: new Date().toISOString(),
+        isAdmin: user.email === 'admin@homekrypto.com'
       }
     });
   } catch (error) {

@@ -80,10 +80,13 @@ export function useAuth() {
       const response = await apiRequest('POST', '/api/auth/login', data);
       return response.json();
     },
-    onSuccess: () => {
-      // Force refetch user data after successful login
+    onSuccess: (data) => {
+      // Immediately set the user data in the cache to prevent race conditions
+      if (data.user) {
+        queryClient.setQueryData(['auth', 'user'], data.user);
+      }
+      // Then invalidate to ensure fresh data on next request
       queryClient.invalidateQueries({ queryKey: ['auth'] });
-      queryClient.refetchQueries({ queryKey: ['auth', 'user'] });
     },
   });
 
