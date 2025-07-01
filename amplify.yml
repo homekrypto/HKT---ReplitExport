@@ -15,7 +15,7 @@ frontend:
         - npm run build
   artifacts:
     # Tell Amplify where the built static files are
-    baseDirectory: client/dist # Check your vite.config.ts, but it's likely this or just 'dist' inside client
+    baseDirectory: dist/public # Check your vite.config.ts, but it's likely this or just 'dist' inside client
     files:
       - '**/*'
   cache:
