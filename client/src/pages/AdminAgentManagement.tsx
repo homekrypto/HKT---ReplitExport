@@ -48,13 +48,14 @@ interface Agent {
   profileImage: string;
   referralLink: string;
   seoBacklinkUrl: string;
+  status: 'pending' | 'approved' | 'denied';
   isApproved: boolean;
   isActive: boolean;
-  totalSales: string;
-  totalCommission: string;
+  totalSales?: string;
+  totalCommission?: string;
   createdAt: string;
-  approvedAt: string;
-  rejectionReason: string;
+  approvedAt?: string;
+  rejectionReason?: string;
 }
 
 export default function AdminAgentManagement() {
@@ -62,23 +63,33 @@ export default function AdminAgentManagement() {
   const queryClient = useQueryClient();
   const [selectedAgent, setSelectedAgent] = useState<Agent | null>(null);
   const [rejectionReason, setRejectionReason] = useState('');
-  const [filter, setFilter] = useState<'all' | 'pending' | 'approved' | 'rejected'>('all');
+  const [filter, setFilter] = useState<'all' | 'pending' | 'approved' | 'denied'>('all');
 
   const { data: agents = [], isLoading } = useQuery({
-    queryKey: ['/api/agents/all'],
+    queryKey: ['/api/admin/agents', filter === 'all' ? undefined : filter],
+    queryFn: async () => {
+      const statusParam = filter === 'all' ? '' : `?status=${filter}`;
+      const response = await fetch(`/api/admin/agents${statusParam}`, {
+        credentials: 'include'
+      });
+      if (!response.ok) {
+        throw new Error('Failed to fetch agents');
+      }
+      const data = await response.json();
+      return data.data || [];
+    }
   });
 
   const approveMutation = useMutation({
     mutationFn: async (agentId: number) => {
-      return await apiRequest(`/api/agents/approve/${agentId}`, {
-        method: 'POST'
-      });
+      const response = await apiRequest('PATCH', `/api/admin/agents/${agentId}/approve`);
+      return response.json();
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['/api/agents/all'] });
+      queryClient.invalidateQueries({ queryKey: ['/api/admin/agents'] });
       toast({
         title: 'Agent Approved',
-        description: 'The agent has been approved and notified.',
+        description: 'The agent has been approved and notified via email.',
       });
     },
     onError: (error: any) => {
@@ -92,17 +103,15 @@ export default function AdminAgentManagement() {
 
   const rejectMutation = useMutation({
     mutationFn: async ({ agentId, reason }: { agentId: number; reason: string }) => {
-      return await apiRequest(`/api/agents/reject/${agentId}`, {
-        method: 'POST',
-        body: JSON.stringify({ rejectionReason: reason })
-      });
+      const response = await apiRequest('PATCH', `/api/admin/agents/${agentId}/deny`, { reason });
+      return response.json();
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['/api/agents/all'] });
+      queryClient.invalidateQueries({ queryKey: ['/api/admin/agents'] });
       setRejectionReason('');
       toast({
         title: 'Agent Rejected',
-        description: 'The agent has been rejected and notified.',
+        description: 'The agent has been rejected and notified via email.',
       });
     },
     onError: (error: any) => {
@@ -131,25 +140,21 @@ export default function AdminAgentManagement() {
   };
 
   const filteredAgents = agents.filter((agent: Agent) => {
-    switch (filter) {
-      case 'pending':
-        return !agent.isApproved && agent.isActive;
-      case 'approved':
-        return agent.isApproved && agent.isActive;
-      case 'rejected':
-        return !agent.isApproved && !agent.isActive;
-      default:
-        return true;
-    }
+    if (filter === 'all') return true;
+    if (filter === 'denied') return agent.status === 'denied';
+    return agent.status === filter;
   });
 
   const getStatusBadge = (agent: Agent) => {
-    if (agent.isApproved && agent.isActive) {
-      return <Badge className="bg-green-500"><CheckCircle className="h-3 w-3 mr-1" />Approved</Badge>;
-    } else if (!agent.isApproved && agent.isActive) {
-      return <Badge variant="secondary">Pending</Badge>;
-    } else {
-      return <Badge variant="destructive"><XCircle className="h-3 w-3 mr-1" />Rejected</Badge>;
+    switch (agent.status) {
+      case 'approved':
+        return <Badge className="bg-green-500"><CheckCircle className="h-3 w-3 mr-1" />Approved</Badge>;
+      case 'pending':
+        return <Badge variant="secondary">Pending</Badge>;
+      case 'denied':
+        return <Badge variant="destructive"><XCircle className="h-3 w-3 mr-1" />Denied</Badge>;
+      default:
+        return <Badge variant="secondary">Unknown</Badge>;
     }
   };
 
@@ -186,21 +191,21 @@ export default function AdminAgentManagement() {
           </div>
           <div className="text-center">
             <div className="text-2xl font-bold text-yellow-600">
-              {agents.filter((a: Agent) => !a.isApproved && a.isActive).length}
+              {agents.filter((a: Agent) => a.status === 'pending').length}
             </div>
             <div className="text-sm text-gray-500">Pending</div>
           </div>
           <div className="text-center">
             <div className="text-2xl font-bold text-green-600">
-              {agents.filter((a: Agent) => a.isApproved && a.isActive).length}
+              {agents.filter((a: Agent) => a.status === 'approved').length}
             </div>
             <div className="text-sm text-gray-500">Approved</div>
           </div>
           <div className="text-center">
             <div className="text-2xl font-bold text-red-600">
-              {agents.filter((a: Agent) => !a.isApproved && !a.isActive).length}
+              {agents.filter((a: Agent) => a.status === 'denied').length}
             </div>
-            <div className="text-sm text-gray-500">Rejected</div>
+            <div className="text-sm text-gray-500">Denied</div>
           </div>
         </div>
       </div>
@@ -217,7 +222,7 @@ export default function AdminAgentManagement() {
                 <SelectItem value="all">All Agents</SelectItem>
                 <SelectItem value="pending">Pending Approval</SelectItem>
                 <SelectItem value="approved">Approved</SelectItem>
-                <SelectItem value="rejected">Rejected</SelectItem>
+                <SelectItem value="denied">Denied</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -292,7 +297,7 @@ export default function AdminAgentManagement() {
               )}
 
               {/* Performance Metrics for Approved Agents */}
-              {agent.isApproved && (
+              {agent.status === 'approved' && (
                 <div className="bg-gray-50 dark:bg-gray-800 p-3 rounded-lg">
                   <div className="grid grid-cols-2 gap-4 text-sm">
                     <div>
@@ -425,7 +430,7 @@ export default function AdminAgentManagement() {
                 </Dialog>
 
                 {/* Approval/Rejection Actions */}
-                {!agent.isApproved && agent.isActive && (
+                {agent.status === 'pending' && (
                   <>
                     <Button 
                       size="sm" 
